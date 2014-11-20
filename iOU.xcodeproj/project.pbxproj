@@ -14,6 +14,10 @@
 		D95376BD1A1DC3A100BF4935 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D95376BC1A1DC3A100BF4935 /* Images.xcassets */; };
 		D95376C01A1DC3A100BF4935 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D95376BE1A1DC3A100BF4935 /* LaunchScreen.xib */; };
 		D95376CC1A1DC3A100BF4935 /* iOUTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95376CB1A1DC3A100BF4935 /* iOUTests.swift */; };
+		D95376D61A1DC43700BF4935 /* iOUData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95376D51A1DC43700BF4935 /* iOUData.swift */; };
+		D95376D81A1DC43F00BF4935 /* MainInterfaceContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95376D71A1DC43F00BF4935 /* MainInterfaceContoller.swift */; };
+		D95376DA1A1DC44900BF4935 /* NewContractTitleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95376D91A1DC44900BF4935 /* NewContractTitleController.swift */; };
+		D95376DC1A1DC44F00BF4935 /* NewContractTitleSubController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95376DB1A1DC44F00BF4935 /* NewContractTitleSubController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +42,10 @@
 		D95376C51A1DC3A100BF4935 /* iOUTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iOUTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D95376CA1A1DC3A100BF4935 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D95376CB1A1DC3A100BF4935 /* iOUTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOUTests.swift; sourceTree = "<group>"; };
+		D95376D51A1DC43700BF4935 /* iOUData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iOUData.swift; sourceTree = "<group>"; };
+		D95376D71A1DC43F00BF4935 /* MainInterfaceContoller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainInterfaceContoller.swift; sourceTree = "<group>"; };
+		D95376D91A1DC44900BF4935 /* NewContractTitleController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewContractTitleController.swift; sourceTree = "<group>"; };
+		D95376DB1A1DC44F00BF4935 /* NewContractTitleSubController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewContractTitleSubController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,8 +87,12 @@
 		D95376AF1A1DC3A100BF4935 /* iOU */ = {
 			isa = PBXGroup;
 			children = (
+				D95376D51A1DC43700BF4935 /* iOUData.swift */,
 				D95376B21A1DC3A100BF4935 /* AppDelegate.swift */,
+				D95376D71A1DC43F00BF4935 /* MainInterfaceContoller.swift */,
 				D95376B71A1DC3A100BF4935 /* ViewController.swift */,
+				D95376D91A1DC44900BF4935 /* NewContractTitleController.swift */,
+				D95376DB1A1DC44F00BF4935 /* NewContractTitleSubController.swift */,
 				D95376B91A1DC3A100BF4935 /* Main.storyboard */,
 				D95376BC1A1DC3A100BF4935 /* Images.xcassets */,
 				D95376BE1A1DC3A100BF4935 /* LaunchScreen.xib */,
@@ -216,8 +228,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				D95376B81A1DC3A100BF4935 /* ViewController.swift in Sources */,
+				D95376D81A1DC43F00BF4935 /* MainInterfaceContoller.swift in Sources */,
+				D95376DA1A1DC44900BF4935 /* NewContractTitleController.swift in Sources */,
 				D95376B31A1DC3A100BF4935 /* AppDelegate.swift in Sources */,
 				D95376B61A1DC3A100BF4935 /* iOU.xcdatamodeld in Sources */,
+				D95376DC1A1DC44F00BF4935 /* NewContractTitleSubController.swift in Sources */,
+				D95376D61A1DC43700BF4935 /* iOUData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
