@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D92600331A2499F8007C1A31 /* NewContractLenders.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92600321A2499F8007C1A31 /* NewContractLenders.swift */; };
 		D95376B31A1DC3A100BF4935 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95376B21A1DC3A100BF4935 /* AppDelegate.swift */; };
-		D95376B61A1DC3A100BF4935 /* iOU.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D95376B41A1DC3A100BF4935 /* iOU.xcdatamodeld */; };
 		D95376B81A1DC3A100BF4935 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95376B71A1DC3A100BF4935 /* ViewController.swift */; };
 		D95376BB1A1DC3A100BF4935 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D95376B91A1DC3A100BF4935 /* Main.storyboard */; };
 		D95376BD1A1DC3A100BF4935 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D95376BC1A1DC3A100BF4935 /* Images.xcassets */; };
@@ -16,8 +16,15 @@
 		D95376CC1A1DC3A100BF4935 /* iOUTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95376CB1A1DC3A100BF4935 /* iOUTests.swift */; };
 		D95376D61A1DC43700BF4935 /* iOUData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95376D51A1DC43700BF4935 /* iOUData.swift */; };
 		D95376D81A1DC43F00BF4935 /* MainInterfaceContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95376D71A1DC43F00BF4935 /* MainInterfaceContoller.swift */; };
-		D95376DA1A1DC44900BF4935 /* NewContractTitleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95376D91A1DC44900BF4935 /* NewContractTitleController.swift */; };
-		D95376DC1A1DC44F00BF4935 /* NewContractTitleSubController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95376DB1A1DC44F00BF4935 /* NewContractTitleSubController.swift */; };
+		D95376DA1A1DC44900BF4935 /* NewContractInputController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95376D91A1DC44900BF4935 /* NewContractInputController.swift */; };
+		D95376DC1A1DC44F00BF4935 /* NewContractTitleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95376DB1A1DC44F00BF4935 /* NewContractTitleController.swift */; };
+		D95377131A1DE37B00BF4935 /* iOU.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D95377111A1DE37B00BF4935 /* iOU.xcdatamodeld */; };
+		D95377151A1E06D200BF4935 /* UncoverVerticalSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95377141A1E06D200BF4935 /* UncoverVerticalSegue.swift */; };
+		D95377171A1EB60800BF4935 /* iOULogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95377161A1EB60800BF4935 /* iOULogic.swift */; };
+		D95377191A1ED1BC00BF4935 /* NewContractMoneyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95377181A1ED1BC00BF4935 /* NewContractMoneyController.swift */; };
+		D96AAC011A22F7340084E0EA /* NewContractMonetaryValueController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96AAC001A22F7340084E0EA /* NewContractMonetaryValueController.swift */; };
+		D9DD6ECA1A2079AB00249068 /* NewContractItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DD6EC81A2079AB00249068 /* NewContractItemController.swift */; };
+		D9DD6ECB1A2079AB00249068 /* NewContractServiceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DD6EC91A2079AB00249068 /* NewContractServiceController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,10 +38,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D92600321A2499F8007C1A31 /* NewContractLenders.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewContractLenders.swift; sourceTree = "<group>"; };
 		D95376AD1A1DC3A100BF4935 /* iOU.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOU.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D95376B11A1DC3A100BF4935 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D95376B21A1DC3A100BF4935 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D95376B51A1DC3A100BF4935 /* iOU.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = iOU.xcdatamodel; sourceTree = "<group>"; };
 		D95376B71A1DC3A100BF4935 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D95376BA1A1DC3A100BF4935 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D95376BC1A1DC3A100BF4935 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -44,8 +51,15 @@
 		D95376CB1A1DC3A100BF4935 /* iOUTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOUTests.swift; sourceTree = "<group>"; };
 		D95376D51A1DC43700BF4935 /* iOUData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iOUData.swift; sourceTree = "<group>"; };
 		D95376D71A1DC43F00BF4935 /* MainInterfaceContoller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainInterfaceContoller.swift; sourceTree = "<group>"; };
-		D95376D91A1DC44900BF4935 /* NewContractTitleController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewContractTitleController.swift; sourceTree = "<group>"; };
-		D95376DB1A1DC44F00BF4935 /* NewContractTitleSubController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewContractTitleSubController.swift; sourceTree = "<group>"; };
+		D95376D91A1DC44900BF4935 /* NewContractInputController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewContractInputController.swift; sourceTree = "<group>"; };
+		D95376DB1A1DC44F00BF4935 /* NewContractTitleController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewContractTitleController.swift; sourceTree = "<group>"; };
+		D95377121A1DE37B00BF4935 /* iOU.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = iOU.xcdatamodel; sourceTree = "<group>"; };
+		D95377141A1E06D200BF4935 /* UncoverVerticalSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UncoverVerticalSegue.swift; sourceTree = "<group>"; };
+		D95377161A1EB60800BF4935 /* iOULogic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iOULogic.swift; sourceTree = "<group>"; };
+		D95377181A1ED1BC00BF4935 /* NewContractMoneyController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewContractMoneyController.swift; sourceTree = "<group>"; };
+		D96AAC001A22F7340084E0EA /* NewContractMonetaryValueController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewContractMonetaryValueController.swift; sourceTree = "<group>"; };
+		D9DD6EC81A2079AB00249068 /* NewContractItemController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewContractItemController.swift; sourceTree = "<group>"; };
+		D9DD6EC91A2079AB00249068 /* NewContractServiceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewContractServiceController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,15 +102,22 @@
 			isa = PBXGroup;
 			children = (
 				D95376D51A1DC43700BF4935 /* iOUData.swift */,
+				D95377161A1EB60800BF4935 /* iOULogic.swift */,
 				D95376B21A1DC3A100BF4935 /* AppDelegate.swift */,
 				D95376D71A1DC43F00BF4935 /* MainInterfaceContoller.swift */,
 				D95376B71A1DC3A100BF4935 /* ViewController.swift */,
-				D95376D91A1DC44900BF4935 /* NewContractTitleController.swift */,
-				D95376DB1A1DC44F00BF4935 /* NewContractTitleSubController.swift */,
+				D95377181A1ED1BC00BF4935 /* NewContractMoneyController.swift */,
+				D9DD6EC81A2079AB00249068 /* NewContractItemController.swift */,
+				D9DD6EC91A2079AB00249068 /* NewContractServiceController.swift */,
+				D95376D91A1DC44900BF4935 /* NewContractInputController.swift */,
+				D95376DB1A1DC44F00BF4935 /* NewContractTitleController.swift */,
+				D96AAC001A22F7340084E0EA /* NewContractMonetaryValueController.swift */,
+				D92600321A2499F8007C1A31 /* NewContractLenders.swift */,
 				D95376B91A1DC3A100BF4935 /* Main.storyboard */,
+				D95377141A1E06D200BF4935 /* UncoverVerticalSegue.swift */,
 				D95376BC1A1DC3A100BF4935 /* Images.xcassets */,
+				D95377111A1DE37B00BF4935 /* iOU.xcdatamodeld */,
 				D95376BE1A1DC3A100BF4935 /* LaunchScreen.xib */,
-				D95376B41A1DC3A100BF4935 /* iOU.xcdatamodeld */,
 				D95376B01A1DC3A100BF4935 /* Supporting Files */,
 			);
 			path = iOU;
@@ -228,12 +249,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				D95376B81A1DC3A100BF4935 /* ViewController.swift in Sources */,
+				D9DD6ECA1A2079AB00249068 /* NewContractItemController.swift in Sources */,
+				D96AAC011A22F7340084E0EA /* NewContractMonetaryValueController.swift in Sources */,
+				D9DD6ECB1A2079AB00249068 /* NewContractServiceController.swift in Sources */,
 				D95376D81A1DC43F00BF4935 /* MainInterfaceContoller.swift in Sources */,
-				D95376DA1A1DC44900BF4935 /* NewContractTitleController.swift in Sources */,
+				D95377151A1E06D200BF4935 /* UncoverVerticalSegue.swift in Sources */,
+				D95377131A1DE37B00BF4935 /* iOU.xcdatamodeld in Sources */,
+				D95376DA1A1DC44900BF4935 /* NewContractInputController.swift in Sources */,
+				D95377171A1EB60800BF4935 /* iOULogic.swift in Sources */,
 				D95376B31A1DC3A100BF4935 /* AppDelegate.swift in Sources */,
-				D95376B61A1DC3A100BF4935 /* iOU.xcdatamodeld in Sources */,
-				D95376DC1A1DC44F00BF4935 /* NewContractTitleSubController.swift in Sources */,
+				D95376DC1A1DC44F00BF4935 /* NewContractTitleController.swift in Sources */,
 				D95376D61A1DC43700BF4935 /* iOUData.swift in Sources */,
+				D92600331A2499F8007C1A31 /* NewContractLenders.swift in Sources */,
+				D95377191A1ED1BC00BF4935 /* NewContractMoneyController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,6 +455,7 @@
 				D95376D11A1DC3A100BF4935 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D95376D21A1DC3A100BF4935 /* Build configuration list for PBXNativeTarget "iOUTests" */ = {
 			isa = XCConfigurationList;
@@ -435,16 +464,17 @@
 				D95376D41A1DC3A100BF4935 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		D95376B41A1DC3A100BF4935 /* iOU.xcdatamodeld */ = {
+		D95377111A1DE37B00BF4935 /* iOU.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				D95376B51A1DC3A100BF4935 /* iOU.xcdatamodel */,
+				D95377121A1DE37B00BF4935 /* iOU.xcdatamodel */,
 			);
-			currentVersion = D95376B51A1DC3A100BF4935 /* iOU.xcdatamodel */;
+			currentVersion = D95377121A1DE37B00BF4935 /* iOU.xcdatamodel */;
 			path = iOU.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

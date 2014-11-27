@@ -2,7 +2,6 @@
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6252" systemVersion="14A389" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Contract" representedClassName="Contract" syncable="YES">
         <attribute name="borrowers" optional="YES" attributeType="Transformable" syncable="YES"/>
-        <attribute name="category" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="contractExpectationsMaximum" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="contractExpectationsMinimum" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dateCreated" optional="YES" attributeType="Date" syncable="YES"/>
@@ -28,15 +27,17 @@
         <attribute name="reoccurringContractRate" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="simplifyGroupDebts" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="sound" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="tags" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="useTimeSpan" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="video" optional="YES" attributeType="Transformable" syncable="YES"/>
     </entity>
-    <entity name="MainData" representedClassName="MainInterface" syncable="YES">
+    <entity name="MainData" syncable="YES">
+        <attribute name="currency" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="listType" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Contract" positionX="-63" positionY="-18" width="128" height="495"/>
-        <element name="MainData" positionX="-54" positionY="144" width="128" height="58"/>
+        <element name="Contract" positionX="-63" positionY="-18" width="128" height="493"/>
+        <element name="MainData" positionX="-36" positionY="162" width="128" height="75"/>
     </elements>
 </model>
