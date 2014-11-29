@@ -288,7 +288,7 @@ struct SortableDictionary<Key: Hashable, Value>
   private var keySortKey: ((Key, Key) -> Bool)?
   private var sortingByValues: Bool
   var sortByValues: Bool
-    {
+  {
     get
     {
       return sortingByValues
@@ -309,31 +309,31 @@ struct SortableDictionary<Key: Hashable, Value>
     }
   }
   var count: Int
-    {
+  {
       return sortedKeys.count
   }
   var currentValueSort: (String?, ((Value, Value) -> Bool)?)
-    {
+  {
       return (valueSortKeyID, valueSortKey)
   }
   var currentKeySort: (String?, ((Key, Key) -> Bool)?)
-    {
+  {
       return (keySortKeyID, keySortKey)
   }
   var isEmpty: Bool
-    {
+  {
       return sortedKeys.isEmpty
   }
   var capacity: Int
-    {
+  {
       return sortedKeys.capacity
   }
   var keys: [Key]
-    {
+  {
       return sortedKeys
   }
   var values: [Value]
-    {
+  {
       var valuesArray: [Value] = []
       
       for i in 0..<self.count
@@ -344,7 +344,7 @@ struct SortableDictionary<Key: Hashable, Value>
       return valuesArray
   }
   var getDictionary: [Key: Value]
-    {
+  {
       return dictionary
   }
   
@@ -476,7 +476,7 @@ struct SortableDictionary<Key: Hashable, Value>
   }
   
   subscript(key: Key) -> (Value?)
-    {
+  {
     get
     {
       return dictionary[key]
@@ -488,7 +488,7 @@ struct SortableDictionary<Key: Hashable, Value>
   }
   
   subscript(index: Int) -> (Value?)
-    {
+  {
     get
     {
       let key = sortedKeys[index]
@@ -501,7 +501,7 @@ struct SortableDictionary<Key: Hashable, Value>
   }
   
   subscript(subRange: Range<Int>) -> ([Value?])
-    {
+  {
     get
     {
       let keys = sortedKeys[subRange]
@@ -634,6 +634,7 @@ struct SortableDictionary<Key: Hashable, Value>
   {
     let oldValue = dictionary[key]
     
+    //If the new value is nil, then delete the old value it is to replace
     if (value == nil)
     {
       dictionary.removeValueForKey(key)
@@ -643,6 +644,7 @@ struct SortableDictionary<Key: Hashable, Value>
     {
       var index: Int
       
+      //Otherwise, find the correct index depeding on whether sorting is being done on the value or the key passed in and add the key to the sortedKeys and the value to the dictionary.
       if (sortingByValues)
       {
         index = findInsertionIndex(upperBound: self.count, lowerBound: 0, value: oldValue!)
