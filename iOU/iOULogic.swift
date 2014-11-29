@@ -303,4 +303,36 @@ class iOULogic
     let segueIdentifier = "NewContractService->" + segueTo
     sender.performSegueWithIdentifier(segueIdentifier, sender: sender)
   }
+  
+  class func newContractLendersCell(sender: UITableView, indexPath: NSIndexPath) -> (UITableViewCell)
+  {
+    //There should only be one section, if it asks about any others, print a warning and pass a blank cell
+    if (indexPath.section > 0)
+    {
+      println("Error: There is only one section in the New Contract Lenders table.")
+      return UITableViewCell()
+    }
+    
+    var cell: UITableViewCell
+    
+    if (indexPath.row == 0)
+    {
+      cell = sender.dequeueReusableCellWithIdentifier("NewLender") as UITableViewCell
+    }
+    else
+    {
+      cell = sender.dequeueReusableCellWithIdentifier("transportCell") as UITableViewCell
+      
+      let lenders = iOUData.sharedInstance.temporaryData[1] as [String: Float]
+      let lender = lenders[indexPath.row - 1]
+      cell.textLabel.text = 
+    }
+    
+    return cell
+  }
+  
+  class func newContractLendersRowSegue(sender: NewContractLenders, indexPath: NSIndexPath)
+  {
+    
+  }
 }
