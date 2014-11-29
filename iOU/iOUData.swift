@@ -671,10 +671,10 @@ struct SortableDictionary<Key: Hashable, Value>
   {
     let span = upperBound - lowerBound
     
-    //If there is no span, then sortedKeys is empty, so insert at index 0.
+    //If there is no span insert it at the lowerbound.
     if (span == 0)
     {
-      return 0
+      return lowerBound
     }
       //If the two bounds are right next to each other then the value to be inserted must belong adjacent to one of them.  Assign the insertion index so that it comes just after the element the value is equal to, if any, to preserve safe sort order.
     else if (span == 1)
@@ -697,7 +697,7 @@ struct SortableDictionary<Key: Hashable, Value>
     let halfspan = round(Double(span) / 2.0)
     let halfWay = lowerBound + Int(halfspan)
     
-    //..and determine if the value to be inserted is greater than, less than, or equal to the halfway point value.  If equal, return the haflway point plus one for a safe sort, or use it to form a new set of boundaries and recursively search deeper.
+    //...and determine if the value to be inserted is greater than, less than, or equal to the halfway point value.  If equal, return the haflway point plus one for a safe sort, or use it to form a new set of boundaries and recursively search deeper.
     if (valueSortKey!(value, self[halfWay]!))
     {
       return findInsertionIndex(upperBound: halfWay, lowerBound: lowerBound, value: value)
@@ -716,10 +716,10 @@ struct SortableDictionary<Key: Hashable, Value>
   {
     let span = upperBound - lowerBound
     
-    //If there is no span, then sortedKeys is empty, so insert at index 0.
+    //If there is no span insert it at the lowerbound.
     if (span == 0)
     {
-      return 0
+      return lowerBound
     }
       //If the two bounds are right next to each other then the value to be inserted must belong adjacent to one of them.  Assign the insertion index so that it comes just after the element the value is equal to, if any, to preserve safe sort order.
     else if (span == 1)
@@ -742,7 +742,7 @@ struct SortableDictionary<Key: Hashable, Value>
     let halfspan = round(Double(span) / 2.0)
     let halfWay = lowerBound + Int(halfspan)
     
-    //..and determine if the value to be inserted is greater than, less than, or equal to the halfway point value.  If equal, return the haflway point plus one for a safe sort, or use it to form a new set of boundaries and recursively search deeper.
+    //...and determine if the value to be inserted is greater than, less than, or equal to the halfway point value.  If equal, return the haflway point plus one for a safe sort, or use it to form a new set of boundaries and recursively search deeper.
     if (keySortKey!(key, sortedKeys[halfWay]))
     {
       return findInsertionIndex(upperBound: halfWay, lowerBound: lowerBound, key: key)
