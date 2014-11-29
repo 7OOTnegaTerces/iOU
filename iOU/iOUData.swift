@@ -533,8 +533,9 @@ struct SortableDictionary<Key: Hashable, Value>
     }
   }
   
-  mutating func newSort(valueSortKey: (Value, Value) -> Bool) -> ((Value, Value) -> Bool)?
+  mutating func newSort(valueSortKey: (Value, Value) -> Bool) -> (oldValueSortKeyID: String?, oldValueSortKey: ((Value, Value) -> Bool)?)
   {
+    let oldValueSortKeyID = self.valueSortKeyID
     self.valueSortKeyID = nil
     let oldValueSortKey = self.valueSortKey
     self.valueSortKey = valueSortKey
@@ -543,7 +544,7 @@ struct SortableDictionary<Key: Hashable, Value>
     
     self.sort()
     
-    return oldValueSortKey
+    return (oldValueSortKeyID, oldValueSortKey)
   }
   
   mutating func newSort(valueSortKeyID: String, valueSortKey: (Value, Value) -> Bool) -> (oldValueSortKeyID: String?, oldValueSortKey: ((Value, Value) -> Bool)?)
@@ -560,8 +561,9 @@ struct SortableDictionary<Key: Hashable, Value>
     return (oldValueSortKeyID, oldValueSortKey)
   }
   
-  mutating func newSort(keySortKey: (Key, Key) -> Bool) -> ((Key, Key) -> Bool)?
+  mutating func newSort(keySortKey: (Key, Key) -> Bool) -> (oldKeySortKeyID: String?, oldKeySortKey: ((Key, Key) -> Bool)?)
   {
+    let oldKeySortKeyID = self.keySortKeyID
     self.valueSortKeyID = nil
     let oldKeySortKey = self.keySortKey
     self.keySortKey = keySortKey
@@ -570,7 +572,7 @@ struct SortableDictionary<Key: Hashable, Value>
     
     self.sort()
     
-    return oldKeySortKey
+    return (oldKeySortKeyID, oldKeySortKey)
   }
   
   mutating func newSort(keySortKeyID: String, keySortKey: (Key, Key) -> Bool) -> (oldKeySortKeyID: String?, oldKeySortKey: ((Key, Key) -> Bool)?)
@@ -587,19 +589,21 @@ struct SortableDictionary<Key: Hashable, Value>
     return (oldKeySortKeyID, oldKeySortKey)
   }
   
-  mutating func newSort(sortByValues: Bool, valueSortKey: (Value, Value) -> Bool, keySortKey: (Key, Key) -> Bool) -> (oldValueSortKey: ((Value, Value) -> Bool)?, oldKeySortKey: ((Key, Key) -> Bool)?)
+  mutating func newSort(sortByValues: Bool, valueSortKey: (Value, Value) -> Bool, keySortKey: (Key, Key) -> Bool) -> (oldValueSortKeyID: String?, oldValueSortKey: ((Value, Value) -> Bool)?, oldKeySortKeyID: String?, oldKeySortKey: ((Key, Key) -> Bool)?)
   {
+    let oldValueSortKeyID = self.valueSortKeyID
     self.valueSortKeyID = nil
     let oldValueSortKey = self.valueSortKey
     self.valueSortKey = valueSortKey
     
+    let oldKeySortKeyID = self.keySortKeyID
     self.keySortKeyID = nil
     let oldKeySortKey = self.keySortKey
     self.keySortKey = keySortKey
     
     self.sort()
     
-    return (oldValueSortKey, oldKeySortKey)
+    return (oldValueSortKeyID, oldValueSortKey, oldKeySortKeyID, oldKeySortKey)
   }
   
   mutating func newSort(sortByValues: Bool, valueSortKeyID: String, valueSortKey: (Value, Value) -> Bool, keySortKeyID: String, keySortKey: (Key, Key) -> Bool) -> (oldValueSortKeyID: String?, oldValueSortKey: ((Value, Value) -> Bool)?, oldKeySortKeyID: String?, oldKeySortKey: ((Key, Key) -> Bool)?)
@@ -634,7 +638,7 @@ struct SortableDictionary<Key: Hashable, Value>
   {
     let oldValue = dictionary[key]
     
-    //If the new value is nil, then delete the old value it is to replace
+    //If the new value is nil, then delete the old value it is to replace.
     if (value == nil)
     {
       dictionary.removeValueForKey(key)
@@ -661,7 +665,7 @@ struct SortableDictionary<Key: Hashable, Value>
     return oldValue
   }
   
-  mutating func insert(#index: Int, value: Value?) -> (Value?)
+  mutating func insert(#index: Int, value: Value?) -> (Value)
   {
     let key = sortedKeys[index]
     return insert(key: key, value: value)
