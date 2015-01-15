@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NewContractServiceController: UITableViewController, UITableViewDelegate, UITableViewDataSource
+class NewContractServiceController: UITableViewController, UITableViewDelegate, UITableViewDataSource, NewContractViewController
 {
   @IBOutlet weak var titleAndType: UITableViewCell!
   @IBOutlet weak var value: UITableViewCell!
@@ -20,17 +20,28 @@ class NewContractServiceController: UITableViewController, UITableViewDelegate, 
     
     //Register Table
     self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
-    //Initialize Table
+    loadCellData()
+  }
+  
+  func loadCellData()
+  {
+    //ToDo - Finish This!!!
+  }
+  
+  func reloadData()
+  {
+    loadCellData()
+    tableView.reloadData()
   }
   
   @IBAction func saveAndSegueToMainInterface(sender: UIBarButtonItem)
   {
-    iOULogic.segueToMainInterface(self, save: true)
+    iOULogic.newContractEdited(self, save: true)
   }
   
   @IBAction func cancelAndSegueToMainInterface(sender: UIBarButtonItem)
   {
-    iOULogic.segueToMainInterface(self, save: false)
+    iOULogic.newContractEdited(self, save: false)
   }
   
   override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> (Int)
@@ -42,7 +53,7 @@ class NewContractServiceController: UITableViewController, UITableViewDelegate, 
     case 1:
       return 3
     default:
-      println("Error, there are not that many sections in New Contract Service!")
+      fatalError("Error, there are not that many sections in New Contract Service!")
       return 1
     }
   }
@@ -55,7 +66,12 @@ class NewContractServiceController: UITableViewController, UITableViewDelegate, 
   
   override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
   {
-    iOULogic.newContractServiceRowSegue(self, indexPath: indexPath)
+    iOULogic.newContractServiceRowSelection(self, indexPath: indexPath)
+  }
+  
+  func performSegue(identifier: String)
+  {
+    performSegueWithIdentifier(identifier, sender: self)
   }
   
   override func didReceiveMemoryWarning() {

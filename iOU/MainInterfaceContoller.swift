@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class MainInterfaceController: UIViewController
+class MainInterfaceController: UIViewController, Segueable, Refreshable
 {
   @IBOutlet weak var listType: UISegmentedControl!
   
@@ -17,6 +17,8 @@ class MainInterfaceController: UIViewController
   {
     super.viewDidLoad()
     // Do any additional setup after loading the view, typically from a nib.
+    
+    NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshView:",name:"Refresh", object: nil)
     
     //Initialize any varibles that need it.
     listType.selectedSegmentIndex = iOUData.sharedInstance.listType.rawValue
@@ -37,19 +39,34 @@ class MainInterfaceController: UIViewController
     
   }
   
+  func reloadData()
+  {
+    //TODO -Finish!!!
+  }
+  
+  func refreshView(notification: NSNotification)
+  {
+    //TODO - Finish!!!
+  }
+  
   @IBAction func changeList(sender: UISegmentedControl)
   {
-    iOUData.sharedInstance.listType = Type(rawValue: listType.selectedSegmentIndex)!
+    iOUData.sharedInstance.listType = ListType(rawValue: listType.selectedSegmentIndex)!
   }
   
   func segueToNewContractTitle(sender: UIBarButtonItem)
   {
-    iOULogic.segueToNewContractTitle(self)
+    iOULogic.segueToNewContract(self)
   }
   
   func segueToFastAdd(sender: UIBarButtonItem)
   {
     
+  }
+  
+  func performSegue(#segueFrom: String, segueTo: String)
+  {
+    performSegueWithIdentifier(segueFrom + "->" + segueTo, sender: self)
   }
   
   override func didReceiveMemoryWarning()

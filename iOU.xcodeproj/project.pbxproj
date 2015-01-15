@@ -7,24 +7,40 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D92600331A2499F8007C1A31 /* NewContractLenders.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92600321A2499F8007C1A31 /* NewContractLenders.swift */; };
+		D9072B5D1A59FD5B00904E63 /* EditMonetaryValueCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9072B5C1A59FD5B00904E63 /* EditMonetaryValueCell.xib */; };
+		D9072B611A5A00AD00904E63 /* EditMonetaryValueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9072B601A5A00AD00904E63 /* EditMonetaryValueCell.swift */; };
+		D9143F501A648C4500DFC754 /* ContractorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9143F4F1A648C4500DFC754 /* ContractorCell.swift */; };
+		D9143F521A648E8100DFC754 /* ContractorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9143F511A648E8100DFC754 /* ContractorCell.xib */; };
+		D9143F551A648FDB00DFC754 /* EditContractorNameAndValueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9143F531A648FDB00DFC754 /* EditContractorNameAndValueCell.swift */; };
+		D9143F561A648FDB00DFC754 /* EditContractorNameAndValueCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9143F541A648FDB00DFC754 /* EditContractorNameAndValueCell.xib */; };
+		D9143F591A649A6400DFC754 /* EditLenderNameAndValuePercentageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9143F571A649A6400DFC754 /* EditLenderNameAndValuePercentageCell.swift */; };
+		D9143F5A1A649A6400DFC754 /* EditLenderNameAndValuePercentageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9143F581A649A6400DFC754 /* EditLenderNameAndValuePercentageCell.xib */; };
+		D91E9A891A633BDD0002F52B /* NewContractLenders.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91E9A881A633BDD0002F52B /* NewContractLenders.swift */; };
+		D91E9A8B1A6350A50002F52B /* MyLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91E9A8A1A6350A50002F52B /* MyLibrary.swift */; };
 		D95376B31A1DC3A100BF4935 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95376B21A1DC3A100BF4935 /* AppDelegate.swift */; };
 		D95376B81A1DC3A100BF4935 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95376B71A1DC3A100BF4935 /* ViewController.swift */; };
-		D95376BB1A1DC3A100BF4935 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D95376B91A1DC3A100BF4935 /* Main.storyboard */; };
 		D95376BD1A1DC3A100BF4935 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D95376BC1A1DC3A100BF4935 /* Images.xcassets */; };
 		D95376C01A1DC3A100BF4935 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D95376BE1A1DC3A100BF4935 /* LaunchScreen.xib */; };
 		D95376CC1A1DC3A100BF4935 /* iOUTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95376CB1A1DC3A100BF4935 /* iOUTests.swift */; };
 		D95376D61A1DC43700BF4935 /* iOUData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95376D51A1DC43700BF4935 /* iOUData.swift */; };
 		D95376D81A1DC43F00BF4935 /* MainInterfaceContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95376D71A1DC43F00BF4935 /* MainInterfaceContoller.swift */; };
-		D95376DA1A1DC44900BF4935 /* NewContractInputController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95376D91A1DC44900BF4935 /* NewContractInputController.swift */; };
-		D95376DC1A1DC44F00BF4935 /* NewContractTitleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95376DB1A1DC44F00BF4935 /* NewContractTitleController.swift */; };
 		D95377131A1DE37B00BF4935 /* iOU.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D95377111A1DE37B00BF4935 /* iOU.xcdatamodeld */; };
 		D95377151A1E06D200BF4935 /* UncoverVerticalSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95377141A1E06D200BF4935 /* UncoverVerticalSegue.swift */; };
 		D95377171A1EB60800BF4935 /* iOULogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95377161A1EB60800BF4935 /* iOULogic.swift */; };
-		D95377191A1ED1BC00BF4935 /* NewContractMoneyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95377181A1ED1BC00BF4935 /* NewContractMoneyController.swift */; };
-		D96AAC011A22F7340084E0EA /* NewContractMonetaryValueController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96AAC001A22F7340084E0EA /* NewContractMonetaryValueController.swift */; };
-		D9DD6ECA1A2079AB00249068 /* NewContractItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DD6EC81A2079AB00249068 /* NewContractItemController.swift */; };
-		D9DD6ECB1A2079AB00249068 /* NewContractServiceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DD6EC91A2079AB00249068 /* NewContractServiceController.swift */; };
+		D95377191A1ED1BC00BF4935 /* NewContractController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95377181A1ED1BC00BF4935 /* NewContractController.swift */; };
+		D9545D671A5E1049004D0666 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D95376B91A1DC3A100BF4935 /* Main.storyboard */; };
+		D9545D681A5E1078004D0666 /* LenderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BF700B1A5E0CDE00F8EBD6 /* LenderCell.swift */; };
+		D986DB1E1A59E66400BC4AC3 /* EditLenderNameAndValueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D986DB1D1A59E66400BC4AC3 /* EditLenderNameAndValueCell.swift */; };
+		D9BF700A1A5CF91500F8EBD6 /* ModalWaringController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BF70091A5CF91500F8EBD6 /* ModalWaringController.swift */; };
+		D9CA725F1A677CAA00621C32 /* EditTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CA725D1A677CAA00621C32 /* EditTitleCell.swift */; };
+		D9CA72601A677CAA00621C32 /* EditTitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9CA725E1A677CAA00621C32 /* EditTitleCell.xib */; };
+		D9D7FE131A5FCA0800F48C39 /* IncludeTipCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D7FE121A5FCA0800F48C39 /* IncludeTipCell.swift */; };
+		D9E6F0511A5E79CF00E388EE /* EditContractorNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E6F0501A5E79CF00E388EE /* EditContractorNameCell.swift */; };
+		D9E6F0531A5FB45B00E388EE /* EditLenderNameAndValueCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9E6F0521A5FB45B00E388EE /* EditLenderNameAndValueCell.xib */; };
+		D9E6F0551A5FB85500E388EE /* EditContractorNameCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9E6F0541A5FB85500E388EE /* EditContractorNameCell.xib */; };
+		D9E6F0571A5FBA8200E388EE /* LenderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9E6F0561A5FBA8200E388EE /* LenderCell.xib */; };
+		D9F5A7621A60932A00B1B007 /* EditMonetaryValueWithCalculatorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F5A7601A60932A00B1B007 /* EditMonetaryValueWithCalculatorCell.swift */; };
+		D9F5A7631A60932A00B1B007 /* EditMonetaryValueWithCalculatorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9F5A7611A60932A00B1B007 /* EditMonetaryValueWithCalculatorCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,7 +54,19 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		D92600321A2499F8007C1A31 /* NewContractLenders.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewContractLenders.swift; sourceTree = "<group>"; };
+		D905290B1A4E709E0034E252 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		D905290D1A4E70A50034E252 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		D905290F1A4E70B70034E252 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		D9072B5C1A59FD5B00904E63 /* EditMonetaryValueCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditMonetaryValueCell.xib; sourceTree = "<group>"; };
+		D9072B601A5A00AD00904E63 /* EditMonetaryValueCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditMonetaryValueCell.swift; sourceTree = "<group>"; };
+		D9143F4F1A648C4500DFC754 /* ContractorCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContractorCell.swift; sourceTree = "<group>"; };
+		D9143F511A648E8100DFC754 /* ContractorCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContractorCell.xib; sourceTree = "<group>"; };
+		D9143F531A648FDB00DFC754 /* EditContractorNameAndValueCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditContractorNameAndValueCell.swift; sourceTree = "<group>"; };
+		D9143F541A648FDB00DFC754 /* EditContractorNameAndValueCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditContractorNameAndValueCell.xib; sourceTree = "<group>"; };
+		D9143F571A649A6400DFC754 /* EditLenderNameAndValuePercentageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditLenderNameAndValuePercentageCell.swift; sourceTree = "<group>"; };
+		D9143F581A649A6400DFC754 /* EditLenderNameAndValuePercentageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditLenderNameAndValuePercentageCell.xib; sourceTree = "<group>"; };
+		D91E9A881A633BDD0002F52B /* NewContractLenders.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewContractLenders.swift; sourceTree = "<group>"; };
+		D91E9A8A1A6350A50002F52B /* MyLibrary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyLibrary.swift; sourceTree = "<group>"; };
 		D95376AD1A1DC3A100BF4935 /* iOU.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOU.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D95376B11A1DC3A100BF4935 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D95376B21A1DC3A100BF4935 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -51,15 +79,22 @@
 		D95376CB1A1DC3A100BF4935 /* iOUTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOUTests.swift; sourceTree = "<group>"; };
 		D95376D51A1DC43700BF4935 /* iOUData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iOUData.swift; sourceTree = "<group>"; };
 		D95376D71A1DC43F00BF4935 /* MainInterfaceContoller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainInterfaceContoller.swift; sourceTree = "<group>"; };
-		D95376D91A1DC44900BF4935 /* NewContractInputController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewContractInputController.swift; sourceTree = "<group>"; };
-		D95376DB1A1DC44F00BF4935 /* NewContractTitleController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewContractTitleController.swift; sourceTree = "<group>"; };
 		D95377121A1DE37B00BF4935 /* iOU.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = iOU.xcdatamodel; sourceTree = "<group>"; };
 		D95377141A1E06D200BF4935 /* UncoverVerticalSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UncoverVerticalSegue.swift; sourceTree = "<group>"; };
 		D95377161A1EB60800BF4935 /* iOULogic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iOULogic.swift; sourceTree = "<group>"; };
-		D95377181A1ED1BC00BF4935 /* NewContractMoneyController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewContractMoneyController.swift; sourceTree = "<group>"; };
-		D96AAC001A22F7340084E0EA /* NewContractMonetaryValueController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewContractMonetaryValueController.swift; sourceTree = "<group>"; };
-		D9DD6EC81A2079AB00249068 /* NewContractItemController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewContractItemController.swift; sourceTree = "<group>"; };
-		D9DD6EC91A2079AB00249068 /* NewContractServiceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewContractServiceController.swift; sourceTree = "<group>"; };
+		D95377181A1ED1BC00BF4935 /* NewContractController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewContractController.swift; sourceTree = "<group>"; };
+		D986DB1D1A59E66400BC4AC3 /* EditLenderNameAndValueCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditLenderNameAndValueCell.swift; sourceTree = "<group>"; };
+		D9BF70091A5CF91500F8EBD6 /* ModalWaringController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModalWaringController.swift; sourceTree = "<group>"; };
+		D9BF700B1A5E0CDE00F8EBD6 /* LenderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LenderCell.swift; sourceTree = "<group>"; };
+		D9CA725D1A677CAA00621C32 /* EditTitleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditTitleCell.swift; sourceTree = "<group>"; };
+		D9CA725E1A677CAA00621C32 /* EditTitleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditTitleCell.xib; sourceTree = "<group>"; };
+		D9D7FE121A5FCA0800F48C39 /* IncludeTipCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncludeTipCell.swift; sourceTree = "<group>"; };
+		D9E6F0501A5E79CF00E388EE /* EditContractorNameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditContractorNameCell.swift; path = Images.xcassets/EditContractorNameCell.swift; sourceTree = "<group>"; };
+		D9E6F0521A5FB45B00E388EE /* EditLenderNameAndValueCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditLenderNameAndValueCell.xib; sourceTree = "<group>"; };
+		D9E6F0541A5FB85500E388EE /* EditContractorNameCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditContractorNameCell.xib; sourceTree = "<group>"; };
+		D9E6F0561A5FBA8200E388EE /* LenderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LenderCell.xib; sourceTree = "<group>"; };
+		D9F5A7601A60932A00B1B007 /* EditMonetaryValueWithCalculatorCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditMonetaryValueWithCalculatorCell.swift; sourceTree = "<group>"; };
+		D9F5A7611A60932A00B1B007 /* EditMonetaryValueWithCalculatorCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditMonetaryValueWithCalculatorCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +118,9 @@
 		D95376A41A1DC3A100BF4935 = {
 			isa = PBXGroup;
 			children = (
+				D905290F1A4E70B70034E252 /* CoreData.framework */,
+				D905290D1A4E70A50034E252 /* UIKit.framework */,
+				D905290B1A4E709E0034E252 /* Foundation.framework */,
 				D95376AF1A1DC3A100BF4935 /* iOU */,
 				D95376C81A1DC3A100BF4935 /* iOUTests */,
 				D95376AE1A1DC3A100BF4935 /* Products */,
@@ -101,19 +139,35 @@
 		D95376AF1A1DC3A100BF4935 /* iOU */ = {
 			isa = PBXGroup;
 			children = (
+				D91E9A8A1A6350A50002F52B /* MyLibrary.swift */,
 				D95376D51A1DC43700BF4935 /* iOUData.swift */,
 				D95377161A1EB60800BF4935 /* iOULogic.swift */,
 				D95376B21A1DC3A100BF4935 /* AppDelegate.swift */,
+				D9CA725D1A677CAA00621C32 /* EditTitleCell.swift */,
+				D9CA725E1A677CAA00621C32 /* EditTitleCell.xib */,
+				D9072B601A5A00AD00904E63 /* EditMonetaryValueCell.swift */,
+				D9072B5C1A59FD5B00904E63 /* EditMonetaryValueCell.xib */,
+				D9F5A7601A60932A00B1B007 /* EditMonetaryValueWithCalculatorCell.swift */,
+				D9F5A7611A60932A00B1B007 /* EditMonetaryValueWithCalculatorCell.xib */,
+				D9D7FE121A5FCA0800F48C39 /* IncludeTipCell.swift */,
+				D9143F531A648FDB00DFC754 /* EditContractorNameAndValueCell.swift */,
+				D9143F541A648FDB00DFC754 /* EditContractorNameAndValueCell.xib */,
+				D9E6F0501A5E79CF00E388EE /* EditContractorNameCell.swift */,
+				D9E6F0541A5FB85500E388EE /* EditContractorNameCell.xib */,
+				D9143F4F1A648C4500DFC754 /* ContractorCell.swift */,
+				D9143F511A648E8100DFC754 /* ContractorCell.xib */,
+				D986DB1D1A59E66400BC4AC3 /* EditLenderNameAndValueCell.swift */,
+				D9E6F0521A5FB45B00E388EE /* EditLenderNameAndValueCell.xib */,
+				D9143F571A649A6400DFC754 /* EditLenderNameAndValuePercentageCell.swift */,
+				D9143F581A649A6400DFC754 /* EditLenderNameAndValuePercentageCell.xib */,
+				D9BF700B1A5E0CDE00F8EBD6 /* LenderCell.swift */,
+				D9E6F0561A5FBA8200E388EE /* LenderCell.xib */,
 				D95376D71A1DC43F00BF4935 /* MainInterfaceContoller.swift */,
 				D95376B71A1DC3A100BF4935 /* ViewController.swift */,
-				D95377181A1ED1BC00BF4935 /* NewContractMoneyController.swift */,
-				D9DD6EC81A2079AB00249068 /* NewContractItemController.swift */,
-				D9DD6EC91A2079AB00249068 /* NewContractServiceController.swift */,
-				D95376D91A1DC44900BF4935 /* NewContractInputController.swift */,
-				D95376DB1A1DC44F00BF4935 /* NewContractTitleController.swift */,
-				D96AAC001A22F7340084E0EA /* NewContractMonetaryValueController.swift */,
-				D92600321A2499F8007C1A31 /* NewContractLenders.swift */,
+				D95377181A1ED1BC00BF4935 /* NewContractController.swift */,
+				D91E9A881A633BDD0002F52B /* NewContractLenders.swift */,
 				D95376B91A1DC3A100BF4935 /* Main.storyboard */,
+				D9BF70091A5CF91500F8EBD6 /* ModalWaringController.swift */,
 				D95377141A1E06D200BF4935 /* UncoverVerticalSegue.swift */,
 				D95376BC1A1DC3A100BF4935 /* Images.xcassets */,
 				D95377111A1DE37B00BF4935 /* iOU.xcdatamodeld */,
@@ -228,9 +282,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D95376BB1A1DC3A100BF4935 /* Main.storyboard in Resources */,
+				D9E6F0571A5FBA8200E388EE /* LenderCell.xib in Resources */,
+				D9143F561A648FDB00DFC754 /* EditContractorNameAndValueCell.xib in Resources */,
+				D9143F521A648E8100DFC754 /* ContractorCell.xib in Resources */,
+				D9072B5D1A59FD5B00904E63 /* EditMonetaryValueCell.xib in Resources */,
+				D9E6F0551A5FB85500E388EE /* EditContractorNameCell.xib in Resources */,
+				D9143F5A1A649A6400DFC754 /* EditLenderNameAndValuePercentageCell.xib in Resources */,
+				D9E6F0531A5FB45B00E388EE /* EditLenderNameAndValueCell.xib in Resources */,
 				D95376C01A1DC3A100BF4935 /* LaunchScreen.xib in Resources */,
+				D9F5A7631A60932A00B1B007 /* EditMonetaryValueWithCalculatorCell.xib in Resources */,
 				D95376BD1A1DC3A100BF4935 /* Images.xcassets in Resources */,
+				D9CA72601A677CAA00621C32 /* EditTitleCell.xib in Resources */,
+				D9545D671A5E1049004D0666 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,19 +312,26 @@
 			buildActionMask = 2147483647;
 			files = (
 				D95376B81A1DC3A100BF4935 /* ViewController.swift in Sources */,
-				D9DD6ECA1A2079AB00249068 /* NewContractItemController.swift in Sources */,
-				D96AAC011A22F7340084E0EA /* NewContractMonetaryValueController.swift in Sources */,
-				D9DD6ECB1A2079AB00249068 /* NewContractServiceController.swift in Sources */,
+				D91E9A891A633BDD0002F52B /* NewContractLenders.swift in Sources */,
+				D9CA725F1A677CAA00621C32 /* EditTitleCell.swift in Sources */,
+				D9D7FE131A5FCA0800F48C39 /* IncludeTipCell.swift in Sources */,
+				D91E9A8B1A6350A50002F52B /* MyLibrary.swift in Sources */,
+				D9143F591A649A6400DFC754 /* EditLenderNameAndValuePercentageCell.swift in Sources */,
+				D9F5A7621A60932A00B1B007 /* EditMonetaryValueWithCalculatorCell.swift in Sources */,
 				D95376D81A1DC43F00BF4935 /* MainInterfaceContoller.swift in Sources */,
 				D95377151A1E06D200BF4935 /* UncoverVerticalSegue.swift in Sources */,
 				D95377131A1DE37B00BF4935 /* iOU.xcdatamodeld in Sources */,
-				D95376DA1A1DC44900BF4935 /* NewContractInputController.swift in Sources */,
 				D95377171A1EB60800BF4935 /* iOULogic.swift in Sources */,
+				D9072B611A5A00AD00904E63 /* EditMonetaryValueCell.swift in Sources */,
+				D9143F501A648C4500DFC754 /* ContractorCell.swift in Sources */,
 				D95376B31A1DC3A100BF4935 /* AppDelegate.swift in Sources */,
-				D95376DC1A1DC44F00BF4935 /* NewContractTitleController.swift in Sources */,
 				D95376D61A1DC43700BF4935 /* iOUData.swift in Sources */,
-				D92600331A2499F8007C1A31 /* NewContractLenders.swift in Sources */,
-				D95377191A1ED1BC00BF4935 /* NewContractMoneyController.swift in Sources */,
+				D9E6F0511A5E79CF00E388EE /* EditContractorNameCell.swift in Sources */,
+				D9143F551A648FDB00DFC754 /* EditContractorNameAndValueCell.swift in Sources */,
+				D95377191A1ED1BC00BF4935 /* NewContractController.swift in Sources */,
+				D986DB1E1A59E66400BC4AC3 /* EditLenderNameAndValueCell.swift in Sources */,
+				D9BF700A1A5CF91500F8EBD6 /* ModalWaringController.swift in Sources */,
+				D9545D681A5E1078004D0666 /* LenderCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -320,7 +390,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -363,7 +433,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -386,6 +456,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = iOU/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -396,6 +468,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = iOU/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -406,6 +480,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -425,6 +500,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",

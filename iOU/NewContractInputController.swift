@@ -8,32 +8,44 @@
 
 import UIKit
 
-class NewContractInputController: UIViewController
+class NewContractInputController: UIViewController, NewContractViewController
 {
+  var tableView: UITableView!
 
-    override func viewDidLoad()
-    {
-        super.viewDidLoad()
+  override func viewDidLoad()
+  {
+    super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-    }
+    // Do any additional setup after loading the view.
+    loadCellData()
+  }
+  
+  func loadCellData()
+  {
+    //ToDo - Finish This!
+  }
 
-    override func didReceiveMemoryWarning()
-    {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
   @IBAction func cancelInputAndSegue(sender: UIBarButtonItem)
   {
-    iOULogic.newContractInputSegue(self, save: false)
+    iOULogic.newContractEdited(self, save: false)
   }
   
   @IBAction func saveInputAndSegue(sender: UIBarButtonItem)
   {
-    iOULogic.newContractInputSegue(self, save: true)
+    iOULogic.newContractEdited(self, save: true)
   }
 
+  func performSegue(identifier: String)
+  {
+    performSegueWithIdentifier(identifier, sender: self)
+  }
+  
+  override func didReceiveMemoryWarning()
+  {
+    super.didReceiveMemoryWarning()
+    // Dispose of any resources that can be recreated.
+  }
+  
     /*
     // MARK: - Navigation
 

@@ -8,50 +8,86 @@
 
 import UIKit
 
-class NewContractLenders: UIViewController, UITableViewDelegate, UITableViewDataSource
+class NewContractLenders: UIViewController, UITableViewDelegate, UITableViewDataSource, Refreshable, Segueable
 {
-  @IBOutlet weak var contractLenders: UITableView!
+  @IBOutlet weak var shares: UISegmentedControl!
+  @IBOutlet weak var lendersList: UITableView!
   
   override func viewDidLoad()
   {
     super.viewDidLoad()
     // Do any additional setup after loading the view.
     
-    self.contractLenders.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
+    NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshView:",name:"Refresh", object: nil)
+    
+    //Register Table.
+    lendersList.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
+    
+    //Initialzie the Table.
+    lendersList.estimatedRowHeight = 44.0
+    lendersList.rowHeight = UITableViewAutomaticDimension
+    var nib = UINib(nibName: "EditContractorNameAndValueCell", bundle: nil)
+    lendersList.registerNib(nib, forCellReuseIdentifier: "EditContractorNameAndValueCell")
+    nib = UINib(nibName: "EditContractorNameCell", bundle: nil)
+    lendersList.registerNib(nib, forCellReuseIdentifier: "EditContractorNameCell")
+    nib = UINib(nibName: "ContractorCell", bundle: nil)
+    lendersList.registerNib(nib, forCellReuseIdentifier: "ContractorCell")
+    nib = UINib(nibName: "EditLenderNameAndValueCell", bundle: nil)
+    lendersList.registerNib(nib, forCellReuseIdentifier: "EditLenderNameAndValueCell")
+    nib = UINib(nibName: "LenderCell", bundle: nil)
+    lendersList.registerNib(nib, forCellReuseIdentifier: "LenderCell")
   }
   
-  @IBAction func cancelInputAndSegue(sender: UIBarButtonItem)
+  func reloadData()
   {
-    iOULogic.newContractInputSegue(self, save: false)
+    //TODO - Finish!!!
   }
   
-  @IBAction func saveInputAndSegue(sender: UIBarButtonItem)
+  func refreshView(notification: NSNotification)
   {
-    iOULogic.newContractInputSegue(self, save: true)
+    reloadData()
+    lendersList.reloadData()
+  }
+  
+  @IBAction func updateDivideShares(sender: UISegmentedControl)
+  {
+    if (iOULogic.saveDynamicChanges())
+    {
+      let previousShare = iOUData.sharedInstance.temporaryData.contract.lenderShares.rawValue
+      sender.selectedSegmentIndex = previousShare
+      return
+    }
+    
+    let share: Shares = Shares(rawValue: sender.selectedSegmentIndex)!
+    iOULogic.resetDynamicEditing()
+    iOUData.sharedInstance.temporaryData.contract.lenderShares = share
+    iOULogic.refreshViews()
   }
   
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> (Int)
   {
-    //There should only be one section, if it asks about any others, crash the app by passing an invalid value.
+    //There should only be one section, if it asks about any others, print a warning and return.
     if (section > 0)
     {
-      return -1
+      fatalError("There is only 1 section, not \(section), in the New Contract Contractor's table.")
     }
     
-    //Otherwise the number of rows is equal to the number of lenders, plus one for the add new lender cell.
-    let dictionary = iOUData.sharedInstance.temporaryData[1] as [String: Float]
-    let count = dictionary.count + 1
-    return count
+    return 1 + iOUData.sharedInstance.temporaryData.contract.lenders.count
   }
   
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> (UITableViewCell)
   {
-    return iOULogic.newContractLendersCell(tableView, indexPath: indexPath)
+    return iOULogic.newContractLendersCell(tableView: tableView, indexPath: indexPath)
   }
   
   func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
   {
-    iOULogic.newContractLendersRowSegue(self, indexPath: indexPath)
+    iOULogic.newContractLendersRowSelection(indexPath)
+  }
+
+  func performSegue(#segueFrom: String, segueTo: String)
+  {
+    performSegueWithIdentifier(segueFrom + "->" + segueTo, sender: self)
   }
   
   override func didReceiveMemoryWarning()
@@ -59,15 +95,4 @@ class NewContractLenders: UIViewController, UITableViewDelegate, UITableViewData
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
   }
-  
-  /*
-  // MARK: - Navigation
-  
-  // In a storyboard-based application, you will often want to do a little preparation before navigation
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-  // Get the new view controller using segue.destinationViewController.
-  // Pass the selected object to the new view controller.
-  }
-  */
-  
 }

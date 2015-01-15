@@ -18,35 +18,20 @@ class NewContractTitleController: UIViewController
     super.viewDidLoad()
     
     //Initialize the text field and segmented control to reflect the data stored in iOUData.
-    if let title = iOUData.sharedInstance.temporaryData[1] as? String
-    {
-      contractTitle.text = title
-    }
-    else
-    {
-      println("From: NewContractTitleController. Error in Temproary Data, cannot extract title. \(iOUData.sharedInstance.temporaryData)")
-    }
-    
-    if let type = iOUData.sharedInstance.temporaryData[2] as? Type
-    {
-      contractType.selectedSegmentIndex = type.rawValue
-    }
-    else
-    {
-      println("From: NewContractTitleController. Error in Temporary Data, cannot extract type. \(iOUData.sharedInstance.temporaryData)")
-    }
+    contractTitle.text = iOUData.sharedInstance.temporaryData.contract.title
+    contractType.selectedSegmentIndex = iOUData.sharedInstance.temporaryData.contract.type.rawValue
   }
   
   @IBAction func changeContractTitle(sender: UITextField)
   {
     //Whenever the user changes the contract title, update New Contract Temporary Data.
-    iOUData.sharedInstance.temporaryData[1] = contractTitle.text
+    iOUData.sharedInstance.temporaryData.contract.title = contractTitle.text
   }
   
   @IBAction func changeContractType(sender: UISegmentedControl)
   {
     //Whenever the user changes the contract type, update iOUData.sharedInstance.newContractType.
-    iOUData.sharedInstance.temporaryData[2] = Type(rawValue: sender.selectedSegmentIndex)!
+    iOUData.sharedInstance.temporaryData.contract.type = Type(rawValue: sender.selectedSegmentIndex)!
   }
   
   override func didReceiveMemoryWarning()

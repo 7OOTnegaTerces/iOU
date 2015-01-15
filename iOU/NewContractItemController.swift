@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NewContractItemController: UITableViewController, UITableViewDelegate, UITableViewDataSource
+class NewContractItemController: UITableViewController, UITableViewDelegate, UITableViewDataSource, NewContractViewController
 {
   @IBOutlet weak var titleAndType: UITableViewCell!
   @IBOutlet weak var value: UITableViewCell!
@@ -20,16 +20,28 @@ class NewContractItemController: UITableViewController, UITableViewDelegate, UIT
     
     //Register Table
     self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
+    loadCellData()
+  }
+  
+  func loadCellData()
+  {
+    //ToDo - Finish This!!!
+  }
+  
+  func reloadData()
+  {
+    loadCellData()
+    tableView.reloadData()
   }
   
   @IBAction func saveAndSegueToMainInterface(sender: UIBarButtonItem)
   {
-    iOULogic.segueToMainInterface(self, save: true)
+    iOULogic.newContractEdited(self, save: true)
   }
   
   @IBAction func cancelAndSegueToMainInterface(sender: UIBarButtonItem)
   {
-    iOULogic.segueToMainInterface(self, save: false)
+    iOULogic.newContractEdited(self, save: false)
   }
   
   override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> (Int)
@@ -41,7 +53,7 @@ class NewContractItemController: UITableViewController, UITableViewDelegate, UIT
     case 1:
       return 3
     default:
-      println("Error, there are not that many sections in New Contract Item!")
+      fatalError("Error, there are not that many sections in New Contract Item!")
       return 1
     }
   }
@@ -54,7 +66,12 @@ class NewContractItemController: UITableViewController, UITableViewDelegate, UIT
   
   override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
   {
-    iOULogic.newContractItemRowSegue(self, indexPath: indexPath)
+    iOULogic.newContractItemRowSelection(self, indexPath: indexPath)
+  }
+  
+  func performSegue(identifier: String)
+  {
+    performSegueWithIdentifier(identifier, sender: self)
   }
   
   override func didReceiveMemoryWarning() {
