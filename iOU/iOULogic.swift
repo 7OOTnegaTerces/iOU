@@ -222,36 +222,72 @@ class iOULogic
   {
     var cell: UITableViewCell?
     
-    if (temporaryData.dynamicallyEditing)
+    let dynamicEditCell = temporaryData.dynamicEdit.cell
+    
+    if (indexPath == dynamicEditCell)
     {
-      let dynamicEditCell = temporaryData.dynamicEdit.cell
-      let editSection = indexPath.section
-      let editRow = indexPath.row
-      
-      switch editSection
+      switch indexPath.section
       {
         case 0:
-          if (indexPath == dynamicEditCell)
-          {
-            var tempCell = tableView.dequeueReusableCellWithIdentifier("EditTitleCell") as EditTitleCell
-            tempCell.loadData()
-            cell = tempCell
-          }
+          var tempCell = tableView.dequeueReusableCellWithIdentifier("EditTitleCell") as EditTitleCell
+          tempCell.contractTitle.text = temporaryContract.title
+          tempCell.contractType.selectedSegmentIndex = temporaryContract.type.rawValue
+          cell = tempCell
         case 1:
-          if (indexPath == dynamicEditCell)
+          if (indexPath.row == 0)
           {
             if (temporaryData.displayCalculator)
             {
               var tempCell = tableView.dequeueReusableCellWithIdentifier("EditMonetaryValueWithCalculatorCell") as EditMonetaryValueWithCalculatorCell
-              tempCell.loadData()
+              let currency = data.currency.rawValue
+              tempCell.contractCurrency.setTitle(currency, forState: UIControlState.Normal)
+              let monetaryValue = temporaryContract.monetaryValue
+              tempCell.monetaryValue.text = String(format: "%.2f", monetaryValue)
               cell = tempCell
             }
             else
             {
               var tempCell = tableView.dequeueReusableCellWithIdentifier("EditMonetaryValueCell") as EditMonetaryValueCell
-              tempCell.loadData()
+              let currency = data.currency.rawValue
+              tempCell.contractCurrency.setTitle(currency, forState: UIControlState.Normal)
+              let monetaryValue = iOUData.sharedInstance.temporaryData.contract.monetaryValue
+              tempCell.monetaryValue.text = String(format: "%.2f", monetaryValue)
               cell = tempCell
             }
+          }
+          else
+          {
+            var tempCell = tableView.dequeueReusableCellWithIdentifier("EditTipPercentageCell") as EditTipPercentageCell
+            //Initialize percentage picker.
+            tempCell.percentage.delegate = tempCell
+            tempCell.percentage.dataSource = tempCell
+            
+            let tip = temporaryData.tip
+            tempCell.current.hundredsDigit = tip[2]
+            tempCell.current.tensDigit = tip[1]
+            tempCell.current.onesDigit = tip[0]
+            
+            tempCell.saved.hundredsDigit = tempCell.current.hundredsDigit
+            tempCell.saved.tensDigit = tempCell.current.tensDigit
+            tempCell.saved.onesDigit = tempCell.current.onesDigit
+            
+            let hundredsRow = tempCell.current.hundredsDigit + data.digits[0].count * data.loopRadius
+            let tensRow = tempCell.current.tensDigit + data.digits[1].count * data.loopRadius
+            let onesRow = tempCell.current.onesDigit + data.digits[2].count * data.loopRadius
+            
+            tempCell.percentage.selectRow(hundredsRow, inComponent: 0, animated: false)
+            tempCell.percentage.selectRow(tensRow, inComponent: 1, animated: false)
+            tempCell.percentage.selectRow(onesRow, inComponent: 2, animated: false)
+            
+            if (temporaryData.includeTip)
+            {
+              tempCell.tipSwitch.on = true
+            }
+            else
+            {
+              tempCell.tipSwitch.on = false
+            }
+            cell = tempCell
           }
         default:
           break
@@ -292,7 +328,9 @@ class iOULogic
             temporaryData.dynamicEdit.cell = indexPath
             temporaryData.dynamicallyEditing = true
           case 1:
-            break
+            temporaryData.dynamicEdit.id = "TipPercentage"
+            temporaryData.dynamicEdit.cell = indexPath
+            temporaryData.dynamicallyEditing = true
           default:
             fatalError("there are only 3 rows, not \(indexPath.row), in section \(indexPath.section) in New Contract \(type)'s form.")
         }
@@ -453,12 +491,12 @@ class iOULogic
   }
   
   //MARK: New Contract Lender Logic
-  class func newContractLendersCell(#tableView: UITableView, indexPath: NSIndexPath) -> (UITableViewCell)
+  class func newContractorsCell(#tableView: UITableView, indexPath: NSIndexPath, contractorType: String) -> (UITableViewCell)
   {
     //There should only be one section, if it asks about any others, print a warning and return.
     if (indexPath.section > 0)
     {
-      fatalError("There is only 1 section, not \(indexPath.section), in the New Contract Lenders table.")
+      fatalError("There is only 1 section, not \(indexPath.section), in the New Contract " + contractorType + "'s table.")
     }
     
     var cell: UITableViewCell
@@ -469,12 +507,12 @@ class iOULogic
     }
     else
     {
-      let dynamicEditType = temporaryData.dynamicEdit.id
+      let dynamicEditID = temporaryData.dynamicEdit.id
       var dynamicEditCell: NSIndexPath
-      var lender: (key: String, value: Double)
+      var contractor: (key: String, value: (parts: Int, percent: Int, fixed: Double))
       
-      //First, check if the contractor type being dynamically edited is the same as the contrator cell type being requested here.  If it is, set the dynamicEditCell and lender.  If not, set dynamicEditCell to zero and get set lender from the temporaryContract lenders list.
-      if (dynamicEditType == "Lender")
+      //First, check if the contractor type being dynamically edited is the same as the contrator cell type being requested here.  If it is, set the dynamicEditCell and contractor.  If not, set dynamicEditCell to zero and get set contractor from the appropriate contractor's list.
+      if (dynamicEditID == contractorType)
       {
         dynamicEditCell = temporaryData.dynamicEdit.cell
       }
@@ -483,9 +521,18 @@ class iOULogic
         dynamicEditCell = NSIndexPath(forRow: 0, inSection: 0)
       }
       
-      lender = temporaryContract.lenders[indexPath.row - 1]
+      if (contractorType == "Lender")
+      {
+        contractor = temporaryData.lendersTemporary[indexPath.row - 1]
+      }
+      else
+      {
+        contractor = temporaryData.borrowersTemporary[indexPath.row - 1]
+      }
       
       //If using equal shares, change the monetary value displayed. (The actual monetary value of each lender can be changed when saving the final contract.)
+      var splitEqually = Double(0)
+      
       if (temporaryContract.lenderShares == Shares.Equal)
       {
         var monetaryValue = temporaryContract.monetaryValue
@@ -498,8 +545,7 @@ class iOULogic
         }
         
         let contractors = temporaryContract.lenders.count
-        let splitEqually = monetaryValue / Double(contractors)
-        lender.value = splitEqually
+        splitEqually = monetaryValue / Double(contractors)
       }
       
       //To determine if this is the cell containing the lender marked as the designated "Slack Taker" (takes up any excess unconvered debt above their own value, if any), compare this row against temporaryData.takeUpSlackRow.
@@ -507,25 +553,89 @@ class iOULogic
       
       if (indexPath == dynamicEditCell)
       {
-        temporaryData.dynamicEditContractor = lender
+        temporaryData.dynamicEditContractor = contractor
         
         switch temporaryContract.lenderShares
         {
           case Shares.Equal:
             let tempCell = tableView.dequeueReusableCellWithIdentifier("EditContractorNameCell") as EditContractorNameCell
-            tempCell.loadData()
+            let contractor = temporaryData.dynamicEditContractor
+            tempCell.contractorName.text = contractor.key
+            tempCell.monetaryValue.text = String(format: "%.2f", splitEqually)
             cell = tempCell
           case Shares.Parts:
             let tempCell = tableView.dequeueReusableCellWithIdentifier("EditContractorNameAndValueCell") as EditContractorNameAndValueCell
-            tempCell.loadData()
+            tempCell.contractorName.text = contractor.key
+            
+            //If this cell is a lender or a borrower with fixed value shares, set includeDecimal to true and format monetaryValue.text approiately.
+            let id = temporaryData.dynamicEdit.id
+            let lenderShares = temporaryContract.lenderShares
+            let borrowerShares = temporaryContract.borrowerShares
+            
+            if ((id == "Lender" && lenderShares == Shares.Fixed) || (id == "Borrower" && borrowerShares == Shares.Fixed))
+            {
+              tempCell.monetaryValue.text = String(format: "%.2f", contractor.value)
+              tempCell.includeDecimal = true
+            }
+            else
+            {
+              tempCell.monetaryValue.text = String(Int(contractor.value))
+              tempCell.includeDecimal = false
+            }
             cell = tempCell
           case Shares.Percentage:
             let tempCell = tableView.dequeueReusableCellWithIdentifier("EditLenderNameAndValuePercentageCell") as EditLenderNameAndValuePercentageCell
-            tempCell.loadData(shouldTakeUpSlack)
+            let lender = iOUData.sharedInstance.temporaryData.dynamicEditContractor
+            tempCell.lenderName.text = lender.key
+            
+            //Initialize percentage picker.
+            tempCell.percentage.delegate = tempCell
+            tempCell.percentage.dataSource = tempCell
+            
+            let monetaryPercentage = Int(lender.value)
+            tempCell.current.hundredsDigit = monetaryPercentage[2]
+            tempCell.current.tensDigit = monetaryPercentage[1]
+            tempCell.current.onesDigit = monetaryPercentage[0]
+            
+            tempCell.saved.hundredsDigit = tempCell.current.hundredsDigit
+            tempCell.saved.tensDigit = tempCell.current.tensDigit
+            tempCell.saved.onesDigit = tempCell.current.onesDigit
+            
+            let hundredsRow = tempCell.current.hundredsDigit + data.digits[0].count * data.loopRadius
+            let tensRow = tempCell.current.tensDigit + data.digits[1].count * data.loopRadius
+            let onesRow = tempCell.current.onesDigit + data.digits[2].count * data.loopRadius
+            
+           tempCell.percentage.selectRow(hundredsRow, inComponent: 0, animated: false)
+            tempCell.percentage.selectRow(tensRow, inComponent: 1, animated: false)
+            tempCell.percentage.selectRow(onesRow, inComponent: 2, animated: false)
+            
+            //Initialize takeUpSlack button image.
+            tempCell.shouldTakeUpSlack = shouldTakeUpSlack
+            
+            if (shouldTakeUpSlack)
+            {
+              tempCell.takeUpSlack.imageView!.image = UIImage(contentsOfFile: "Radio Button On")
+            }
+            else
+            {
+              tempCell.takeUpSlack.imageView!.image = UIImage(contentsOfFile: "Radio Button Off")
+            }
             cell = tempCell
           case Shares.Fixed:
             let tempCell = tableView.dequeueReusableCellWithIdentifier("EditLenderNameAndValueCell") as EditLenderNameAndValueCell
-            tempCell.loadData(shouldTakeUpSlack)
+            let lender = iOUData.sharedInstance.temporaryData.dynamicEditContractor
+            tempCell.lenderName.text = lender.key
+            tempCell.monetaryValue.text = String(format: "%.2f", lender.value)
+            tempCell.shouldTakeUpSlack = shouldTakeUpSlack
+            
+            if (shouldTakeUpSlack)
+            {
+              tempCell.takeUpSlack.imageView!.image = UIImage(contentsOfFile: "Radio Button On")
+            }
+            else
+            {
+              tempCell.takeUpSlack.imageView!.image = UIImage(contentsOfFile: "Radio Button Off")
+            }
             cell = tempCell
         }
       }
@@ -535,13 +645,68 @@ class iOULogic
         if (temporaryContract.lenderShares == Shares.Percentage || temporaryContract.lenderShares == Shares.Fixed)
         {
           let tempCell = tableView.dequeueReusableCellWithIdentifier("LenderCell") as LenderCell
-          tempCell.loadData(lenderName: lender.key, lenderValue: lender.value, shouldTakeUpSlack: shouldTakeUpSlack)
+          tempCell.lenderName.text = contractor.key
+          let currency = data.currency.rawValue
+          let lenderShares = temporaryContract.lenderShares
+          
+          switch lenderShares
+          {
+            case Shares.Percentage:
+              let monetaryTotal = temporaryContract.monetaryValue
+              let fracton = contractor.value / monetaryTotal
+              let percentage = Int(fracton * 100)
+              tempCell.monetaryValue.text = "\(fracton)% (\(currency) \(Int(contractor.value)))"
+            case Shares.Fixed:
+              tempCell.monetaryValue.text = currency +  " " + String(Int(contractor.value))
+            default:
+              fatalError("LenderCell is only supposed to be used for Percentage and Fixed shares, not " + lenderShares.toString())
+          }
+          
+          tempCell.shouldTakeUpSlack = shouldTakeUpSlack
+          
+          if (shouldTakeUpSlack)
+          {
+            tempCell.takeUpSlack.imageView!.image = UIImage(contentsOfFile: "Radio Button On")
+          }
+          else
+          {
+            tempCell.takeUpSlack.imageView!.image = UIImage(contentsOfFile: "Radio Button Off")
+          }
+          
           cell = tempCell
         }
         else
         {
           let tempCell = tableView.dequeueReusableCellWithIdentifier("ContractorCell") as ContractorCell
-          tempCell.loadData(contractorName: lender.key, contractorValue: lender.value, isLender: true)
+          let currency = data.currency.rawValue
+          let lenderShares = temporaryContract.lenderShares
+          
+          switch lenderShares
+          {
+            case Shares.Equal:
+              var monetaryValue = temporaryContract.monetaryValue
+            
+              if (temporaryData.includeTip)
+              {
+                var tip = Double(temporaryData.tip)
+                tip /= 100
+                monetaryValue *= 1 + tip
+              }
+            
+              let contractors = temporaryContract.lenders.count
+              let splitEqually = monetaryValue / Double(contractors)
+              tempCell.contractorValue.text = currency +  " " + String(splitEqually)
+          case Shares.Parts:
+            tempCell.contractorValue.text = "\(Int(contractor.value))%"
+          case Shares.Percentage:
+            let monetaryTotal = temporaryContract.monetaryValue
+            let fracton = contractor.value / monetaryTotal
+            let percentage = Int(fracton * 100)
+            tempCell.contractorValue.text = "\(fracton)% (\(currency) \(Int(contractor.value)))"
+          case Shares.Fixed:
+            tempCell.contractorValue.text = currency +  " " + String(Int(contractor.value))
+          }
+
           cell = tempCell
         }
       }
@@ -623,10 +788,9 @@ class iOULogic
             temporaryContract.title = "Title (" + type.toAlternateString() + " iOU)"
           }
         case "MonetaryValue":
-          if (editRow == 0)
-          {
-            calculateValue()
-          }
+          calculateValue()
+        case "TipPercentage":
+          break
         case "Lender":
           //If dynamically editing lenders, update contracteeTemporary and the appropirate list in temporaryContract. Check if the user attempted to use the same name twice.  If they did, ignore all other actions and request that they make the name unique.
           if (editRow > 0)
@@ -731,7 +895,7 @@ class iOULogic
     temporaryData.dynamicEditContractor.value = 0
   }
   
-  class func changeMonetaryValueText(#sender: MonetaryValue, includeDecimal: Bool)
+  class func updateMonetaryValueText(#sender: MonetaryValue, includeDecimal: Bool)
   {
     //Whenever the user changes the contract monetary value, update temporaryContract.monetaryValue.
     
@@ -806,6 +970,222 @@ class iOULogic
       let monetaryValue = temporaryContract.monetaryValue
       return String(format: "%.2f", monetaryValue)
     }
+  }
+  
+  class func loopedPickerRowTitle(#sourceData: [[String]], titleForRow row: Int, forComponent component: Int) -> (String!)
+  {
+    let rowCount = sourceData[component].count
+    let rowTitle = row % rowCount
+    return sourceData[component][rowTitle]
+  }
+  
+  class func updateLoopedPercentagePicker(var #picker: PercentagePicker, didSelectRow row: Int, inComponent component: Int, var percentageCap cap: Int) -> (Int)
+  {
+    //Define the padding and the uppper and lower limits for the range to keep the picker within whenever a value is selected.
+    let padding = 10 //The size of a the range of values.
+    let lowerBound = padding * data.loopRadius
+    let upperBound = padding * (data.loopRadius + 1)
+    
+    //If the user has selected a row outside of the middle range of the pesudo-infinite percentage picker, teleport back within the range.  Provided the user does not scroll continuously without letup, this will give the illusion of an infinite picker wheel.
+    if ((row < lowerBound) || (row >= upperBound))
+    {
+      let toZero = row % padding  //Find the position with the same value as the current selection within the first range.
+      let shiftTo = toZero + padding * data.loopRadius //Add suffecint padding to move the value to within the middle range.
+      picker.percentage.selectRow(shiftTo, inComponent: component, animated: false)
+    }
+    
+    //Once at the correct location, calculate the percentage.
+    var percent: Int
+    
+    //If cap is greater than zero, then do not allow any value over the cap.  If the user goes over the cap, shift down to the cap, but save the digit values.  If the user adjusts back below the cap, return to the previous value before they moved above the cap the first time.  If they adust over th cap, set the higher digit(s) to zero and accept the new digit values. If the cap is -1, ignore it.
+    
+    //Then, find the hundreds, tens, and ones digits.
+    var hundredsDigit = picker.percentage.selectedRowInComponent(0)
+    var tensDigit = picker.percentage.selectedRowInComponent(1)
+    var onesDigit = picker.percentage.selectedRowInComponent(2)
+    
+    //(Don't forget to remove the row location padding!)
+    hundredsDigit %= padding
+    tensDigit %= padding
+    onesDigit %= padding
+    
+    if (cap >= 0)
+    {
+      let hundredsCap = (cap / 100)
+      let tensCap = (cap / 10) - (hundredsCap * 10)
+      let onesCap = cap - (hundredsCap * 100) - (tensCap * 10)
+      let currentValue = picker.current.hundredsDigit * 100 + picker.current.tensDigit * 10 + picker.current.onesDigit
+      
+      if (hundredsCap < hundredsDigit)
+      {
+        if (component == 0 && cap == currentValue)
+        {
+          hundredsDigit = picker.saved.hundredsDigit
+          tensDigit = picker.saved.tensDigit
+          onesDigit = picker.saved.onesDigit
+        }
+        else
+        {
+          //Save and cap the digits
+          picker.saved.hundredsDigit = picker.current.hundredsDigit
+          picker.saved.tensDigit = picker.current.tensDigit
+          picker.saved.onesDigit = picker.current.onesDigit
+          
+          hundredsDigit = hundredsCap
+          tensDigit = tensCap
+          onesDigit = onesCap
+        }
+        
+        let hundredsRow = hundredsDigit + padding * data.loopRadius //Add suffecint padding to move the value to within the middle range.
+        let tensRow = tensDigit + padding * data.loopRadius //Add suffecint padding to move the value to within the middle range.
+        let onesRow = onesDigit + padding * data.loopRadius //Add suffecint padding to move the value to within the middle range.
+        
+        picker.percentage.selectRow(hundredsRow, inComponent: 0, animated: true)
+        picker.percentage.selectRow(tensRow, inComponent: 1, animated: true)
+        picker.percentage.selectRow(onesRow, inComponent: 2, animated: true)
+      }
+      else if (hundredsCap == hundredsDigit)
+      {
+        if (tensCap < tensDigit)
+        {
+          if (component == 1)
+          {
+            hundredsDigit = 0
+            picker.percentage.selectRow(lowerBound, inComponent: 0, animated: true)
+            
+            if (cap == currentValue)
+            {
+              if (hundredsCap == 0)
+              {
+                tensDigit = picker.saved.tensDigit
+                onesDigit = picker.saved.onesDigit
+              }
+              else
+              {
+                picker.saved.hundredsDigit = hundredsDigit
+                picker.saved.tensDigit = tensDigit
+                picker.saved.onesDigit = onesDigit
+              }
+            }
+            else
+            {
+              //Save the tens and ones digits
+              picker.saved.hundredsDigit = picker.current.hundredsDigit
+              picker.saved.tensDigit = picker.current.tensDigit
+              picker.saved.onesDigit = picker.current.onesDigit
+              
+              tensDigit = tensCap
+              onesDigit = onesCap
+            }
+          }
+          else
+          {
+            //Save the tens and ones digits
+            picker.saved.hundredsDigit = picker.current.hundredsDigit
+            picker.saved.tensDigit = picker.current.tensDigit
+            picker.saved.onesDigit = picker.current.onesDigit
+            
+            tensDigit = tensCap
+            onesDigit = onesCap
+          }
+          
+          let tensRow = tensDigit + padding * data.loopRadius //Add suffecint padding to move the value to within the middle range.
+          let onesRow = onesDigit + padding * data.loopRadius //Add suffecint padding to move the value to within the middle range.
+          
+          picker.percentage.selectRow(tensRow, inComponent: 1, animated: true)
+          picker.percentage.selectRow(onesRow, inComponent: 2, animated: true)
+        }
+        else if (tensCap == tensDigit)
+        {
+          if (onesCap < onesDigit)
+          {
+            if (component == 2)
+            {
+              hundredsDigit = 0
+              tensDigit = 0
+              
+              picker.percentage.selectRow(lowerBound, inComponent: 0, animated: true)
+              picker.percentage.selectRow(lowerBound, inComponent: 1, animated: true)
+              
+              if (cap == currentValue)
+              {
+                if (hundredsCap == 0 && tensCap == 0)
+                {
+                  onesDigit = picker.saved.onesDigit
+                }
+                else
+                {
+                  picker.saved.hundredsDigit = hundredsDigit
+                  picker.saved.tensDigit = tensDigit
+                  picker.saved.onesDigit = onesDigit
+                }
+              }
+              else
+              {
+                //Save the ones digits
+                picker.saved.hundredsDigit = picker.current.hundredsDigit
+                picker.saved.tensDigit = picker.current.tensDigit
+                picker.saved.onesDigit = picker.current.onesDigit
+                
+                onesDigit = onesCap
+              }
+            }
+            else
+            {
+              //Save the tens and ones digits
+              picker.saved.hundredsDigit = picker.current.hundredsDigit
+              picker.saved.tensDigit = picker.current.tensDigit
+              picker.saved.onesDigit = picker.current.onesDigit
+              
+              onesDigit = onesCap
+            }
+            
+            let onesRow = onesDigit + padding * data.loopRadius //Add suffecint padding to move the value to within the middle range.
+            picker.percentage.selectRow(onesRow, inComponent: 2, animated: true)
+          }
+          else
+          {
+            picker.saved.hundredsDigit = hundredsDigit
+            picker.saved.tensDigit = tensDigit
+            picker.saved.onesDigit = onesDigit
+          }
+        }
+        else
+        {
+          picker.saved.hundredsDigit = hundredsDigit
+          picker.saved.tensDigit = tensDigit
+          picker.saved.onesDigit = onesDigit
+        }
+      }
+      else
+      {
+        picker.saved.hundredsDigit = hundredsDigit
+        picker.saved.tensDigit = tensDigit
+        picker.saved.onesDigit = onesDigit
+      }
+      
+      picker.current.hundredsDigit = hundredsDigit
+      picker.current.tensDigit = tensDigit
+      picker.current.onesDigit = onesDigit
+      percent = hundredsDigit * 100 + tensDigit * 10 + onesDigit
+    }
+    else
+    {
+      //If the percentage cap was not activated, find the hundreds, tens, and ones digits.
+      var hundredsDigit = picker.percentage.selectedRowInComponent(0)
+      var tensDigit = picker.percentage.selectedRowInComponent(1)
+      var onesDigit = picker.percentage.selectedRowInComponent(2)
+      
+      //(Don't forget to remove the row location padding!)
+      hundredsDigit %= padding
+      tensDigit %= padding
+      onesDigit %= padding
+      
+      //Calculate the percentage.
+      percent = hundredsDigit * 100 + tensDigit * 10 + onesDigit
+    }
+    
+    return percent
   }
   
   class func refreshViews()

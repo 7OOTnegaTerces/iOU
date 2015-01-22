@@ -21,7 +21,7 @@
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <textInputTraits key="textInputTraits"/>
                         <connections>
-                            <action selector="changeContractMonetaryValue:" destination="TNV-8L-6bO" eventType="editingChanged" id="4N9-nI-WKM"/>
+                            <action selector="updateContractMonetaryValue:" destination="TNV-8L-6bO" eventType="editingChanged" id="bSm-oo-oCL"/>
                         </connections>
                     </textField>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="561-lq-RHP">
@@ -34,7 +34,7 @@
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                         <connections>
-                            <action selector="changeCurrency:" destination="TNV-8L-6bO" eventType="touchUpInside" id="RwH-h2-L2Q"/>
+                            <action selector="updateCurrency:" destination="TNV-8L-6bO" eventType="touchUpInside" id="3zc-DE-OAD"/>
                         </connections>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a5F-xt-ABN">

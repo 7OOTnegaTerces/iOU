@@ -1,19 +1,19 @@
 //
-//  ContractorCell.swift
+//  EditContractorEqualCell.swift
 //  iOU
 //
-//  Created by Tateni Urio on 1/7/15.
+//  Created by Tateni Urio on 1/4/15.
 //  Copyright (c) 2015 Tateni Urio. All rights reserved.
 //
 
 import UIKit
 
-class ContractorCell: UITableViewCell, MonetaryValueAdjustableWidth
+class EditContractorEqualCell: UITableViewCell, MonetaryValueAdjustableWidth
 {
-  @IBOutlet weak var contractorName: UILabel!
+  @IBOutlet weak var contractorName: UITextField!
   @IBOutlet weak var monetaryValue: UILabel!
   @IBOutlet weak var takeUpSlack: UIButton!
-  @IBOutlet var monetaryValueWidthConstraint: NSLayoutConstraint!
+  @IBOutlet weak var monetaryValueWidthConstraint: NSLayoutConstraint!
   internal var shouldTakeUpSlack: Bool!
   
   
@@ -33,6 +33,12 @@ class ContractorCell: UITableViewCell, MonetaryValueAdjustableWidth
     }
     
     iOULogic.refreshViews()
+  }
+  
+  @IBAction func updateContractorName(sender: UITextField)
+  {
+    //Whenever the user changes the Contractor's name, update Contractor.
+    iOUData.sharedInstance.temporaryData.dynamicEditContractor.key = contractorName.text
   }
   
   override func awakeFromNib()

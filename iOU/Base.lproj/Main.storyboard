@@ -235,8 +235,8 @@
                                                         <action selector="toggleTip:" destination="4ic-OQ-HWB" eventType="valueChanged" id="JYd-Uo-soy"/>
                                                     </connections>
                                                 </switch>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="100%" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z74-c2-XIx">
-                                                    <rect key="frame" x="114" y="11" width="50" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100%" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z74-c2-XIx">
+                                                    <rect key="frame" x="114" y="11.5" width="46" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
@@ -251,9 +251,6 @@
                                                 <constraint firstAttribute="centerY" secondItem="z74-c2-XIx" secondAttribute="centerY" id="qKf-aW-vqP"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="tipPercentage" destination="z74-c2-XIx" id="kyn-sp-D6j"/>
-                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -273,14 +270,14 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="ofD-Zc-Xeo">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="72" id="ofD-Zc-Xeo">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ofD-Zc-Xeo" id="wlZ-6Z-dpa">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="awa-fa-UNk">
-                                                    <rect key="frame" x="16" y="0.0" width="304" height="43.5"/>
+                                                    <rect key="frame" x="16" y="0.0" width="304" height="71.5"/>
                                                     <connections>
                                                         <segue destination="1Tt-7w-tDc" kind="embed" id="GF4-Cf-fou"/>
                                                     </connections>
@@ -365,6 +362,7 @@
                         <outlet property="newContractTitle" destination="0ZZ-aE-vdj" id="cgN-S0-Io4"/>
                         <outlet property="newContractType" destination="gfE-ga-f6C" id="Dsd-pV-jak"/>
                         <outlet property="newContractValue" destination="78B-Z7-A4W" id="gOV-JR-ZXf"/>
+                        <outlet property="tipPercentage" destination="z74-c2-XIx" id="13D-Zv-aPF"/>
                         <segue destination="I0F-7T-sZ6" kind="show" identifier="NewContract-&gt;MainInterface" id="M9r-hm-m7Q"/>
                         <segue destination="jeR-CT-KUP" kind="presentation" identifier="NewContract-&gt;ContractorNameWarning" modalTransitionStyle="coverVertical" id="tdN-w1-4bE"/>
                     </connections>
@@ -459,21 +457,6 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="justified" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RmK-SN-9g2">
-                                <rect key="frame" x="16" y="134" width="288" height="300"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="110" id="rrW-m5-tQl"/>
-                                </constraints>
-                                <string key="text">Each lender and borrower needs to have a unique name so that both you, and this app, can tell them apart.  Please change the name of the current contractor to something more unique so niether of us gets confused! Changes you could make include adding a prefix, like "Mr.", or a suffix like "Sr." or "Jr.".  Or you could add where they live, "Tom (Seattle)".  The change can be anything, but something that is meaningful and helps you tell them apart would be best. Or, if you don't like being dictated to by piece of technology puportedly under your control, you could just add a space or two after the name.  It won't show up to you, but I'll know its there, and that's what really counts! :)</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="rrW-m5-tQl"/>
-                                    </mask>
-                                </variation>
-                            </textView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Touch Anywhere to Dismiss." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a5b-OT-ZZr">
                                 <rect key="frame" x="16" y="442" width="288" height="21"/>
                                 <constraints>
@@ -483,6 +466,21 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="justified" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RmK-SN-9g2">
+                                <rect key="frame" x="16" y="134" width="288" height="300"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="110" id="rrW-m5-tQl"/>
+                                </constraints>
+                                <string key="text">Each lender and borrower needs to have a unique name so that both you, and this app, can tell them apart.  Please change the name of the current contractor to something more unique so niether of us gets confused! Changes you could make include adding a prefix, like "Mr.", or a suffix like "Sr." or "Jr.".  Or you could add where they live, "Tom (Seattle)".  The change can be anything, but something that is meaningful and helps you tell them apart would be best. Or, if you don't like being dictated to by piece of technology puportedly under your control, you could just add a space or two after the name.  It won't be visible to you, but I'll know its there, and that's what really counts! :)</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="rrW-m5-tQl"/>
+                                    </mask>
+                                </variation>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -625,6 +623,6 @@
         <image name="magnifying glass" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="vHz-AH-SCP"/>
+        <segue reference="M9r-hm-m7Q"/>
     </inferredMetricsTieBreakers>
 </document>

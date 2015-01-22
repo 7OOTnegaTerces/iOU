@@ -34,6 +34,8 @@ class NewContractLenders: UIViewController, UITableViewDelegate, UITableViewData
     lendersList.registerNib(nib, forCellReuseIdentifier: "ContractorCell")
     nib = UINib(nibName: "EditLenderNameAndValueCell", bundle: nil)
     lendersList.registerNib(nib, forCellReuseIdentifier: "EditLenderNameAndValueCell")
+    nib = UINib(nibName: "EditLenderNameAndValuePercentageCell", bundle: nil)
+    lendersList.registerNib(nib, forCellReuseIdentifier: "EditLenderNameAndValuePercentageCell")
     nib = UINib(nibName: "LenderCell", bundle: nil)
     lendersList.registerNib(nib, forCellReuseIdentifier: "LenderCell")
   }
@@ -59,7 +61,13 @@ class NewContractLenders: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     let share: Shares = Shares(rawValue: sender.selectedSegmentIndex)!
-    iOULogic.resetDynamicEditing()
+    let id = iOUData.sharedInstance.temporaryData.dynamicEdit.id
+    
+    if (id != "Lender")
+    {
+      iOULogic.resetDynamicEditing()
+    }
+    
     iOUData.sharedInstance.temporaryData.contract.lenderShares = share
     iOULogic.refreshViews()
   }
@@ -73,6 +81,11 @@ class NewContractLenders: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     return 1 + iOUData.sharedInstance.temporaryData.contract.lenders.count
+  }
+  
+  func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> (CGFloat)
+  {
+    return CGFloat(44)
   }
   
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> (UITableViewCell)

@@ -13,6 +13,7 @@ class NewContractController: UITableViewController, UITableViewDelegate, UITable
   @IBOutlet weak var newContractTitle: UILabel!
   @IBOutlet weak var newContractType: UILabel!
   @IBOutlet weak var newContractValue: UILabel!
+  @IBOutlet weak var tipPercentage: UILabel!
   
   override func viewDidLoad()
   {
@@ -33,6 +34,8 @@ class NewContractController: UITableViewController, UITableViewDelegate, UITable
     self.tableView.registerNib(nib, forCellReuseIdentifier: "EditMonetaryValueWithCalculatorCell")
     nib = UINib(nibName: "EditTitleCell", bundle: nil)
     self.tableView.registerNib(nib, forCellReuseIdentifier: "EditTitleCell")
+    nib = UINib(nibName: "EditTipPercentageCell", bundle: nil)
+    self.tableView.registerNib(nib, forCellReuseIdentifier: "EditTipPercentageCell")
     reloadData()
   }
   
@@ -42,10 +45,11 @@ class NewContractController: UITableViewController, UITableViewDelegate, UITable
     newContractType.text = iOUData.sharedInstance.temporaryData.contract.type.toString()
     let currency = iOUData.sharedInstance.currency.rawValue
     var monetaryValue = iOUData.sharedInstance.temporaryData.contract.monetaryValue
+    var tip = Double(iOUData.sharedInstance.temporaryData.tip)
+    tipPercentage.text = String(Int(tip)) + "%"
     
     if (iOUData.sharedInstance.temporaryData.includeTip)
     {
-      var tip = Double(iOUData.sharedInstance.temporaryData.tip)
       tip /= 100
       monetaryValue = monetaryValue * Double(1 + tip)
     }

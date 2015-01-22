@@ -10,14 +10,7 @@ import UIKit
 
 class IncludeTipCell: UITableViewCell
 {
-  @IBOutlet weak var tipPercentage: UILabel!
-  
-  
-  func loadData()
-  {
-    let tip = iOUData.sharedInstance.temporaryData.tip
-    tipPercentage.text = String(tip)
-  }
+ 
   
   @IBAction func toggleTip(sender: UISwitch)
   {

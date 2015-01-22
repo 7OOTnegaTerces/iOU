@@ -13,20 +13,12 @@ class EditMonetaryValueWithCalculatorCell: UITableViewCell, MonetaryValue
   @IBOutlet weak var contractCurrency: UIButton!
   @IBOutlet weak var monetaryValue: UITextField!
   
-  func loadData()
+  @IBAction func updateContractMonetaryValue(sender: UITextField)
   {
-    let currency = iOUData.sharedInstance.currency.rawValue
-    contractCurrency.setTitle(currency, forState: UIControlState.Normal)
-    let monetaryValue = iOUData.sharedInstance.temporaryData.contract.monetaryValue
-    self.monetaryValue.text = String(format: "%.2f", monetaryValue)
+    iOULogic.updateMonetaryValueText(sender: self, includeDecimal: true)
   }
   
-  @IBAction func changeContractMonetaryValue(sender: UITextField)
-  {
-    iOULogic.changeMonetaryValueText(sender: self, includeDecimal: true)
-  }
-  
-  @IBAction func changeCurrency(sender: UIButton)
+  @IBAction func updateCurrency(sender: UIButton)
   {
     //TODO - Implement Different Currencies.
   }

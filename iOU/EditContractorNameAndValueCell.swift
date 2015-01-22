@@ -12,41 +12,38 @@ class EditContractorNameAndValueCell: UITableViewCell, MonetaryValue, MonetaryVa
 {
   @IBOutlet weak var contractorName: UITextField!
   @IBOutlet weak var monetaryValue: UITextField!
-  @IBOutlet var monetaryValueWidthConstraint: NSLayoutConstraint!
-  private var includeDecimal: Bool!
+  @IBOutlet weak var takeUpSlack: UIButton!
+  @IBOutlet weak var monetaryValueWidthConstraint: NSLayoutConstraint!
+  internal var shouldTakeUpSlack: Bool!
   
   
-  func loadData()
+  @IBAction func toggleSlack(button: UIButton)
   {
-    let contractor = iOUData.sharedInstance.temporaryData.dynamicEditContractor
-    contractorName.text = contractor.key
+    shouldTakeUpSlack = !shouldTakeUpSlack
     
-    //If this cell is a lender or a borrower with fixed value shares, set includeDecimal to true and format monetaryValue.text approiately.
-    let id = iOUData.sharedInstance.temporaryData.dynamicEdit.id
-    let lenderShares = iOUData.sharedInstance.temporaryData.contract.lenderShares
-    let borrowerShares = iOUData.sharedInstance.temporaryData.contract.borrowerShares
-    
-    if ((id == "Lender" && lenderShares == Shares.Fixed) || (id == "Borrower" && borrowerShares == Shares.Fixed))
+    if (shouldTakeUpSlack!)
     {
-      monetaryValue.text = String(format: "%.2f", contractor.value)
-      includeDecimal = true
+      takeUpSlack.imageView!.image = UIImage(contentsOfFile: "Radio Button On")
+      iOUData.sharedInstance.temporaryData.takeUpSlackRow = iOUData.sharedInstance.temporaryData.dynamicEdit.cell.row
     }
     else
     {
-      monetaryValue.text = String(Int(contractor.value))
-      includeDecimal = false
+      takeUpSlack.imageView!.image = UIImage(contentsOfFile: "Radio Button Off")
+      iOUData.sharedInstance.temporaryData.takeUpSlackRow = 0
     }
+    
+    iOULogic.refreshViews()
   }
   
-  @IBAction func changeContractorName(sender: UITextField)
+  @IBAction func updateContractorName(sender: UITextField)
   {
-    //Whenever the user changes the contractor's name, update contractor.
+    //Whenever the user changes the Contractor's name, update Contractor.
     iOUData.sharedInstance.temporaryData.dynamicEditContractor.key = contractorName.text
   }
   
-  @IBAction func changeMonetaryValue(sender: UITextField)
+  @IBAction func updateMonetaryPercentage(sender: UITextField)
   {
-    iOULogic.changeMonetaryValueText(sender: self, includeDecimal: includeDecimal)
+    iOULogic.updateMonetaryValueText(sender: self, includeDecimal: true)
   }
   
   override func awakeFromNib()

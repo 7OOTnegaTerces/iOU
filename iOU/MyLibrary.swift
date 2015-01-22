@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 extension String
 {
@@ -85,6 +86,156 @@ extension Int
   }
 }
 
+
+
+
+
+func -=(inout lhs: Int!, rhs: Int)
+{
+  lhs = lhs - rhs
+}
+
+func +=(inout lhs: Int!, rhs: Int)
+{
+  lhs = lhs + rhs
+}
+
+func *=(inout lhs: Int!, rhs: Int)
+{
+  lhs = lhs * rhs
+}
+
+func /=(inout lhs: Int!, rhs: Int)
+{
+  lhs = lhs / rhs
+}
+
+func -=(inout lhs: Int, rhs: Int!)
+{
+  lhs = lhs - rhs
+}
+
+func +=(inout lhs: Int, rhs: Int!)
+{
+  lhs = lhs + rhs
+}
+
+func *=(inout lhs: Int, rhs: Int!)
+{
+  lhs = lhs * rhs
+}
+
+func /=(inout lhs: Int, rhs: Int!)
+{
+  lhs = lhs / rhs
+}
+
+infix operator %= { associativity left precedence 150 }
+
+func %=(inout lhs: Int, rhs: Int)
+{
+  lhs = lhs % rhs
+}
+
+func %=(inout lhs: Int!, rhs: Int)
+{
+  lhs = lhs % rhs
+}
+
+func %=(inout lhs: Int, rhs: Int!)
+{
+  lhs = lhs % rhs
+}
+
+func %=(inout lhs: Float, rhs: Float)
+{
+  lhs = lhs % rhs
+}
+
+func %=(inout lhs: Float!, rhs: Float)
+{
+  lhs = lhs % rhs
+}
+
+func %=(inout lhs: Float, rhs: Float!)
+{
+  lhs = lhs % rhs
+}
+
+func %=(inout lhs: Double, rhs: Double)
+{
+  lhs = lhs % rhs
+}
+
+func %=(inout lhs: Double!, rhs: Double)
+{
+  lhs = lhs % rhs
+}
+
+func %=(inout lhs: Double, rhs: Double!)
+{
+  lhs = lhs % rhs
+}
+
+func %=(inout lhs: Float, rhs: Int)
+{
+  lhs = lhs % Float(rhs)
+}
+
+func %=(inout lhs: Float!, rhs: Int)
+{
+  lhs = lhs % Float(rhs)
+}
+
+func %=(inout lhs: Float, rhs: Int!)
+{
+  lhs = lhs % Float(rhs)
+}
+
+func %=(inout lhs: Float!, rhs: Int!)
+{
+  lhs = lhs % Float(rhs)
+}
+
+func %=(inout lhs: Double, rhs: Int)
+{
+  lhs = lhs % Double(rhs)
+}
+
+func %=(inout lhs: Double!, rhs: Int)
+{
+  lhs = lhs % Double(rhs)
+}
+
+func %=(inout lhs: Double, rhs: Int!)
+{
+  lhs = lhs % Double(rhs)
+}
+
+func %=(inout lhs: Double!, rhs: Int!)
+{
+  lhs = lhs % Double(rhs)
+}
+
+func %=(inout lhs: Double, rhs: Float)
+{
+  lhs = lhs % Double(rhs)
+}
+
+func %=(inout lhs: Double!, rhs: Float)
+{
+  lhs = lhs % Double(rhs)
+}
+
+func %=(inout lhs: Double, rhs: Float!)
+{
+  lhs = lhs % Double(rhs)
+}
+
+func %=(inout lhs: Double!, rhs: Float!)
+{
+  lhs = lhs % Double(rhs)
+}
 
 
 

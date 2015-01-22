@@ -44,23 +44,25 @@ class iOUData
       saveToMainData("currency", dataValue: newValue.rawValue)
     }
   }
-//  var standardTip: Int
-//  {
-//    get
-//    {
-//      return mainData.valueForKey("standardTip")! as Int
-//    }
-//    set
-//    {
-//      saveToMainData("standardTip", dataValue: newValue)
-//    }
-//  }
+  var standardTip: Int
+  {
+    get
+    {
+      return mainData.valueForKey("standardTip")! as Int
+    }
+    set
+    {
+      saveToMainData("standardTip", dataValue: newValue)
+    }
+  }
   
   var temporaryData = TemporaryData()
   var newContract = Contract()
   var moneyContracts: [Contract] = []
   var itemContracts: [Contract] = []
   var serviceContracts: [Contract] = []
+  let loopRadius: Int = 25
+  var digits = [["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"], ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"], ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]]
   
   
   private init()
@@ -83,7 +85,7 @@ class iOUData
         //Initialize variables that do get saved.
         listType = ListType(rawValue: 0)!
         currency = Currency.USD
-//        standardTip = 15
+        standardTip = 15
       }
       else
       {
@@ -95,6 +97,46 @@ class iOUData
     {
       fatalError("Could not fetch \(error), \(error!.userInfo)")
     }
+  }
+  
+  func totalLenderPercentageUsed() -> (Int)
+  {
+    var percentage: Int = 0
+    let lenders = temporaryData.contract.lenders
+    let count = lenders.count
+    let lenderBeingEdited = temporaryData.dynamicEditContractor
+    let dynamicEditIndex = lenders.getIndex(forKey: lenderBeingEdited.key)
+    
+    for i in 0..<count
+    {
+      if (i != dynamicEditIndex)
+      {
+        let lender = lenders[i]
+        percentage += Int(lender.value)
+      }
+    }
+    
+    return percentage
+  }
+  
+  func totalBorrowerPercentageUsed() -> (Int)
+  {
+    var percentage: Int = 0
+    let borrowers = temporaryData.contract.borrowers
+    let count = borrowers.count
+    let borrowerBeingEdited = temporaryData.dynamicEditContractor
+    let dynamicEditIndex = borrowers.getIndex(forKey: borrowerBeingEdited.key)
+    
+    for i in 0..<count
+    {
+      if (i != dynamicEditIndex)
+      {
+        let borrower = borrowers[i]
+        percentage += Int(borrower.value)
+      }
+    }
+    
+    return percentage
   }
   
   func resetNewContractData()
@@ -132,8 +174,9 @@ class TemporaryData
   var warnSource = ""
   var contract = Contract()
   var takeUpSlackRow = Int()
-  var dynamicEditContractor = (key: "", value: Double(0))
-//  var contractorsTemporary = SortableDictionary<String, Double>()
+  var dynamicEditContractor = (key: "", value: (parts: Int(0), percent: Int(0), fixed: Double(0)))
+  var lendersTemporary = SortableDictionary<String, (parts: Int, percent: Int, fixed: Double)>()
+  var borrowersTemporary = SortableDictionary<String, (parts: Int, percent: Int, fixed: Double)>()
   var displayLenders = false
   var displayBorrowers = false
   var includeTip = false
@@ -149,12 +192,13 @@ class TemporaryData
     warnSource = ""
     contract = Contract()
     takeUpSlackRow = Int()
-    dynamicEditContractor = (key: "", value: Double(0))
-//    contractorsTemporary = SortableDictionary<String, Double>()
+    dynamicEditContractor = (key: "", value: (parts: Int(0), percent: Int(0), fixed: Double(0)))
+    lendersTemporary = SortableDictionary<String, (parts: Int, percent: Int, fixed: Double)>()
+    borrowersTemporary = SortableDictionary<String, (parts: Int, percent: Int, fixed: Double)>()
     displayLenders = false
     displayBorrowers = false
     includeTip = false
-    tip = 15
+    tip = iOUData.sharedInstance.standardTip
     displayCalculator = false
     calculatorValue = nil
     calculatorOperator = Operation.Add
@@ -425,6 +469,17 @@ class Contract
     contractExpectationsMinimum  = contract.contractExpectationsMinimum
     contractExpectationsMaximum  = contract.contractExpectationsMaximum
   }
+}
+
+
+
+
+
+protocol PercentagePicker
+{
+  var percentage: UIPickerView! { get }
+  var saved: (onesDigit: Int!, tensDigit: Int!, hundredsDigit: Int!) { get set }
+  var current: (onesDigit: Int!, tensDigit: Int!, hundredsDigit: Int!) { get set }
 }
 
 

@@ -34,7 +34,7 @@
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                         <connections>
-                            <action selector="changeCurrency:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="N4L-yU-oY0"/>
+                            <action selector="updateCurrency:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="UtV-Xc-dVt"/>
                         </connections>
                     </button>
                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="$0.00" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Jss-GK-WjW">
@@ -45,7 +45,7 @@
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <textInputTraits key="textInputTraits"/>
                         <connections>
-                            <action selector="changeContractMonetaryValue:" destination="KGk-i7-Jjw" eventType="editingChanged" id="txj-4g-i0a"/>
+                            <action selector="updateContractMonetaryValue:" destination="KGk-i7-Jjw" eventType="editingChanged" id="gaN-K5-k7i"/>
                         </connections>
                     </textField>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lmx-uQ-qOk">

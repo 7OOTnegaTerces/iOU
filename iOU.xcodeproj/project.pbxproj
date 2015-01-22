@@ -9,12 +9,10 @@
 /* Begin PBXBuildFile section */
 		D9072B5D1A59FD5B00904E63 /* EditMonetaryValueCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9072B5C1A59FD5B00904E63 /* EditMonetaryValueCell.xib */; };
 		D9072B611A5A00AD00904E63 /* EditMonetaryValueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9072B601A5A00AD00904E63 /* EditMonetaryValueCell.swift */; };
-		D9143F501A648C4500DFC754 /* ContractorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9143F4F1A648C4500DFC754 /* ContractorCell.swift */; };
-		D9143F521A648E8100DFC754 /* ContractorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9143F511A648E8100DFC754 /* ContractorCell.xib */; };
-		D9143F551A648FDB00DFC754 /* EditContractorNameAndValueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9143F531A648FDB00DFC754 /* EditContractorNameAndValueCell.swift */; };
-		D9143F561A648FDB00DFC754 /* EditContractorNameAndValueCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9143F541A648FDB00DFC754 /* EditContractorNameAndValueCell.xib */; };
-		D9143F591A649A6400DFC754 /* EditLenderNameAndValuePercentageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9143F571A649A6400DFC754 /* EditLenderNameAndValuePercentageCell.swift */; };
-		D9143F5A1A649A6400DFC754 /* EditLenderNameAndValuePercentageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9143F581A649A6400DFC754 /* EditLenderNameAndValuePercentageCell.xib */; };
+		D9143F591A649A6400DFC754 /* EditContractorNameAndPercentageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9143F571A649A6400DFC754 /* EditContractorNameAndPercentageCell.swift */; };
+		D9143F5A1A649A6400DFC754 /* EditContractorNameAndPercentageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9143F581A649A6400DFC754 /* EditContractorNameAndPercentageCell.xib */; };
+		D91697BA1A68649000627758 /* EditTipPercentageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91697B81A68649000627758 /* EditTipPercentageCell.swift */; };
+		D91697BB1A68649000627758 /* EditTipPercentageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D91697B91A68649000627758 /* EditTipPercentageCell.xib */; };
 		D91E9A891A633BDD0002F52B /* NewContractLenders.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91E9A881A633BDD0002F52B /* NewContractLenders.swift */; };
 		D91E9A8B1A6350A50002F52B /* MyLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91E9A8A1A6350A50002F52B /* MyLibrary.swift */; };
 		D95376B31A1DC3A100BF4935 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95376B21A1DC3A100BF4935 /* AppDelegate.swift */; };
@@ -29,16 +27,19 @@
 		D95377171A1EB60800BF4935 /* iOULogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95377161A1EB60800BF4935 /* iOULogic.swift */; };
 		D95377191A1ED1BC00BF4935 /* NewContractController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95377181A1ED1BC00BF4935 /* NewContractController.swift */; };
 		D9545D671A5E1049004D0666 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D95376B91A1DC3A100BF4935 /* Main.storyboard */; };
-		D9545D681A5E1078004D0666 /* LenderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BF700B1A5E0CDE00F8EBD6 /* LenderCell.swift */; };
-		D986DB1E1A59E66400BC4AC3 /* EditLenderNameAndValueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D986DB1D1A59E66400BC4AC3 /* EditLenderNameAndValueCell.swift */; };
+		D9545D681A5E1078004D0666 /* ContractorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BF700B1A5E0CDE00F8EBD6 /* ContractorCell.swift */; };
+		D986DB1E1A59E66400BC4AC3 /* EditContractorNameAndValueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D986DB1D1A59E66400BC4AC3 /* EditContractorNameAndValueCell.swift */; };
 		D9BF700A1A5CF91500F8EBD6 /* ModalWaringController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BF70091A5CF91500F8EBD6 /* ModalWaringController.swift */; };
+		D9C869491A6F84B600BA5CAC /* EditContractorECell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C869471A6F84B600BA5CAC /* EditContractorECell.swift */; };
+		D9C8694A1A6F84B600BA5CAC /* EditContractorNameCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9C869481A6F84B600BA5CAC /* EditContractorNameCell.xib */; };
+		D9C8694C1A70647C00BA5CAC /* EditContractorNameAndValueCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9C8694B1A70647C00BA5CAC /* EditContractorNameAndValueCell.xib */; };
+		D9C8694E1A706E3200BA5CAC /* EditContractorNameAndPercentageLandscapeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9C8694D1A706E3200BA5CAC /* EditContractorNameAndPercentageLandscapeCell.xib */; };
+		D9C869501A7071F700BA5CAC /* EditContractorNameLandscapeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9C8694F1A7071F700BA5CAC /* EditContractorNameLandscapeCell.xib */; };
 		D9CA725F1A677CAA00621C32 /* EditTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CA725D1A677CAA00621C32 /* EditTitleCell.swift */; };
 		D9CA72601A677CAA00621C32 /* EditTitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9CA725E1A677CAA00621C32 /* EditTitleCell.xib */; };
 		D9D7FE131A5FCA0800F48C39 /* IncludeTipCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D7FE121A5FCA0800F48C39 /* IncludeTipCell.swift */; };
-		D9E6F0511A5E79CF00E388EE /* EditContractorNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E6F0501A5E79CF00E388EE /* EditContractorNameCell.swift */; };
-		D9E6F0531A5FB45B00E388EE /* EditLenderNameAndValueCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9E6F0521A5FB45B00E388EE /* EditLenderNameAndValueCell.xib */; };
-		D9E6F0551A5FB85500E388EE /* EditContractorNameCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9E6F0541A5FB85500E388EE /* EditContractorNameCell.xib */; };
-		D9E6F0571A5FBA8200E388EE /* LenderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9E6F0561A5FBA8200E388EE /* LenderCell.xib */; };
+		D9E6F0531A5FB45B00E388EE /* EditContractorNameAndValueLandscapeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9E6F0521A5FB45B00E388EE /* EditContractorNameAndValueLandscapeCell.xib */; };
+		D9E6F0571A5FBA8200E388EE /* ContractorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9E6F0561A5FBA8200E388EE /* ContractorCell.xib */; };
 		D9F5A7621A60932A00B1B007 /* EditMonetaryValueWithCalculatorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F5A7601A60932A00B1B007 /* EditMonetaryValueWithCalculatorCell.swift */; };
 		D9F5A7631A60932A00B1B007 /* EditMonetaryValueWithCalculatorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9F5A7611A60932A00B1B007 /* EditMonetaryValueWithCalculatorCell.xib */; };
 /* End PBXBuildFile section */
@@ -59,12 +60,10 @@
 		D905290F1A4E70B70034E252 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		D9072B5C1A59FD5B00904E63 /* EditMonetaryValueCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditMonetaryValueCell.xib; sourceTree = "<group>"; };
 		D9072B601A5A00AD00904E63 /* EditMonetaryValueCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditMonetaryValueCell.swift; sourceTree = "<group>"; };
-		D9143F4F1A648C4500DFC754 /* ContractorCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContractorCell.swift; sourceTree = "<group>"; };
-		D9143F511A648E8100DFC754 /* ContractorCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContractorCell.xib; sourceTree = "<group>"; };
-		D9143F531A648FDB00DFC754 /* EditContractorNameAndValueCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditContractorNameAndValueCell.swift; sourceTree = "<group>"; };
-		D9143F541A648FDB00DFC754 /* EditContractorNameAndValueCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditContractorNameAndValueCell.xib; sourceTree = "<group>"; };
-		D9143F571A649A6400DFC754 /* EditLenderNameAndValuePercentageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditLenderNameAndValuePercentageCell.swift; sourceTree = "<group>"; };
-		D9143F581A649A6400DFC754 /* EditLenderNameAndValuePercentageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditLenderNameAndValuePercentageCell.xib; sourceTree = "<group>"; };
+		D9143F571A649A6400DFC754 /* EditContractorNameAndPercentageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditContractorNameAndPercentageCell.swift; sourceTree = "<group>"; };
+		D9143F581A649A6400DFC754 /* EditContractorNameAndPercentageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditContractorNameAndPercentageCell.xib; sourceTree = "<group>"; };
+		D91697B81A68649000627758 /* EditTipPercentageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditTipPercentageCell.swift; sourceTree = "<group>"; };
+		D91697B91A68649000627758 /* EditTipPercentageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditTipPercentageCell.xib; sourceTree = "<group>"; };
 		D91E9A881A633BDD0002F52B /* NewContractLenders.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewContractLenders.swift; sourceTree = "<group>"; };
 		D91E9A8A1A6350A50002F52B /* MyLibrary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyLibrary.swift; sourceTree = "<group>"; };
 		D95376AD1A1DC3A100BF4935 /* iOU.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOU.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -83,16 +82,19 @@
 		D95377141A1E06D200BF4935 /* UncoverVerticalSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UncoverVerticalSegue.swift; sourceTree = "<group>"; };
 		D95377161A1EB60800BF4935 /* iOULogic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iOULogic.swift; sourceTree = "<group>"; };
 		D95377181A1ED1BC00BF4935 /* NewContractController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewContractController.swift; sourceTree = "<group>"; };
-		D986DB1D1A59E66400BC4AC3 /* EditLenderNameAndValueCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditLenderNameAndValueCell.swift; sourceTree = "<group>"; };
+		D986DB1D1A59E66400BC4AC3 /* EditContractorNameAndValueCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditContractorNameAndValueCell.swift; sourceTree = "<group>"; };
 		D9BF70091A5CF91500F8EBD6 /* ModalWaringController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModalWaringController.swift; sourceTree = "<group>"; };
-		D9BF700B1A5E0CDE00F8EBD6 /* LenderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LenderCell.swift; sourceTree = "<group>"; };
+		D9BF700B1A5E0CDE00F8EBD6 /* ContractorCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContractorCell.swift; sourceTree = "<group>"; };
+		D9C869471A6F84B600BA5CAC /* EditContractorECell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditContractorECell.swift; sourceTree = "<group>"; };
+		D9C869481A6F84B600BA5CAC /* EditContractorNameCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditContractorNameCell.xib; sourceTree = "<group>"; };
+		D9C8694B1A70647C00BA5CAC /* EditContractorNameAndValueCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditContractorNameAndValueCell.xib; sourceTree = "<group>"; };
+		D9C8694D1A706E3200BA5CAC /* EditContractorNameAndPercentageLandscapeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditContractorNameAndPercentageLandscapeCell.xib; sourceTree = "<group>"; };
+		D9C8694F1A7071F700BA5CAC /* EditContractorNameLandscapeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditContractorNameLandscapeCell.xib; sourceTree = "<group>"; };
 		D9CA725D1A677CAA00621C32 /* EditTitleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditTitleCell.swift; sourceTree = "<group>"; };
 		D9CA725E1A677CAA00621C32 /* EditTitleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditTitleCell.xib; sourceTree = "<group>"; };
 		D9D7FE121A5FCA0800F48C39 /* IncludeTipCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncludeTipCell.swift; sourceTree = "<group>"; };
-		D9E6F0501A5E79CF00E388EE /* EditContractorNameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditContractorNameCell.swift; path = Images.xcassets/EditContractorNameCell.swift; sourceTree = "<group>"; };
-		D9E6F0521A5FB45B00E388EE /* EditLenderNameAndValueCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditLenderNameAndValueCell.xib; sourceTree = "<group>"; };
-		D9E6F0541A5FB85500E388EE /* EditContractorNameCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditContractorNameCell.xib; sourceTree = "<group>"; };
-		D9E6F0561A5FBA8200E388EE /* LenderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LenderCell.xib; sourceTree = "<group>"; };
+		D9E6F0521A5FB45B00E388EE /* EditContractorNameAndValueLandscapeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditContractorNameAndValueLandscapeCell.xib; sourceTree = "<group>"; };
+		D9E6F0561A5FBA8200E388EE /* ContractorCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContractorCell.xib; sourceTree = "<group>"; };
 		D9F5A7601A60932A00B1B007 /* EditMonetaryValueWithCalculatorCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditMonetaryValueWithCalculatorCell.swift; sourceTree = "<group>"; };
 		D9F5A7611A60932A00B1B007 /* EditMonetaryValueWithCalculatorCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditMonetaryValueWithCalculatorCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -150,18 +152,19 @@
 				D9F5A7601A60932A00B1B007 /* EditMonetaryValueWithCalculatorCell.swift */,
 				D9F5A7611A60932A00B1B007 /* EditMonetaryValueWithCalculatorCell.xib */,
 				D9D7FE121A5FCA0800F48C39 /* IncludeTipCell.swift */,
-				D9143F531A648FDB00DFC754 /* EditContractorNameAndValueCell.swift */,
-				D9143F541A648FDB00DFC754 /* EditContractorNameAndValueCell.xib */,
-				D9E6F0501A5E79CF00E388EE /* EditContractorNameCell.swift */,
-				D9E6F0541A5FB85500E388EE /* EditContractorNameCell.xib */,
-				D9143F4F1A648C4500DFC754 /* ContractorCell.swift */,
-				D9143F511A648E8100DFC754 /* ContractorCell.xib */,
-				D986DB1D1A59E66400BC4AC3 /* EditLenderNameAndValueCell.swift */,
-				D9E6F0521A5FB45B00E388EE /* EditLenderNameAndValueCell.xib */,
-				D9143F571A649A6400DFC754 /* EditLenderNameAndValuePercentageCell.swift */,
-				D9143F581A649A6400DFC754 /* EditLenderNameAndValuePercentageCell.xib */,
-				D9BF700B1A5E0CDE00F8EBD6 /* LenderCell.swift */,
-				D9E6F0561A5FBA8200E388EE /* LenderCell.xib */,
+				D91697B81A68649000627758 /* EditTipPercentageCell.swift */,
+				D91697B91A68649000627758 /* EditTipPercentageCell.xib */,
+				D986DB1D1A59E66400BC4AC3 /* EditContractorNameAndValueCell.swift */,
+				D9C8694B1A70647C00BA5CAC /* EditContractorNameAndValueCell.xib */,
+				D9E6F0521A5FB45B00E388EE /* EditContractorNameAndValueLandscapeCell.xib */,
+				D9143F571A649A6400DFC754 /* EditContractorNameAndPercentageCell.swift */,
+				D9143F581A649A6400DFC754 /* EditContractorNameAndPercentageCell.xib */,
+				D9C8694D1A706E3200BA5CAC /* EditContractorNameAndPercentageLandscapeCell.xib */,
+				D9C869471A6F84B600BA5CAC /* EditContractorECell.swift */,
+				D9C869481A6F84B600BA5CAC /* EditContractorNameCell.xib */,
+				D9C8694F1A7071F700BA5CAC /* EditContractorNameLandscapeCell.xib */,
+				D9BF700B1A5E0CDE00F8EBD6 /* ContractorCell.swift */,
+				D9E6F0561A5FBA8200E388EE /* ContractorCell.xib */,
 				D95376D71A1DC43F00BF4935 /* MainInterfaceContoller.swift */,
 				D95376B71A1DC3A100BF4935 /* ViewController.swift */,
 				D95377181A1ED1BC00BF4935 /* NewContractController.swift */,
@@ -282,18 +285,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D9E6F0571A5FBA8200E388EE /* LenderCell.xib in Resources */,
-				D9143F561A648FDB00DFC754 /* EditContractorNameAndValueCell.xib in Resources */,
-				D9143F521A648E8100DFC754 /* ContractorCell.xib in Resources */,
+				D9E6F0571A5FBA8200E388EE /* ContractorCell.xib in Resources */,
 				D9072B5D1A59FD5B00904E63 /* EditMonetaryValueCell.xib in Resources */,
-				D9E6F0551A5FB85500E388EE /* EditContractorNameCell.xib in Resources */,
-				D9143F5A1A649A6400DFC754 /* EditLenderNameAndValuePercentageCell.xib in Resources */,
-				D9E6F0531A5FB45B00E388EE /* EditLenderNameAndValueCell.xib in Resources */,
+				D9C8694E1A706E3200BA5CAC /* EditContractorNameAndPercentageLandscapeCell.xib in Resources */,
+				D9143F5A1A649A6400DFC754 /* EditContractorNameAndPercentageCell.xib in Resources */,
+				D9E6F0531A5FB45B00E388EE /* EditContractorNameAndValueLandscapeCell.xib in Resources */,
+				D9C8694A1A6F84B600BA5CAC /* EditContractorNameCell.xib in Resources */,
 				D95376C01A1DC3A100BF4935 /* LaunchScreen.xib in Resources */,
+				D91697BB1A68649000627758 /* EditTipPercentageCell.xib in Resources */,
 				D9F5A7631A60932A00B1B007 /* EditMonetaryValueWithCalculatorCell.xib in Resources */,
 				D95376BD1A1DC3A100BF4935 /* Images.xcassets in Resources */,
+				D9C8694C1A70647C00BA5CAC /* EditContractorNameAndValueCell.xib in Resources */,
 				D9CA72601A677CAA00621C32 /* EditTitleCell.xib in Resources */,
 				D9545D671A5E1049004D0666 /* Main.storyboard in Resources */,
+				D9C869501A7071F700BA5CAC /* EditContractorNameLandscapeCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,26 +317,25 @@
 			buildActionMask = 2147483647;
 			files = (
 				D95376B81A1DC3A100BF4935 /* ViewController.swift in Sources */,
+				D9C869491A6F84B600BA5CAC /* EditContractorECell.swift in Sources */,
 				D91E9A891A633BDD0002F52B /* NewContractLenders.swift in Sources */,
 				D9CA725F1A677CAA00621C32 /* EditTitleCell.swift in Sources */,
+				D91697BA1A68649000627758 /* EditTipPercentageCell.swift in Sources */,
 				D9D7FE131A5FCA0800F48C39 /* IncludeTipCell.swift in Sources */,
 				D91E9A8B1A6350A50002F52B /* MyLibrary.swift in Sources */,
-				D9143F591A649A6400DFC754 /* EditLenderNameAndValuePercentageCell.swift in Sources */,
+				D9143F591A649A6400DFC754 /* EditContractorNameAndPercentageCell.swift in Sources */,
 				D9F5A7621A60932A00B1B007 /* EditMonetaryValueWithCalculatorCell.swift in Sources */,
 				D95376D81A1DC43F00BF4935 /* MainInterfaceContoller.swift in Sources */,
 				D95377151A1E06D200BF4935 /* UncoverVerticalSegue.swift in Sources */,
 				D95377131A1DE37B00BF4935 /* iOU.xcdatamodeld in Sources */,
 				D95377171A1EB60800BF4935 /* iOULogic.swift in Sources */,
 				D9072B611A5A00AD00904E63 /* EditMonetaryValueCell.swift in Sources */,
-				D9143F501A648C4500DFC754 /* ContractorCell.swift in Sources */,
 				D95376B31A1DC3A100BF4935 /* AppDelegate.swift in Sources */,
 				D95376D61A1DC43700BF4935 /* iOUData.swift in Sources */,
-				D9E6F0511A5E79CF00E388EE /* EditContractorNameCell.swift in Sources */,
-				D9143F551A648FDB00DFC754 /* EditContractorNameAndValueCell.swift in Sources */,
 				D95377191A1ED1BC00BF4935 /* NewContractController.swift in Sources */,
-				D986DB1E1A59E66400BC4AC3 /* EditLenderNameAndValueCell.swift in Sources */,
+				D986DB1E1A59E66400BC4AC3 /* EditContractorNameAndValueCell.swift in Sources */,
 				D9BF700A1A5CF91500F8EBD6 /* ModalWaringController.swift in Sources */,
-				D9545D681A5E1078004D0666 /* LenderCell.swift in Sources */,
+				D9545D681A5E1078004D0666 /* ContractorCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
