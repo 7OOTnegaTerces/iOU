@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EditTitleCell: UITableViewCell
+class EditTitleCell: UITableViewCell, Focus
 {
   @IBOutlet weak var contractTitle: UITextField!
   @IBOutlet weak var contractType: UISegmentedControl!
@@ -17,12 +17,22 @@ class EditTitleCell: UITableViewCell
   @IBAction func changeTitle(sender: UITextField)
   {
     //Whenever the user changes the iOU contract's title, update it.
-    iOUData.sharedInstance.temporaryData.contract.title = contractTitle.text
+    iOUData.sharedInstance.contractTemporaryData.contract.title = contractTitle.text
   }
   
   @IBAction func changeType(sender: UISegmentedControl)
   {
     //TODO - Finish!!!
+  }
+  
+  func setFocus()
+  {
+    contractTitle.becomeFirstResponder()
+  }
+  
+  func clearFocus()
+  {
+    contractTitle.resignFirstResponder()
   }
   
   override func awakeFromNib()

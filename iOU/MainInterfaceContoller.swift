@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class MainInterfaceController: UIViewController, Segueable, Refreshable
+class MainInterfaceController: UIViewController, Segueable
 {
   @IBOutlet weak var listType: UISegmentedControl!
   
@@ -39,16 +39,6 @@ class MainInterfaceController: UIViewController, Segueable, Refreshable
     
   }
   
-  func reloadData()
-  {
-    //TODO -Finish!!!
-  }
-  
-  func refreshView(notification: NSNotification)
-  {
-    //TODO - Finish!!!
-  }
-  
   @IBAction func changeList(sender: UISegmentedControl)
   {
     iOUData.sharedInstance.listType = ListType(rawValue: listType.selectedSegmentIndex)!
@@ -56,7 +46,7 @@ class MainInterfaceController: UIViewController, Segueable, Refreshable
   
   func segueToNewContractTitle(sender: UIBarButtonItem)
   {
-    iOULogic.segueToNewContract(self)
+    EditContractLogic.segueToNewContract(self)
   }
   
   func segueToFastAdd(sender: UIBarButtonItem)

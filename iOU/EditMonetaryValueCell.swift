@@ -8,14 +8,14 @@
 
 import UIKit
 
-class EditMonetaryValueCell: UITableViewCell, MonetaryValue
+class EditMonetaryValueCell: UITableViewCell, MonetaryValue, Focus
 {
   @IBOutlet weak var contractCurrency: UIButton!
   @IBOutlet weak var monetaryValue: UITextField!
   
   @IBAction func updateContractMonetaryValue(sender: UITextField)
   {
-    iOULogic.updateMonetaryValueText(sender: self, includeDecimal: true)
+    EditContractLogic.updateMonetaryValue(sender)
   }
   
   @IBAction func updateCurrency(sender: UIButton)
@@ -25,20 +25,28 @@ class EditMonetaryValueCell: UITableViewCell, MonetaryValue
 
   @IBAction func displayCalculator(sender: UIButton)
   {
-    iOUData.sharedInstance.temporaryData.displayCalculator = true
-    NSNotificationCenter.defaultCenter().postNotificationName("Refresh", object: nil)
+    EditContractLogic.displayCalculator(true)
+  }
+  
+  func setFocus()
+  {
+    monetaryValue.becomeFirstResponder()
+  }
+  
+  func clearFocus()
+  {
+    monetaryValue.resignFirstResponder()
   }
   
   override func awakeFromNib()
   {
-        super.awakeFromNib()
-        // Initialization code
+    super.awakeFromNib()
+    // Initialization code
   }
   
   override func setSelected(selected: Bool, animated: Bool)
   {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    super.setSelected(selected, animated: animated)
+    // Configure the view for the selected state
   }
 }

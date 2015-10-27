@@ -2,37 +2,35 @@
 //  ContractorCell.swift
 //  iOU
 //
-//  Created by Tateni Urio on 1/7/15.
+//  Created by Tateni Urio on 2/2/15.
 //  Copyright (c) 2015 Tateni Urio. All rights reserved.
 //
 
 import UIKit
 
-class ContractorCell: UITableViewCell, MonetaryValueAdjustableWidth
+class ContractorCell: UITableViewCell
 {
-  @IBOutlet weak var contractorName: UILabel!
-  @IBOutlet weak var monetaryValue: UILabel!
+  @IBOutlet weak var currency: UIButton!
   @IBOutlet weak var takeUpSlack: UIButton!
-  @IBOutlet var monetaryValueWidthConstraint: NSLayoutConstraint!
-  internal var shouldTakeUpSlack: Bool!
+  internal var isLenderCell: Bool!
+  internal var row: Int!
+  internal var cell: UITableViewCell
+    {
+    get
+    {
+      return self
+    }
+  }
   
   
   @IBAction func toggleSlack(button: UIButton)
   {
-    shouldTakeUpSlack = !shouldTakeUpSlack
-    
-    if (shouldTakeUpSlack!)
-    {
-      takeUpSlack.imageView!.image = UIImage(contentsOfFile: "Radio Button On")
-      iOUData.sharedInstance.temporaryData.takeUpSlackRow = iOUData.sharedInstance.temporaryData.dynamicEdit.cell.row
-    }
-    else
-    {
-      takeUpSlack.imageView!.image = UIImage(contentsOfFile: "Radio Button Off")
-      iOUData.sharedInstance.temporaryData.takeUpSlackRow = 0
-    }
-    
-    iOULogic.refreshViews()
+    EditContractLogic.toggleContractorSlackButton(self)
+  }
+  
+  @IBAction func updateCurrency(sender: UIButton)
+  {
+    //TODO - Implement Different Currencies.
   }
   
   override func awakeFromNib()

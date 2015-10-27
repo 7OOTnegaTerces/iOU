@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SelfPartPercentageCell" id="9Zm-9f-VTp" customClass="SelfPartPercentageCell" customModule="iOU" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9Zm-9f-VTp" id="1AM-1f-2co">
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oJ5-wZ-JrC">
+                        <rect key="frame" x="8" y="12" width="30" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="30" id="U63-px-eLn"/>
+                            <constraint firstAttribute="height" constant="20" id="mnU-ym-19T"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="constraints">
+                                <exclude reference="U63-px-eLn"/>
+                            </mask>
+                        </variation>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="000% (000%)" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dgv-Hd-RLf">
+                        <rect key="frame" x="42" y="12" width="99.5" height="19.5"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="L9i-k6-soc"/>
+                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="100" id="NWT-f0-Kjv"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <color key="textColor" red="0.4823529412" green="0.4823529412" blue="0.50588235290000005" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iTf-Y5-XU6">
+                        <rect key="frame" x="145" y="7" width="35" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="1Ja-jd-JhD"/>
+                            <constraint firstAttribute="width" constant="35" id="fZO-5z-f8c"/>
+                        </constraints>
+                        <state key="normal" title="Curr">
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="updateCurrency:" destination="9Zm-9f-VTp" eventType="touchUpInside" id="g0A-d9-XfD"/>
+                        </connections>
+                    </button>
+                    <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" horizontalHuggingPriority="252" text="0.00 (0.00)" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cgh-Ky-PQl">
+                        <rect key="frame" x="184" y="12" width="76.5" height="19.5"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="O6d-qY-siJ"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <color key="textColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4F5-ll-CwF">
+                        <rect key="frame" x="265" y="11" width="22" height="22"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="22" id="9TN-Ir-Dcq"/>
+                            <constraint firstAttribute="height" constant="22" id="nfy-1W-BTL"/>
+                        </constraints>
+                        <state key="normal" image="Radio Button Off">
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="toggleSlack:" destination="9Zm-9f-VTp" eventType="touchUpInside" id="LKt-r5-B6D"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="centerY" secondItem="iTf-Y5-XU6" secondAttribute="centerY" id="38k-qC-YcY"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="iTf-Y5-XU6" secondAttribute="bottom" constant="-1.5" id="5wo-fP-2QG"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="4F5-ll-CwF" secondAttribute="bottom" constant="2.5" id="9cS-xB-CNt"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="cgh-Ky-PQl" secondAttribute="bottom" constant="4" id="Abh-3G-iQU"/>
+                    <constraint firstAttribute="centerY" secondItem="cgh-Ky-PQl" secondAttribute="centerY" id="Cz7-bL-g1V"/>
+                    <constraint firstItem="iTf-Y5-XU6" firstAttribute="leading" secondItem="dgv-Hd-RLf" secondAttribute="trailing" constant="4" id="QNL-FX-3tZ"/>
+                    <constraint firstItem="oJ5-wZ-JrC" firstAttribute="top" secondItem="1AM-1f-2co" secondAttribute="topMargin" constant="3.5" id="QPh-fg-aue"/>
+                    <constraint firstAttribute="trailing" secondItem="oJ5-wZ-JrC" secondAttribute="trailing" id="V4t-XX-tat"/>
+                    <constraint firstItem="oJ5-wZ-JrC" firstAttribute="leading" secondItem="1AM-1f-2co" secondAttribute="leadingMargin" id="a5z-bR-LE3"/>
+                    <constraint firstItem="dgv-Hd-RLf" firstAttribute="leading" secondItem="1AM-1f-2co" secondAttribute="leadingMargin" id="bXH-CI-Xhl"/>
+                    <constraint firstAttribute="centerY" secondItem="4F5-ll-CwF" secondAttribute="centerY" id="ewJ-Jc-gBI"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="dgv-Hd-RLf" secondAttribute="bottom" constant="4" id="hcB-WR-C27"/>
+                    <constraint firstItem="cgh-Ky-PQl" firstAttribute="leading" secondItem="iTf-Y5-XU6" secondAttribute="trailing" constant="4" id="j6d-Oz-ZuD"/>
+                    <constraint firstAttribute="trailing" secondItem="4F5-ll-CwF" secondAttribute="trailing" id="rSw-mg-XT9"/>
+                    <constraint firstAttribute="centerY" secondItem="oJ5-wZ-JrC" secondAttribute="centerY" id="rhP-N4-hIH"/>
+                    <constraint firstItem="4F5-ll-CwF" firstAttribute="leading" secondItem="cgh-Ky-PQl" secondAttribute="trailing" constant="4" id="xTN-am-uDW"/>
+                    <constraint firstAttribute="centerY" secondItem="dgv-Hd-RLf" secondAttribute="centerY" id="y5b-If-6MJ"/>
+                </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="QPh-fg-aue"/>
+                        <exclude reference="V4t-XX-tat"/>
+                        <exclude reference="bXH-CI-Xhl"/>
+                        <exclude reference="hcB-WR-C27"/>
+                        <exclude reference="5wo-fP-2QG"/>
+                        <exclude reference="Abh-3G-iQU"/>
+                        <exclude reference="9cS-xB-CNt"/>
+                    </mask>
+                </variation>
+                <variation key="heightClass=regular-widthClass=compact">
+                    <mask key="constraints">
+                        <include reference="QPh-fg-aue"/>
+                        <include reference="V4t-XX-tat"/>
+                        <exclude reference="rhP-N4-hIH"/>
+                        <include reference="bXH-CI-Xhl"/>
+                        <include reference="hcB-WR-C27"/>
+                        <exclude reference="y5b-If-6MJ"/>
+                        <exclude reference="38k-qC-YcY"/>
+                        <include reference="5wo-fP-2QG"/>
+                        <exclude reference="QNL-FX-3tZ"/>
+                        <include reference="Abh-3G-iQU"/>
+                        <exclude reference="Cz7-bL-g1V"/>
+                        <include reference="9cS-xB-CNt"/>
+                        <exclude reference="ewJ-Jc-gBI"/>
+                    </mask>
+                </variation>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="currency" destination="iTf-Y5-XU6" id="G4U-hv-rb9"/>
+                <outlet property="monetaryLabel" destination="cgh-Ky-PQl" id="Cfm-az-7Fz"/>
+                <outlet property="monetaryShare" destination="dgv-Hd-RLf" id="l4p-G4-0ON"/>
+                <outlet property="takeUpSlack" destination="4F5-ll-CwF" id="beV-fD-jU5"/>
+            </connections>
+            <point key="canvasLocation" x="316" y="386"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="Radio Button Off" width="32" height="32"/>
+    </resources>
+</document>

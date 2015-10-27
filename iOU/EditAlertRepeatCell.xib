@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="EditAlertRepeatCell" customModule="iOU" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="160"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="afO-Yv-Oad" userLabel="Percentage Picker Container">
+                        <rect key="frame" x="35" y="120" width="250" height="30"/>
+                        <subviews>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vSd-eI-58k">
+                                <rect key="frame" x="0.0" y="-66" width="250" height="162"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="162" id="llh-h5-T3N"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="dataSource" destination="KGk-i7-Jjw" id="Iod-hj-b2D"/>
+                                    <outlet property="delegate" destination="KGk-i7-Jjw" id="UlD-IK-QVN"/>
+                                </connections>
+                            </pickerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="vSd-eI-58k" firstAttribute="leading" secondItem="afO-Yv-Oad" secondAttribute="leading" id="2yX-Y5-7mZ"/>
+                            <constraint firstAttribute="trailing" secondItem="vSd-eI-58k" secondAttribute="trailing" id="HJh-BQ-KJz"/>
+                            <constraint firstAttribute="height" constant="30" id="HPi-Or-TXk"/>
+                            <constraint firstAttribute="width" constant="250" id="fww-UW-w74"/>
+                            <constraint firstAttribute="centerY" secondItem="vSd-eI-58k" secondAttribute="centerY" id="nzT-vt-Vhg"/>
+                        </constraints>
+                    </view>
+                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="ScM-Zp-pdN">
+                        <rect key="frame" x="35" y="84" width="250" height="29"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="250" id="L7x-Bv-2jp"/>
+                        </constraints>
+                        <segments>
+                            <segment title="Simple..."/>
+                            <segment title="Month..."/>
+                            <segment title="Days..."/>
+                        </segments>
+                        <connections>
+                            <action selector="changeRepeatType:" destination="KGk-i7-Jjw" eventType="valueChanged" id="lSM-Yb-7Se"/>
+                        </connections>
+                    </segmentedControl>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rdc-AF-LU6">
+                        <rect key="frame" x="35" y="8" width="250" height="30"/>
+                        <color key="backgroundColor" red="0.7843137255" green="0.7843137255" blue="0.7843137255" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="250" id="Rig-LW-wk9"/>
+                        </constraints>
+                        <state key="normal" title="Repeat Pattern">
+                            <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="titleShadowColor" red="0.78431372549019607" green="0.78431372549019607" blue="0.78431372549019607" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
+                        <connections>
+                            <action selector="editRepeatPattern:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="l9L-5K-2jL"/>
+                        </connections>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="opu-X4-A59">
+                        <rect key="frame" x="35" y="46" width="250" height="30"/>
+                        <color key="backgroundColor" red="0.7843137255" green="0.7843137255" blue="0.7843137255" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="250" id="Izc-NZ-WYZ"/>
+                        </constraints>
+                        <state key="normal" title="Repeat Rate">
+                            <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="titleShadowColor" red="0.7843137255" green="0.7843137255" blue="0.7843137255" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
+                        <connections>
+                            <action selector="editRepeatRate:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="msW-qZ-jBN"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="centerX" secondItem="rdc-AF-LU6" secondAttribute="centerX" id="3Zq-JR-9bk"/>
+                    <constraint firstAttribute="centerX" secondItem="afO-Yv-Oad" secondAttribute="centerX" id="DKs-pY-Lnu"/>
+                    <constraint firstItem="opu-X4-A59" firstAttribute="top" secondItem="rdc-AF-LU6" secondAttribute="bottom" constant="8" id="aXO-TO-ld2"/>
+                    <constraint firstItem="ScM-Zp-pdN" firstAttribute="top" secondItem="opu-X4-A59" secondAttribute="bottom" constant="8" id="hVy-OV-g62"/>
+                    <constraint firstItem="rdc-AF-LU6" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="jNO-XW-qSW"/>
+                    <constraint firstItem="afO-Yv-Oad" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottomMargin" id="oUH-KA-ujE"/>
+                    <constraint firstItem="afO-Yv-Oad" firstAttribute="top" secondItem="ScM-Zp-pdN" secondAttribute="bottom" constant="8" id="qPz-8p-hqX"/>
+                    <constraint firstAttribute="centerX" secondItem="opu-X4-A59" secondAttribute="centerX" id="sXK-rX-awu"/>
+                    <constraint firstAttribute="centerX" secondItem="ScM-Zp-pdN" secondAttribute="centerX" id="zQI-re-5QK"/>
+                </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="oUH-KA-ujE"/>
+                    </mask>
+                </variation>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="picker" destination="vSd-eI-58k" id="PtM-Hq-dU2"/>
+                <outlet property="pickerWidthConstraint" destination="fww-UW-w74" id="Pt4-no-oJX"/>
+                <outlet property="repeatPattern" destination="rdc-AF-LU6" id="oqO-DZ-660"/>
+                <outlet property="repeatRate" destination="opu-X4-A59" id="ABj-RD-hqI"/>
+                <outlet property="repeatType" destination="ScM-Zp-pdN" id="W8e-WJ-jbV"/>
+            </connections>
+            <point key="canvasLocation" x="446" y="547"/>
+        </tableViewCell>
+    </objects>
+</document>

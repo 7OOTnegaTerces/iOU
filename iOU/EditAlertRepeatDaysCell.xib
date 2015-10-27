@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="373" id="KGk-i7-Jjw" customClass="EditAlertRepeatDaysCell" customModule="iOU" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="340"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="2" translatesAutoresizingMaskIntoConstraints="NO" id="ScM-Zp-pdN">
+                        <rect key="frame" x="35" y="84" width="250" height="29"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="250" id="L7x-Bv-2jp"/>
+                        </constraints>
+                        <segments>
+                            <segment title="Simple..."/>
+                            <segment title="Month..."/>
+                            <segment title="Days..."/>
+                        </segments>
+                        <connections>
+                            <action selector="changeRepeatType:" destination="KGk-i7-Jjw" eventType="valueChanged" id="M96-7b-DHC"/>
+                        </connections>
+                    </segmentedControl>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rdc-AF-LU6">
+                        <rect key="frame" x="35" y="8" width="250" height="30"/>
+                        <color key="backgroundColor" red="0.7843137255" green="0.7843137255" blue="0.7843137255" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="250" id="Rig-LW-wk9"/>
+                        </constraints>
+                        <state key="normal" title="Weekdays">
+                            <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="titleShadowColor" red="0.78431372549019607" green="0.78431372549019607" blue="0.78431372549019607" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
+                        <connections>
+                            <action selector="editRepeatPattern:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="1Ns-3r-dQZ"/>
+                        </connections>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iGE-7u-Zxb">
+                        <rect key="frame" x="35" y="46" width="250" height="30"/>
+                        <color key="backgroundColor" red="0.7843137255" green="0.7843137255" blue="0.7843137255" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="250" id="wgl-D8-DOj"/>
+                        </constraints>
+                        <state key="normal" title="Repeat Rate">
+                            <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="titleShadowColor" red="0.7843137255" green="0.7843137255" blue="0.7843137255" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
+                        <connections>
+                            <action selector="editRepeatRate:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Ahy-Y7-gxa"/>
+                        </connections>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V6v-lR-xTc">
+                        <rect key="frame" x="45" y="120" width="71" height="30"/>
+                        <state key="normal" title="Weekdays">
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="toggleWeekdays:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="62m-xO-gfp"/>
+                        </connections>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Monday" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G7F-t5-0Z8">
+                        <rect key="frame" x="44" y="162" width="53" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XdG-rZ-3hz">
+                        <rect key="frame" x="105" y="160" width="22" height="22"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="22" id="O4G-Re-68K"/>
+                            <constraint firstAttribute="width" constant="22" id="gmQ-5o-jRp"/>
+                        </constraints>
+                        <state key="normal" image="Checkbox Unchecked">
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="toggleMonday:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="XbC-If-p4t"/>
+                        </connections>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tuesday" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vRg-YK-y2n">
+                        <rect key="frame" x="43" y="199" width="54" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ATf-aT-V32">
+                        <rect key="frame" x="105" y="197" width="22" height="22"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="22" id="7qz-lo-hO0"/>
+                            <constraint firstAttribute="width" constant="22" id="FlS-7K-Add"/>
+                        </constraints>
+                        <state key="normal" image="Checkbox Unchecked">
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="toggleTuesday:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="kOF-DP-RNF"/>
+                        </connections>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wednesday" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RUL-xb-Wv2">
+                        <rect key="frame" x="22" y="236" width="75" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VaD-hX-2Tb">
+                        <rect key="frame" x="105" y="234" width="22" height="22"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="22" id="16r-de-bvg"/>
+                            <constraint firstAttribute="height" constant="22" id="DwW-jl-dMT"/>
+                        </constraints>
+                        <state key="normal" image="Checkbox Unchecked">
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="toggleWednesday:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Lks-WF-bqZ"/>
+                        </connections>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thursday" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8xD-Nk-Kit">
+                        <rect key="frame" x="37" y="273" width="60" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y8I-7g-wJY">
+                        <rect key="frame" x="105" y="271" width="22" height="22"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="22" id="987-59-fo0"/>
+                            <constraint firstAttribute="height" constant="22" id="KJ0-TF-0cB"/>
+                        </constraints>
+                        <state key="normal" image="Checkbox Unchecked">
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="toggleThursday:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="vVw-2M-oNS"/>
+                        </connections>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Friday" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Ch-fn-aQ3">
+                        <rect key="frame" x="57" y="310" width="40" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SxU-lG-n9h">
+                        <rect key="frame" x="105" y="308" width="22" height="22"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="22" id="Ljy-ht-G6F"/>
+                            <constraint firstAttribute="height" constant="22" id="Xob-JD-qSt"/>
+                        </constraints>
+                        <state key="normal" image="Checkbox Unchecked">
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="toggleFriday:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="6C4-fM-f25"/>
+                        </connections>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9dU-Zl-cql">
+                        <rect key="frame" x="205" y="120" width="71" height="30"/>
+                        <state key="normal" title="Weekends">
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="toggleWeekends:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="cIi-KL-Hud"/>
+                        </connections>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Saturday" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h5M-iB-Unt">
+                        <rect key="frame" x="199" y="162" width="58" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xsk-L1-t3X">
+                        <rect key="frame" x="265" y="160" width="22" height="22"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="22" id="1yy-KR-AYs"/>
+                            <constraint firstAttribute="height" constant="22" id="2VP-Ag-V1e"/>
+                        </constraints>
+                        <state key="normal" image="Checkbox Unchecked">
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="toggleSaturday:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="UbY-Va-nzD"/>
+                        </connections>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sunday" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Si-9V-HVC">
+                        <rect key="frame" x="208" y="199" width="49" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NyX-ez-iYM">
+                        <rect key="frame" x="265" y="197" width="22" height="22"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="22" id="uFh-uQ-PPU"/>
+                            <constraint firstAttribute="width" constant="22" id="w1m-mG-nLc"/>
+                        </constraints>
+                        <state key="normal" image="Checkbox Unchecked">
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="toggleSunday:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="wdS-38-dtd"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="XdG-rZ-3hz" firstAttribute="centerY" secondItem="G7F-t5-0Z8" secondAttribute="centerY" id="0br-ro-FPr"/>
+                    <constraint firstItem="Xsk-L1-t3X" firstAttribute="trailing" secondItem="9dU-Zl-cql" secondAttribute="trailing" constant="11" id="2qV-yL-1Dn"/>
+                    <constraint firstAttribute="centerX" secondItem="rdc-AF-LU6" secondAttribute="centerX" id="3Zq-JR-9bk"/>
+                    <constraint firstItem="y8I-7g-wJY" firstAttribute="leading" secondItem="8xD-Nk-Kit" secondAttribute="trailing" constant="8" id="4kl-gY-Oul"/>
+                    <constraint firstItem="SxU-lG-n9h" firstAttribute="trailing" secondItem="V6v-lR-xTc" secondAttribute="trailing" constant="11" id="78h-Ua-lEN"/>
+                    <constraint firstItem="NyX-ez-iYM" firstAttribute="top" secondItem="Xsk-L1-t3X" secondAttribute="bottom" constant="15" id="8De-xU-ZYu"/>
+                    <constraint firstItem="ATf-aT-V32" firstAttribute="centerY" secondItem="vRg-YK-y2n" secondAttribute="centerY" id="GbZ-h1-KIa"/>
+                    <constraint firstItem="y8I-7g-wJY" firstAttribute="centerY" secondItem="8xD-Nk-Kit" secondAttribute="centerY" id="IeR-wk-zsd"/>
+                    <constraint firstAttribute="centerX" secondItem="9dU-Zl-cql" secondAttribute="centerX" constant="-80" id="JAl-uC-4eT"/>
+                    <constraint firstItem="Xsk-L1-t3X" firstAttribute="centerY" secondItem="h5M-iB-Unt" secondAttribute="centerY" id="JBG-jn-e1i"/>
+                    <constraint firstItem="XdG-rZ-3hz" firstAttribute="leading" secondItem="G7F-t5-0Z8" secondAttribute="trailing" constant="8" id="KRB-xH-Mz6"/>
+                    <constraint firstItem="Xsk-L1-t3X" firstAttribute="leading" secondItem="h5M-iB-Unt" secondAttribute="trailing" constant="8" id="Oov-OS-AOc"/>
+                    <constraint firstItem="VaD-hX-2Tb" firstAttribute="top" secondItem="ATf-aT-V32" secondAttribute="bottom" constant="15" id="Qtx-Yq-Tec"/>
+                    <constraint firstItem="ATf-aT-V32" firstAttribute="trailing" secondItem="V6v-lR-xTc" secondAttribute="trailing" constant="11" id="R3H-sp-MNu"/>
+                    <constraint firstItem="Xsk-L1-t3X" firstAttribute="top" secondItem="9dU-Zl-cql" secondAttribute="bottom" constant="10" id="VtW-2i-cAO"/>
+                    <constraint firstItem="y8I-7g-wJY" firstAttribute="top" secondItem="VaD-hX-2Tb" secondAttribute="bottom" constant="15" id="WnZ-FC-TbO"/>
+                    <constraint firstItem="SxU-lG-n9h" firstAttribute="centerY" secondItem="5Ch-fn-aQ3" secondAttribute="centerY" id="Xf9-eI-EtW"/>
+                    <constraint firstItem="NyX-ez-iYM" firstAttribute="centerY" secondItem="7Si-9V-HVC" secondAttribute="centerY" id="XnL-Xw-GPP"/>
+                    <constraint firstItem="9dU-Zl-cql" firstAttribute="top" secondItem="ScM-Zp-pdN" secondAttribute="bottom" constant="8" id="amj-2P-R00"/>
+                    <constraint firstItem="VaD-hX-2Tb" firstAttribute="leading" secondItem="RUL-xb-Wv2" secondAttribute="trailing" constant="8" id="bPj-Jd-sb1"/>
+                    <constraint firstItem="NyX-ez-iYM" firstAttribute="trailing" secondItem="9dU-Zl-cql" secondAttribute="trailing" constant="11" id="bYn-KF-zzC"/>
+                    <constraint firstItem="XdG-rZ-3hz" firstAttribute="top" secondItem="V6v-lR-xTc" secondAttribute="bottom" constant="10" id="c6m-Im-OkR"/>
+                    <constraint firstItem="iGE-7u-Zxb" firstAttribute="top" secondItem="rdc-AF-LU6" secondAttribute="bottom" constant="8" id="cec-Kr-jvT"/>
+                    <constraint firstItem="NyX-ez-iYM" firstAttribute="leading" secondItem="7Si-9V-HVC" secondAttribute="trailing" constant="8" id="dmP-uW-ea9"/>
+                    <constraint firstItem="VaD-hX-2Tb" firstAttribute="centerY" secondItem="RUL-xb-Wv2" secondAttribute="centerY" id="gpY-Of-JH7"/>
+                    <constraint firstItem="SxU-lG-n9h" firstAttribute="top" secondItem="y8I-7g-wJY" secondAttribute="bottom" constant="15" id="hGC-Lk-Kvp"/>
+                    <constraint firstItem="rdc-AF-LU6" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="jNO-XW-qSW"/>
+                    <constraint firstItem="SxU-lG-n9h" firstAttribute="leading" secondItem="5Ch-fn-aQ3" secondAttribute="trailing" constant="8" id="rf7-uC-4wp"/>
+                    <constraint firstAttribute="centerX" secondItem="iGE-7u-Zxb" secondAttribute="centerX" id="sNX-rR-XvG"/>
+                    <constraint firstItem="XdG-rZ-3hz" firstAttribute="trailing" secondItem="V6v-lR-xTc" secondAttribute="trailing" constant="11" id="shq-Qq-e1A"/>
+                    <constraint firstItem="ScM-Zp-pdN" firstAttribute="top" secondItem="iGE-7u-Zxb" secondAttribute="bottom" constant="8" id="tpI-C3-uaR"/>
+                    <constraint firstItem="y8I-7g-wJY" firstAttribute="trailing" secondItem="V6v-lR-xTc" secondAttribute="trailing" constant="11" id="ugX-Q5-ENo"/>
+                    <constraint firstItem="V6v-lR-xTc" firstAttribute="top" secondItem="ScM-Zp-pdN" secondAttribute="bottom" constant="8" id="vS4-DP-zBE"/>
+                    <constraint firstAttribute="centerX" secondItem="V6v-lR-xTc" secondAttribute="centerX" constant="80" id="wSD-CZ-Vhz"/>
+                    <constraint firstItem="ATf-aT-V32" firstAttribute="top" secondItem="XdG-rZ-3hz" secondAttribute="bottom" constant="15" id="xGt-LE-fBo"/>
+                    <constraint firstItem="VaD-hX-2Tb" firstAttribute="trailing" secondItem="V6v-lR-xTc" secondAttribute="trailing" constant="11" id="xWZ-fq-MxG"/>
+                    <constraint firstAttribute="centerX" secondItem="ScM-Zp-pdN" secondAttribute="centerX" id="zQI-re-5QK"/>
+                    <constraint firstItem="ATf-aT-V32" firstAttribute="leading" secondItem="vRg-YK-y2n" secondAttribute="trailing" constant="8" id="zul-GF-7FB"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="friday" destination="SxU-lG-n9h" id="pnO-KX-rlp"/>
+                <outlet property="monday" destination="XdG-rZ-3hz" id="BWW-l1-Fgt"/>
+                <outlet property="repeatPattern" destination="rdc-AF-LU6" id="pZb-d1-U64"/>
+                <outlet property="repeatRate" destination="iGE-7u-Zxb" id="fAy-xh-oao"/>
+                <outlet property="repeatType" destination="ScM-Zp-pdN" id="yHO-dr-YLb"/>
+                <outlet property="saturday" destination="Xsk-L1-t3X" id="1Pd-W3-yoz"/>
+                <outlet property="sunday" destination="NyX-ez-iYM" id="AQe-ER-0of"/>
+                <outlet property="thursday" destination="y8I-7g-wJY" id="q2Z-nh-SQ3"/>
+                <outlet property="tuesday" destination="ATf-aT-V32" id="XI0-pU-9f9"/>
+                <outlet property="wednesday" destination="VaD-hX-2Tb" id="0hu-Du-5we"/>
+            </connections>
+            <point key="canvasLocation" x="282" y="372.5"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="Checkbox Unchecked" width="44" height="44"/>
+    </resources>
+</document>

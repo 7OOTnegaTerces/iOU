@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 
+
+//MARK: - Extensions
 extension String
 {
   subscript (index: Int) -> (String)
@@ -61,6 +63,36 @@ extension String
   {
     return (self as NSString).doubleValue
   }
+  
+  var integerValue: Int
+  {
+    return (self as NSString).integerValue
+  }
+  
+  var count: Int
+  {
+    return Array(self).count
+  }
+  
+  var lastCharacter: String
+  {
+    return self[self.count - 1]
+  }
+  
+  var allButLastCharacter: String
+  {
+    return self[0..<self.count - 1]
+  }
+  
+  var firstCharacter: String
+    {
+      return self[0]
+  }
+  
+  var allButFirstCharacter: String
+    {
+      return self[1..<self.count]
+  }
 }
 
 
@@ -68,21 +100,65 @@ extension String
 
 extension Int
 {
-  subscript (index: Int) -> (Int)
+  var count: Int
+  {
+    get
     {
-      let greaterTenDivisor = Int(pow(Double(10), Double(index + 1)))
-      let digitsAboveIndex = (self / greaterTenDivisor) * 10
-      let tenDivisor = Int(pow(Double(10), Double(index)))
-      let digit = self / tenDivisor
-      return digit - digitsAboveIndex
+      var remainder = self
+      var count = 0
+      
+      do
+      {
+        count++
+        remainder /= 10
+      }while (remainder > 0)
+      
+      return count
+    }
   }
-  subscript (range: Range<Int>) -> (Int)
+  
+  subscript (index: Int) -> (Int)
+  {
+    if (index < 0)
     {
-      let greaterTenDivisor = Int(pow(Double(10), Double(range.endIndex)))
-      let digitsAboveRange = (self / greaterTenDivisor) * greaterTenDivisor
-      let lesserTenDivisor = Int(pow(Double(10), Double(range.startIndex)))
-      let digits = self - digitsAboveRange
-      return digits / lesserTenDivisor
+      return 0
+    }
+    else if (index > 18)
+    {
+      return 0
+    }
+    
+    let greaterTenDivisor = Int(10 ^* (index + 1))
+    let digitsAboveIndex = (self / greaterTenDivisor) * 10
+    let tenDivisor = Int(10 ^* index)
+    let digit = self / tenDivisor
+    return digit - digitsAboveIndex
+  }
+  subscript (var range: Range<Int>) -> (Int)
+  {
+    if (range.startIndex < 0)
+    {
+      range.startIndex = 0
+    }
+    else if (range.startIndex > 18)
+    {
+      range.startIndex = 18
+    }
+    
+    if (range.endIndex < 0)
+    {
+      range.endIndex = 0
+    }
+    else if (range.endIndex > 18)
+    {
+      range.endIndex = 18
+    }
+    
+    let greaterTenDivisor = Int(10 ^* range.endIndex)
+    let digitsAboveRange = (self / greaterTenDivisor) * greaterTenDivisor
+    let lesserTenDivisor = Int(10 ^* range.startIndex)
+    let digits = self - digitsAboveRange
+    return digits / lesserTenDivisor
   }
 }
 
@@ -90,6 +166,139 @@ extension Int
 
 
 
+//MARK: - Operators
+
+//MARK: Exponent Operations
+infix operator ^* { associativity left precedence 150 }
+
+func ^*(lhs: Int, rhs: Int) -> (Double)
+{
+  return pow(Double(lhs), Double(rhs))
+}
+
+func ^*(lhs: Int, rhs: Float) -> (Double)
+{
+  return pow(Double(lhs), Double(rhs))
+}
+
+func ^*(lhs: Int, rhs: Double) -> (Double)
+{
+  return pow(Double(lhs), rhs)
+}
+
+func ^*(lhs: Float, rhs: Int) -> (Double)
+{
+  return pow(Double(lhs), Double(rhs))
+}
+
+func ^*(lhs: Float, rhs: Float) -> (Double)
+{
+  return pow(Double(lhs), Double(rhs))
+}
+
+func ^*(lhs: Float, rhs: Double) -> (Double)
+{
+  return pow(Double(lhs), rhs)
+}
+
+func ^*(lhs: Double, rhs: Int) -> (Double)
+{
+  return pow(lhs, Double(rhs))
+}
+
+func ^*(lhs: Double, rhs: Float) -> (Double)
+{
+  return pow(lhs, Double(rhs))
+}
+
+func ^*(lhs: Double, rhs: Double) -> (Double)
+{
+  return pow(lhs, rhs)
+}
+
+
+
+//MARK: Inverted Append Operations
+infix operator =+ { associativity right precedence 90 }
+
+func =+(inout lhs: String, rhs: String)
+{
+  lhs = rhs + lhs
+}
+
+
+
+//MARK: Inverted Subractor Operations
+infix operator =- { associativity right precedence 90 }
+
+func =-(inout lhs: Int, rhs: Int)
+{
+  lhs = rhs - lhs
+}
+
+func =-(inout lhs: Float, rhs: Int)
+{
+  lhs = Float(rhs) - lhs
+}
+
+func =-(inout lhs: Float, rhs: Float)
+{
+  lhs = rhs - lhs
+}
+
+func =-(inout lhs: Double, rhs: Int)
+{
+  lhs = Double(rhs) - lhs
+}
+
+func =-(inout lhs: Double, rhs: Float)
+{
+  lhs = Double(rhs) - lhs
+}
+
+func =-(inout lhs: Double, rhs: Double)
+{
+  lhs = rhs - lhs
+}
+
+
+
+//MARK: Inverted Divisor Operations
+infix operator =/ { associativity right precedence 90 }
+
+func =/(inout lhs: Int, rhs: Int)
+{
+  lhs = rhs / lhs
+}
+
+func =/(inout lhs: Float, rhs: Int)
+{
+  lhs = Float(rhs) / lhs
+}
+
+func =/(inout lhs: Float, rhs: Float)
+{
+  lhs = rhs / lhs
+}
+
+func =/(inout lhs: Double, rhs: Int)
+{
+  lhs = Double(rhs) / lhs
+}
+
+func =/(inout lhs: Double, rhs: Float)
+{
+  lhs = Double(rhs) / lhs
+}
+
+func =/(inout lhs: Double, rhs: Double)
+{
+  lhs = rhs / lhs
+}
+
+
+
+//MARK: Int! Operations
 func -=(inout lhs: Int!, rhs: Int)
 {
   lhs = lhs - rhs
@@ -130,6 +339,9 @@ func /=(inout lhs: Int, rhs: Int!)
   lhs = lhs / rhs
 }
 
+
+
+//MARK: Modulus Operations
 infix operator %= { associativity left precedence 150 }
 
 func %=(inout lhs: Int, rhs: Int)
@@ -239,7 +451,500 @@ func %=(inout lhs: Double!, rhs: Float!)
 
 
 
+//MARK: CGFloat Operations
+func -=(inout lhs: CGFloat?, rhs: CGFloat)
+{
+  if (lhs == nil)
+  {
+    lhs = -rhs
+  }
+  else
+  {
+    lhs = lhs! - rhs
+  }
+}
 
+func +=(inout lhs: CGFloat?, rhs: CGFloat)
+{
+  if (lhs == nil)
+  {
+    lhs = rhs
+  }
+  else
+  {
+    lhs = lhs! + rhs
+  }
+}
+
+func *=(inout lhs: CGFloat?, rhs: CGFloat)
+{
+  lhs = lhs! * rhs
+}
+
+func /=(inout lhs: CGFloat?, rhs: CGFloat)
+{
+  lhs = lhs! / rhs
+}
+
+func -=(inout lhs: CGFloat, rhs: Int)
+{
+  lhs = lhs - rhs
+}
+
+func +=(inout lhs: CGFloat, rhs: Int)
+{
+  lhs = lhs + rhs
+}
+
+func *=(inout lhs: CGFloat, rhs: Int)
+{
+  lhs = lhs * rhs
+}
+
+func /=(inout lhs: CGFloat, rhs: Int)
+{
+  lhs = lhs / rhs
+}
+
+func =-(inout lhs: CGFloat, rhs: Int)
+{
+  lhs = rhs - lhs
+}
+
+func =/(inout lhs: CGFloat, rhs: Int)
+{
+  lhs = rhs / lhs
+}
+
+func =-(inout lhs: CGFloat, rhs: Float)
+{
+  lhs = rhs - lhs
+}
+
+func =/(inout lhs: CGFloat, rhs: Float)
+{
+  lhs = rhs / lhs
+}
+
+func +(lhs: CGFloat, rhs: Int) -> (CGFloat)
+{
+  return lhs + CGFloat(rhs)
+}
+
+func +(lhs: Int, rhs: CGFloat) -> (CGFloat)
+{
+  return CGFloat(lhs) + rhs
+}
+
+func -(lhs: CGFloat, rhs: Int) -> (CGFloat)
+{
+  return lhs - CGFloat(rhs)
+}
+
+func -(lhs: Int, rhs: CGFloat) -> (CGFloat)
+{
+  return CGFloat(lhs) - rhs
+}
+
+func -(lhs: Float, rhs: CGFloat) -> (CGFloat)
+{
+  return lhs - rhs
+}
+
+func *(lhs: CGFloat, rhs: Int) -> (CGFloat)
+{
+  return lhs * CGFloat(rhs)
+}
+
+func *(lhs: Int, rhs: CGFloat) -> (CGFloat)
+{
+  return CGFloat(lhs) * rhs
+}
+
+func /(lhs: CGFloat, rhs: Int) -> (CGFloat)
+{
+  return lhs / CGFloat(rhs)
+}
+
+func /(lhs: Int, rhs: CGFloat) -> (CGFloat)
+{
+  return CGFloat(lhs) / rhs
+}
+
+func /(lhs: Float, rhs: CGFloat) -> (CGFloat)
+{
+  return lhs / rhs
+}
+
+
+
+//MARK CGPoint Operations
+func +(lhs: CGPoint, rhs: CGPoint) -> (CGPoint)
+{
+  let x = lhs.x + rhs.x
+  let y = lhs.y + rhs.y
+  
+  return CGPointMake(x, y)
+}
+
+func -(lhs: CGPoint, rhs: CGPoint) -> (CGPoint)
+{
+  let x = lhs.x - rhs.x
+  let y = lhs.y - rhs.y
+  
+  return CGPointMake(x, y)
+}
+
+func +=(inout lhs: CGPoint, rhs: CGPoint)
+{
+  let x = lhs.x + rhs.x
+  let y = lhs.y + rhs.y
+  
+  lhs = CGPointMake(x, y)
+}
+
+func -=(inout lhs: CGPoint, rhs: CGPoint)
+{
+  let x = lhs.x - rhs.x
+  let y = lhs.y - rhs.y
+  
+  lhs = CGPointMake(x, y)
+}
+
+func =-(inout lhs: CGPoint, rhs: CGPoint)
+{
+  let x = rhs.x - lhs.x
+  let y = rhs.y - lhs.y
+  
+  lhs = CGPointMake(x, y)
+}
+
+
+
+//MARK: Output Inclusion Overwritten Funtions
+postfix func ++(inout lhs: Int) -> (Int)
+{
+  lhs = lhs + 1
+  return lhs
+}
+
+postfix func ++(inout lhs: Float) -> (Float)
+{
+  lhs = lhs + 1
+  return lhs
+}
+
+postfix func ++(inout lhs: Double) -> (Double)
+{
+  lhs = lhs + 1
+  return lhs
+}
+
+postfix func --(inout lhs: Int) -> (Int)
+{
+  lhs = lhs - 1
+  return lhs
+}
+
+postfix func --(inout lhs: Float) -> (Float)
+{
+  lhs = lhs - 1
+  return lhs
+}
+
+postfix func --(inout lhs: Double) -> (Double)
+{
+  lhs = lhs - 1
+  return lhs
+}
+
+
+
+//MARK: String Operators
+func +(lhs: String, rhs: Int) -> (String)
+{
+  return lhs + String(rhs)
+}
+
+func +(lhs: Int, rhs: String) -> (String)
+{
+  return String(lhs) + rhs
+}
+
+func +(lhs: String, rhs: Float) -> (String)
+{
+  return lhs + String(rhs)
+}
+
+func +(lhs: Float, rhs: String) -> (String)
+{
+  return String(lhs) + rhs
+}
+
+func +(lhs: String, rhs: Double) -> (String)
+{
+  return lhs + String(rhs)
+}
+
+func +(lhs: Double, rhs: String) -> (String)
+{
+  return String(lhs) + rhs
+}
+
+
+
+//MARK: Logic Operators
+infix operator =| { associativity none precedence 130 }
+
+func =|<Value: Equatable>(lhs: Value, rhs: [Value]) -> (Bool)
+{
+  for value in rhs
+  {
+    if (lhs == value)
+    {
+      return true
+    }
+  }
+  
+  return false
+}
+
+infix operator !=| { associativity none precedence 130 }
+
+func !=|<Value: Equatable>(lhs: Value, rhs: [Value]) -> (Bool)
+{
+  for value in rhs
+  {
+    if (lhs == value)
+    {
+      return false
+    }
+  }
+  
+  return true
+}
+
+//infix operator =& { associativity none precedence 130 }
+//
+//func =&<Value: Equatable>(lhs: Value, rhs: [Value]) -> (Bool)
+//{
+//  for value in rhs
+//  {
+//    if (lhs != value)
+//    {
+//      return false
+//    }
+//  }
+//
+//  return true
+//}
+//
+//infix operator !=& { associativity none precedence 130 }
+//
+//func !=&<Value: Equatable>(lhs: Value, rhs: [Value]) -> (Bool)
+//{
+//  for value in rhs
+//  {
+//    if (lhs != value)
+//    {
+//      return true
+//    }
+//  }
+//
+//  return false
+//}
+
+
+
+
+
+//MARK: Other Operators
+postfix operator =! {}
+
+postfix func =!(inout bool: Bool) -> (Bool)
+{
+  let oldValue = bool
+  bool = !oldValue
+  return oldValue
+}
+
+
+
+
+
+//MARK: - Math Functions
+func round(var #value: Double, #decimals: Int) -> (Double)
+{
+  value *= 10 ^* decimals
+  value = round(value)
+  value /= 10 ^* decimals
+  return value
+}
+
+func round(#value: Float, #decimals: Int) -> (Double)
+{
+  var result = Double(value) * (10 ^* decimals)
+  result = round(result)
+  result /= 10 ^* decimals
+  return result
+}
+
+func roundf(var #value: Double, #decimals: Int) -> (Float)
+{
+  value *= 10 ^* decimals
+  value = round(value)
+  value /= 10 ^* decimals
+  return Float(value)
+}
+
+func roundf(var #value: Float, #decimals: Int) -> (Float)
+{
+  var result = Double(value) * (10 ^* decimals)
+  result = round(result)
+  result /= 10 ^* decimals
+  return Float(result)
+}
+
+func floor(var #value: Double, #decimals: Int) -> (Double)
+{
+  value *= 10 ^* decimals
+  value = floor(value)
+  value /= 10 ^* decimals
+  return value
+}
+
+func floor(#value: Float, #decimals: Int) -> (Double)
+{
+  var result = Double(value) * (10 ^* decimals)
+  result = floor(result)
+  result /= 10 ^* decimals
+  return result
+}
+
+func floorf(var #value: Double, #decimals: Int) -> (Float)
+{
+  value *= 10 ^* decimals
+  value = floor(value)
+  value /= 10 ^* decimals
+  return Float(value)
+}
+
+func floorf(var #value: Float, #decimals: Int) -> (Float)
+{
+  var result = Double(value) * (10 ^* decimals)
+  result = floor(result)
+  result /= 10 ^* decimals
+  return Float(result)
+}
+
+func ceil(var #value: Double, #decimals: Int) -> (Double)
+{
+  value *= 10 ^* decimals
+  value = ceil(value)
+  value /= 10 ^* decimals
+  return value
+}
+
+func ceil(#value: Float, #decimals: Int) -> (Double)
+{
+  var result = Double(value) * (10 ^* decimals)
+  result = ceil(result)
+  result /= 10 ^* decimals
+  return result
+}
+
+func ceilf(var #value: Double, #decimals: Int) -> (Float)
+{
+  value *= 10 ^* decimals
+  value = ceil(value)
+  value /= 10 ^* decimals
+  return Float(value)
+}
+
+func ceilf(var #value: Float, #decimals: Int) -> (Float)
+{
+  var result = Double(value) * (10 ^* decimals)
+  result = ceil(result)
+  result /= 10 ^* decimals
+  return Float(result)
+}
+
+
+
+
+
+//MARK: - Other Functions
+func numberSuffix(digit: String) -> (String)
+{
+  let number = digit.integerValue
+  return numberSuffix(number)
+}
+
+func numberSuffix(var digit: Int) -> (String)
+{
+  if (digit > -10 && digit < 0)
+  {
+    digit *= -1
+  }
+  else if (digit < 0 || digit > 9)
+  {
+    let stringFormat = String(digit)
+    let lastCharater = stringFormat.lastCharacter
+    digit = lastCharater.integerValue
+  }
+  
+  switch digit
+  {
+    case 1:
+      return "st"
+    case 2:
+      return "nd"
+    case 3:
+      return "rd"
+    default:
+      return "th"
+  }
+}
+
+func invertBool(inout inDictionary dictionary: [String: Bool], withKey key: String)
+{
+  var value = dictionary.removeValueForKey(key)!
+  dictionary[key]! = (value=!)
+}
+
+func invertBool(inout inDictionary dictionary: [String: AnyObject], withKey key: String)
+{
+  var value = dictionary.removeValueForKey(key) as! Bool
+  dictionary.updateValue(value=!, forKey: key)
+}
+
+func invertBool(inout inDictionary dictionary: [String: Any], withKey key: String)
+{
+  var value = dictionary.removeValueForKey(key) as! Bool
+  dictionary.updateValue(value=!, forKey: key)
+}
+
+
+
+
+//MARK: - Constants
+let iPhone4sWidth: CGFloat = 320
+let iPhone5Width: CGFloat = 320
+let iPhone5sWidth: CGFloat = iPhone5Width
+let iPhone6Width: CGFloat = 375
+let iPhone6PlusWidth: CGFloat = 414
+
+let iPhone4sHeight: CGFloat = 480
+let iPhone5Height: CGFloat = 568
+let iPhone5sHeight: CGFloat = iPhone5Width
+let iPhone6Height: CGFloat = 667
+let iPhone6PlusHeight: CGFloat = 736
+
+
+
+
+
+//MARK: - Sortable Dictionary
 enum SortType: Int
 {
   case Value = 0
@@ -270,14 +975,10 @@ enum SortType: Int
 
 struct SortableDictionary<Key: Hashable, Value>
 {
-  typealias KeyType = Key
-  typealias ValueType = Value
   private var dictionary: [Key: Value]
   private var sortedKeys: [Key] = []
   private var sortedValues: [Value] = []
-  private var valueSortID: String? //Used to identify sort used when saving to or loading from CoreData or other save structure.
   private var valueSort: ((Value, Value) -> Bool)?
-  private var keySortID: String? //Used to identify sort used when saving to or loading from CoreData or other save structure.
   private var keySort: ((Key, Key) -> Bool)?
   private var sortingType: SortType
   var sortType: SortType
@@ -305,13 +1006,13 @@ struct SortableDictionary<Key: Hashable, Value>
     {
       return dictionary.count
   }
-  var currentValueSort: (valueSortID: String?, valueSort: ((Value, Value) -> Bool)?)
+  var currentValueSort: (((Value, Value) -> Bool)?)
     {
-      return (valueSortID, valueSort)
+      return valueSort
   }
-  var currentKeySort: (keySortID: String?, keySort:((Key, Key) -> Bool)?)
+  var currentKeySort: (((Key, Key) -> Bool)?)
     {
-      return (keySortID, keySort)
+      return keySort
   }
   var isEmpty: Bool
     {
@@ -333,14 +1034,10 @@ struct SortableDictionary<Key: Hashable, Value>
     {
       return dictionary
   }
-  var saveStateData: (dictionary: [Key: Value], valueSortID: String?, keySortID: String?)
-    {
-      return (dictionary, valueSortID, keySortID)
-  }
   
   init(dictionary: [Key: Value] = [:])
   {
-    self = SortableDictionary(dictionary: dictionary, sortType: SortType.Manual, valueSortID: nil, valueSort: nil, keySortID: nil, keySort: nil)
+    self = SortableDictionary(dictionary: dictionary, sortType: SortType.Manual, valueSort: nil, keySort: nil)
   }
   
   init(dictionary: [Key: Value] = [:], sortType: SortType = SortType.Value, valueSortID: String = "", valueSort: (Value, Value) -> Bool)
@@ -352,7 +1049,7 @@ struct SortableDictionary<Key: Hashable, Value>
     
     let sortID: String? = (valueSortID == "") ? nil : valueSortID
     
-    self = SortableDictionary(dictionary: dictionary, sortType: sortType, valueSortID: sortID, valueSort: valueSort, keySortID: nil, keySort: nil)
+    self = SortableDictionary(dictionary: dictionary, sortType: sortType, valueSort: valueSort, keySort: nil)
   }
   
   init(dictionary: [Key: Value] = [:], sortType: SortType = SortType.Key, keySortID: String = "", keySort: (Key, Key) -> Bool)
@@ -364,36 +1061,30 @@ struct SortableDictionary<Key: Hashable, Value>
     
     let sortID: String? = (keySortID == "") ? nil : keySortID
     
-    self = SortableDictionary(dictionary: dictionary, sortType: SortType.Key, valueSortID: nil, valueSort: nil, keySortID: sortID, keySort: keySort)
+    self = SortableDictionary(dictionary: dictionary, sortType: SortType.Key, valueSort: nil, keySort: keySort)
   }
   
-  init(dictionary: [Key: Value] = [:], sortType: SortType, valueSortID: String = "", valueSort: (Value, Value) -> Bool, keySortID: String = "", keySort: (Key, Key) -> Bool)
+  init(dictionary: [Key: Value] = [:], sortType: SortType, valueSort: (Value, Value) -> Bool, keySort: (Key, Key) -> Bool)
   {
-    let sortIDValue: String? = (valueSortID == "") ? nil : valueSortID
-    let sortIDKey: String? = (keySortID == "") ? nil : keySortID
-    
-    self = SortableDictionary(dictionary: dictionary, sortType: sortType, valueSortID: sortIDValue, valueSort: valueSort, keySortID: sortIDKey, keySort: keySort)
+    self = SortableDictionary(dictionary: dictionary, sortType: sortType, valueSort: valueSort, keySort: keySort)
   }
   
   init(sortedDictionary: SortableDictionary, includeDictionary: Bool = true)
   {
     if (includeDictionary)
     {
-      self = SortableDictionary(dictionary: sortedDictionary.dictionary, sortType: sortedDictionary.sortType, valueSortID: sortedDictionary.valueSortID, valueSort: sortedDictionary.valueSort, keySortID: sortedDictionary.keySortID, keySort: sortedDictionary.keySort)
+      self = SortableDictionary(dictionary: sortedDictionary.dictionary, sortType: sortedDictionary.sortType, valueSort: sortedDictionary.valueSort, keySort: sortedDictionary.keySort)
     }
     else
     {
-      self = SortableDictionary(dictionary: [:], sortType: sortedDictionary.sortType, valueSortID: sortedDictionary.valueSortID, valueSort: sortedDictionary.valueSort, keySortID: sortedDictionary.keySortID, keySort: sortedDictionary.keySort)
+      self = SortableDictionary(dictionary: [:], sortType: sortedDictionary.sortType, valueSort: sortedDictionary.valueSort, keySort: sortedDictionary.keySort)
     }
   }
   
-  private init(dictionary: [Key: Value], sortType: SortType, valueSortID: String?, valueSort: ((Value, Value) -> Bool)?, keySortID: String?, keySort: ((Key, Key) -> Bool)?)
+  private init(dictionary: [Key: Value], sortType: SortType, valueSort: ((Value, Value) -> Bool)?, keySort: ((Key, Key) -> Bool)?)
   {
     self.dictionary = dictionary
-    
-    self.valueSortID = valueSortID
     self.valueSort = valueSort
-    self.keySortID = keySortID
     self.keySort = keySort
     
     sortingType = sortType
@@ -439,78 +1130,20 @@ struct SortableDictionary<Key: Hashable, Value>
     }
   }
   
-  mutating func newSort(sortType: SortType = SortType.Value, valueSortID: String = "", valueSort: (Value, Value) -> Bool)
-    -> (oldValueSortID: String?, oldValueSort: ((Value, Value) -> Bool)?)
+  mutating func newSort(sortType: SortType? = nil, valueSort: ((Value, Value) -> Bool)? = nil, keySort: ((Key, Key) -> Bool)? = nil)
+    -> (oldValueSort: ((Value, Value) -> Bool)?, oldKeySort: ((Key, Key) -> Bool)?)
   {
-    if (sortType == SortType.Key && keySort == nil)
+    let oldValueSort = self.valueSort
+    self.valueSort = valueSort
+    
+    let oldKeySort = self.keySort
+    self.keySort = keySort
+
+    if (sortType != nil)
     {
-      fatalError("Cannot set sort type to Key without specifying a key sort.")
+      sortingType = sortType!
     }
     
-    let sortID: String? = (valueSortID == "") ? nil : valueSortID
-    
-    let results = newSort(SortType.Value, valueSortID: sortID, valueSort: valueSort, keySortID: nil, keySort: nil)
-    return (results.oldValueSortID, results.oldValueSort)
-  }
-  
-  mutating func newSort(sortType: SortType = SortType.Key, keySortID: String = "", keySort: (Key, Key) -> Bool)
-    -> (oldKeySortID: String?, oldKeySort: ((Key, Key) -> Bool)?)
-  {
-    if (sortType == SortType.Value && valueSort == nil)
-    {
-      fatalError("Cannot set sort type to Value without specifying a value sort.")
-    }
-    
-    let sortID: String? = (keySortID == "") ? nil : keySortID
-    
-    let results = newSort(SortType.Key, valueSortID: nil, valueSort: nil, keySortID: sortID, keySort: keySort)
-    return (results.oldKeySortID, results.oldKeySort)
-  }
-  
-  mutating func newSort(valueSortID: String = "", valueSort: (Value, Value) -> Bool, keySortID: String = "", keySort: (Key, Key) -> Bool)
-    -> (oldValueSortID: String?, oldValueSort: ((Value, Value) -> Bool)?, oldKeySortID: String?, oldKeySort: ((Key, Key) -> Bool)?)
-  {
-    let sortIDValue: String? = (valueSortID == "") ? nil : valueSortID
-    let sortIDKey: String? = (keySortID == "") ? nil : keySortID
-    
-    return newSort(sortType, valueSortID: sortIDValue, valueSort: valueSort, keySortID: sortIDKey, keySort: keySort)
-  }
-  
-  mutating func newSort(sortType: SortType, valueSortID: String = "", valueSort: (Value, Value) -> Bool, keySortID: String = "", keySort: (Key, Key) -> Bool)
-    -> (oldValueSortID: String?, oldValueSort: ((Value, Value) -> Bool)?, oldKeySortID: String?, oldKeySort: ((Key, Key) -> Bool)?)
-  {
-    let sortIDValue: String? = (valueSortID == "") ? nil : valueSortID
-    let sortIDKey: String? = (keySortID == "") ? nil : keySortID
-    
-    return newSort(sortType, valueSortID: sortIDValue, valueSort: valueSort, keySortID: sortIDKey, keySort: keySort)
-  }
-  
-  private mutating func newSort(sortType: SortType, valueSortID: String?, valueSort: ((Value, Value) -> Bool)?, keySortID: String?, keySort: ((Key, Key) -> Bool)?)
-    -> (oldValueSortID: String?, oldValueSort: ((Value, Value) -> Bool)?, oldKeySortID: String?, oldKeySort: ((Key, Key) -> Bool)?)
-  {
-    var oldValueSortID: String?
-    var oldValueSort: ((Value, Value) -> Bool)?
-    
-    if (valueSort != nil)
-    {
-      oldValueSortID = self.valueSortID
-      self.valueSortID = valueSortID
-      oldValueSort = self.valueSort
-      self.valueSort = valueSort
-    }
-    
-    var oldKeySortID: String?
-    var oldKeySort: ((Key, Key) -> Bool)?
-    
-    if (keySort != nil)
-    {
-      oldKeySortID = self.keySortID
-      self.keySortID = keySortID
-      oldKeySort = self.keySort
-      self.keySort = keySort
-    }
-    
-    sortingType = sortType
     var reSort: Bool
     
     if (sortType == SortType.Value && valueSort != nil)
@@ -531,7 +1164,7 @@ struct SortableDictionary<Key: Hashable, Value>
       sort()
     }
     
-    return (oldValueSortID, oldValueSort, oldKeySortID, oldKeySort)
+    return (oldValueSort, oldKeySort)
   }
   
   mutating func newDictionary(dictionary: [Key: Value] = [:]) -> ([Key: Value])
@@ -660,7 +1293,7 @@ struct SortableDictionary<Key: Hashable, Value>
     }
   }
   
-  mutating func insert(#key: Key, value: Value)
+  mutating func insert(newKey key: Key, andNewValue value: Value)
   {
     if (hasKey(key))
     {
@@ -671,12 +1304,12 @@ struct SortableDictionary<Key: Hashable, Value>
     dictionary[key] = value
   }
   
-  mutating func insert(#element: (key: Key, value: Value))
+  mutating func insert(newElement element: (key: Key, value: Value))
   {
-    insert(key: element.key, value: element.value)
+    insert(newKey: element.key,andNewValue: element.value)
   }
   
-  mutating func insert(#keys: [Key], values: [Value])
+  mutating func insert(newKeys keys: [Key], andNewValues values: [Value])
   {
     let count = keys.count
     
@@ -687,27 +1320,27 @@ struct SortableDictionary<Key: Hashable, Value>
     
     for i in 0..<count
     {
-      insert(key: keys[i], value: values[i])
+      insert(newKey: keys[i], andNewValue: values[i])
     }
   }
   
-  mutating func insert(#elements: [(key: Key, value: Value)])
+  mutating func insert(newElements elements: [(key: Key, value: Value)])
   {
     for element in elements
     {
-      insert(element: element)
+      insert(newElement: element)
     }
   }
   
-  mutating func insert(#dictionary: [Key: Value])
+  mutating func insert(elementsFromDictionary dictionary: [Key: Value])
   {
     for (key, value) in dictionary
     {
-      insert(key: key, value: value)
+      insert(newKey: key, andNewValue: value)
     }
   }
   
-  mutating func insert(insertAtIndex index: Int, key: Key, value: Value)
+  mutating func insert(atIndex index: Int, newKey key: Key, andNewValue value: Value)
   {
     if (index > count)
     {
@@ -727,12 +1360,12 @@ struct SortableDictionary<Key: Hashable, Value>
     dictionary.updateValue(value, forKey: key)
   }
   
-  mutating func insert(insertAtIndex index: Int, element: (key: Key, value: Value))
+  mutating func insert(atIndex index: Int, newElement element: (key: Key, value: Value))
   {
-    insert(insertAtIndex: index, key: element.key, value: element.value)
+    insert(atIndex: index, newKey: element.key, andNewValue: element.value)
   }
   
-  mutating func insert(insertAtIndex index: Int, keys: [Key], values: [Value])
+  mutating func insert(atIndex index: Int, newKeys keys: [Key], andNewValues values: [Value])
   {
     let count = keys.count
     
@@ -743,28 +1376,28 @@ struct SortableDictionary<Key: Hashable, Value>
     
     for i in 0..<count
     {
-      insert(insertAtIndex: i + index, key: keys[i], value: values[i])
+      insert(atIndex: i + index, newKey: keys[i], andNewValue: values[i])
     }
   }
   
-  mutating func insert(var insertAtIndex index: Int, elements: [(key: Key, value: Value)])
+  mutating func insert(var insertAtIndex index: Int, newElements elements: [(key: Key, value: Value)])
   {
     for element in elements
     {
-      insert(insertAtIndex: index, element: element)
+      insert(atIndex: index, newElement: element)
       index++
     }
   }
   
-  mutating func insert(insertAtIndex index: Int, dictionary: [Key: Value])
+  mutating func insert(atIndex index: Int, dictionary: [Key: Value])
   {
     for (key, value) in dictionary
     {
-      insert(insertAtIndex: index, key: key, value: value)
+      insert(atIndex: index, newKey: key, andNewValue: value)
     }
   }
   
-  mutating func update(overwriteValueAtIndex index: Int, withNewValue value: Value) -> (Value)
+  mutating func update(valueAtIndex index: Int, withNewValue value: Value) -> (Value)
   {
     if (index >= count)
     {
@@ -777,7 +1410,7 @@ struct SortableDictionary<Key: Hashable, Value>
     {
       let key = sortedKeys[index]
       remove(index: index)
-      insert(key: key, value: value)
+      insert(newKey: key, andNewValue: value)
     }
     else
     {
@@ -787,7 +1420,7 @@ struct SortableDictionary<Key: Hashable, Value>
     return oldValue
   }
   
-  mutating func update(overwriteValueForKey key: Key, withNewValue value: Value) -> (Value?)
+  mutating func update(valueForKey key: Key, withNewValue value: Value) -> (Value?)
   {
     let index = getIndex(forKey: key)
     
@@ -797,46 +1430,127 @@ struct SortableDictionary<Key: Hashable, Value>
     }
     else
     {
-      let oldValue = update(overwriteValueAtIndex: index!, withNewValue: value)
+      let oldValue = update(valueAtIndex: index!, withNewValue: value)
       return oldValue
     }
   }
   
-  mutating func update(overwriteWithNewElement element: (key: Key, value: Value)) -> (Value?)
+  mutating func update(usingElement element: (key: Key, value: Value)) -> (Value?)
   {
-    return update(overwriteValueForKey: element.key, withNewValue: element.value)
+    return update(valueForKey: element.key, withNewValue: element.value)
   }
   
-  mutating func update(overwriteKeyAtIndex index: Int, withExistingKey key: Key) -> (key: Key, value: Value)
+  mutating func update(moveKey key: Key, toIndex index: Int) -> (Value)
+  {
+    if (!hasKey(key))
+    {
+      fatalError("Key: \(key) does not already exsist at another index.")
+    }
+    else if (getIndex(forKey: key) == index)
+    {
+      fatalError("Key: \(key) already exsist at index: \(index).")
+    }
+    
+    let value = self[key]!
+    remove(key: key)
+    insert(atIndex: index, newKey: key, andNewValue: value)
+    
+    return value
+  }
+  
+  mutating func update(moveKey shiftKey: Key, toBeforeKey key: Key) -> (Value)
+  {
+    if (!hasKey(key))
+    {
+      fatalError("Key: \(key) does not already exsist.")
+    }
+    
+    let index = getIndex(forKey: key)!
+    let oldValue = update(moveKey: shiftKey, toIndex: index)
+    
+    return oldValue
+  }
+  
+  mutating func update(keyAndValueAtIndex index: Int, withNewKey key: Key, andNewValue value: Value) -> (key: Key, value: Value)
+  {
+    if (index >= count)
+    {
+      fatalError("Index out of bounds!")
+    }
+    else if (hasKey(key))
+    {
+      fatalError("Key: \(key) already exsists at another index.")
+    }
+    
+    let oldValue = sortedValues[index]
+    let oldKey = sortedKeys[index]
+    remove(index: index)
+    insert(atIndex: index, newKey: key, andNewValue: value)
+    
+    return (key: oldKey, value: oldValue)
+  }
+  
+  mutating func update(elementAtIndex index: Int, withNewElement element: (key: Key, value: Value)) -> (key: Key, value: Value)
+  {
+    return update(keyAndValueAtIndex: index, withNewKey: element.key, andNewValue: element.value)
+  }
+  
+  mutating func update(replaceKey oldKey: Key, withExistingKey key: Key) -> (Value)
+  {
+    if (!hasKey(oldKey))
+    {
+      fatalError("Replaceing Key: \(oldKey) does not already exsist.")
+    }
+    else if (!hasKey(key))
+    {
+      fatalError("Replacement Key: \(key) does not already exsist.")
+    }
+    
+    let oldValue = remove(key: oldKey)!
+    update(valueForKey: key, withNewValue: oldValue)
+    
+    return oldValue
+  }
+  
+  mutating func update(keyAtIndex index: Int, withExistingKey key: Key) -> (key: Key, value: Value)
   {
     if (sortingType != SortType.Manual)
     {
       fatalError("Indexs can only be updated while in Manual sort.")
     }
-    else if (index >= count)
+    else if (index >= count || index < 0)
     {
       fatalError("Index out of bounds!")
-    }
-    else if (!hasKey(key))
-    {
-      fatalError("Key: \(key) does not already exsist.")
     }
     else if (key == sortedKeys[index])
     {
       fatalError("Key: \(key) already located at index: \(index).")
     }
     
-    let value = self[key]!
-    let oldValue = sortedValues[index]
     let oldKey = sortedKeys[index]
-    remove(key: key)
-    remove(key: oldKey)
-    insert(insertAtIndex: index, key: key, value: value)
+    let oldValue = update(replaceKey: oldKey, withExistingKey: key)
     
     return (key: oldKey, value: oldValue)
   }
   
-  mutating func update(overwriteKeyAtIndex index: Int, withNewKey key: Key) -> (key: Key, value: Value)
+  mutating func update(replaceKey oldKey: Key, withNewKey key: Key) -> (Value)
+  {
+    if (!hasKey(oldKey))
+    {
+      fatalError("Replaceing Key: \(oldKey) does not already exsist.")
+    }
+    else if (!hasKey(key))
+    {
+      fatalError("Replacement Key: \(key) does not already exsist.")
+    }
+    
+    let oldValue = remove(key: oldKey)!
+    insert(newKey: key, andNewValue: oldValue)
+    
+    return oldValue
+  }
+  
+  mutating func update(keyAtIndex index: Int, withNewKey key: Key) -> (key: Key, value: Value)
   {
     if (sortingType != SortType.Manual)
     {
@@ -851,37 +1565,68 @@ struct SortableDictionary<Key: Hashable, Value>
       fatalError("Key: \(key) already exsist.")
     }
     
-    let oldValue = sortedValues[index]
     let oldKey = sortedKeys[index]
-    remove(key: oldKey)
-    insert(insertAtIndex: index, key: key, value: oldValue)
+    let oldValue = update(replaceKey: oldKey, withNewKey: key)
     
     return (key: oldKey, value: oldValue)
   }
   
-  mutating func update(overwriteKey oldKey: Key, withExistingKey key: Key) -> (key: Key, value: Value)
+  mutating func update(swapFirstIndex index1: Int, withSecondIndex index2: Int)
   {
-    if (!hasKey(oldKey))
+    if (index1 >= count || index2 >= count)
     {
-      fatalError("OldKey: \(oldKey) does not already exsist at another index.")
+      fatalError("Index out of bounds!")
+    }
+    else if (index1 == index2)
+    {
+      fatalError("Cannot swap, indexes are identical.")
     }
     
-    let index = getIndex(forKey: oldKey)!
-    return update(overwriteKeyAtIndex: index, withExistingKey: key)
-  }
-  
-  mutating func update(overwriteKey oldKey: Key, withNewKey key: Key) -> (key: Key, value: Value)
-  {
-    if (!hasKey(oldKey))
+    let element1 = self[index1]
+    let element2 = self[index2]
+    remove(key: element1.key)
+    remove(key: element2.key)
+    
+    if (index1 < index2)
     {
-      fatalError("OldKey: \(oldKey) does not already exsist at another index.")
+      insert(atIndex: index1, newElement: element2)
+      insert(atIndex: index2, newElement: element1)
     }
-
-    let index = getIndex(forKey: oldKey)!
-    return update(overwriteKeyAtIndex: index, withNewKey: key)
+    else
+    {
+      insert(atIndex: index2, newElement: element1)
+      insert(atIndex: index1, newElement: element2)
+    }
   }
   
-  mutating func update(overwriteElementAtIndex index: Int, withNewKey key: Key, andNewValue value: Value) -> (key: Key, value: Value)
+  mutating func update(swapFirstKey key1: Key, withSecondKey key2: Key)
+  {
+    if (!hasKey(key1))
+    {
+      fatalError("Cannot swap, Key: \(key1) missing")
+    }
+    else if (!hasKey(key2))
+    {
+      fatalError("Cannot swap, Key: \(key2) missing")
+    }
+    
+    let firstIndex = getIndex(forKey: key1)!
+    let secondIndex = getIndex(forKey: key2)!
+    return update(swapFirstIndex: firstIndex, withSecondIndex: secondIndex)
+  }
+  
+  mutating func update(swapKeyAtIndex index: Int, withKey key: Key)
+  {
+    if (!hasKey(key))
+    {
+      fatalError("Cannot swap, Key: \(key) missing")
+    }
+    
+    let secondIndex = getIndex(forKey: key)!
+    update(swapFirstIndex: index, withSecondIndex: secondIndex)
+  }
+  
+  mutating func update(elementAtIndex index: Int, withNewKey key: Key, andNewValue value: Value) -> (key: Key, value: Value)
   {
     if (sortingType != SortType.Manual)
     {
@@ -904,12 +1649,12 @@ struct SortableDictionary<Key: Hashable, Value>
     let oldValue = sortedValues[index]
     let oldKey = sortedKeys[index]
     remove(key: oldKey)
-    insert(insertAtIndex: index, key: key, value: value)
+    insert(atIndex: index, newKey: key, andNewValue: value)
     
     return (key: oldKey, value: oldValue)
   }
   
-  mutating func update(overwriteValuesForKeys keys: [Key], withNewValues values: [Value]) -> ([Value?])
+  mutating func update(valuesForKeys keys: [Key], withNewValues values: [Value]) -> ([Value?])
   {
     let count = keys.count
     
@@ -922,77 +1667,72 @@ struct SortableDictionary<Key: Hashable, Value>
     
     for i in 0..<count
     {
-      let oldValue = update(overwriteValueForKey: keys[i], withNewValue: values[i])
+      let oldValue = update(valueForKey: keys[i], withNewValue: values[i])
       oldValues.append(oldValue)
     }
     
     return oldValues
   }
   
-  mutating func update(overwriteWithNewElements elements: [(key: Key, value: Value)]) -> ([Value?])
+  mutating func update(usingElements elements: [(key: Key, value: Value)]) -> ([Value?])
   {
     var oldValues: [Value?] = []
     
     for i in 0..<elements.count
     {
-      let oldValue = update(overwriteWithNewElement: elements[i])
+      let oldValue = update(usingElement: elements[i])
       oldValues.append(oldValue)
     }
     
     return oldValues
   }
   
-  mutating func update(updateWithNewDictionary dictionary: [Key: Value]) -> ([Value?])
+  mutating func update(usingDictionary dictionary: [Key: Value]) -> ([Value?])
   {
     var oldValues: [Value?] = []
     
     for element in dictionary
     {
-      let oldValue = update(overwriteWithNewElement: element)
+      let oldValue = update(usingElement: element)
       oldValues.append(oldValue)
     }
     
     return oldValues
   }
   
-  mutating func update(overwriteElementAtIndex index: Int, withNewElement element: (key: Key, value: Value)) -> (key: Key, value: Value)
-  {
-    return update(overwriteElementAtIndex: index, withNewKey: element.key, andNewValue: element.value)
-  }
-  
-  mutating func update(overwriteKeysStartingAtIndex index: Int, withExistingKeys keys: [Key]) -> ([(key: Key, value: Value)])
+  mutating func update(keysStartingAtIndex index: Int, withExistingKeys keys: [Key]) -> ([(key: Key, value: Value)])
   {
     var oldValues: [(key: Key, value: Value)] = []
     
     for i in 0..<keys.count
     {
-      let oldValue = update(overwriteKeyAtIndex: i + index, withExistingKey: keys[i])
+      let oldValue = update(keyAtIndex: i + index, withExistingKey: keys[i])
       oldValues.append(oldValue)
     }
     
     return oldValues
   }
   
-  mutating func update(overwriteElementsStartingAtIndex index: Int, withNewElements elements: [(key: Key, value: Value)]) -> ([(key: Key, value: Value)])
+  mutating func update(elementsStartingAtIndex index: Int, withNewElements elements: [(key: Key, value: Value)]) -> ([(key: Key, value: Value)])
   {
     var oldValues: [(key: Key, value: Value)] = []
     
     for i in 0..<elements.count
     {
-      let oldValue = update(overwriteElementAtIndex: index + i, withNewElement: elements[i])
+      let oldValue = update(elementAtIndex: index + i, withNewElement: elements[i])
       oldValues.append(oldValue)
     }
     
     return oldValues
   }
   
-  mutating func update(var overwriteElementsStartingAtIndex index: Int, withNewDictionary dictionary: [Key: Value]) -> ([(key: Key, value: Value)])
+  mutating func update(var elementsStartingAtIndex index: Int, withNewDictionary dictionary: [Key: Value]) -> ([(key: Key, value: Value)])
   {
     var oldValues: [(key: Key, value: Value)] = []
     
     for element: (Key, Value) in dictionary
     {
-      let oldValue = update(overwriteElementAtIndex: index, withNewElement: element)
+      let oldValue = update(elementAtIndex: index, withNewElement: element)
       oldValues.append(oldValue)
       index++
     }
@@ -1021,6 +1761,20 @@ struct SortableDictionary<Key: Hashable, Value>
     let key = sortedKeys.removeAtIndex(index)
     dictionary.removeValueForKey(key)
     return (key: key, value: value)
+  }
+  
+  mutating func remove(rangeOfIndices range: Range<Int>) -> ([Value?])
+  {
+    var oldValues: [Value?] = []
+    
+    for i in range
+    {
+      let oldElement = remove(index: i)
+      let oldValue = oldElement.value
+      oldValues.append(oldValue)
+    }
+    
+    return oldValues
   }
   
   mutating func remove(#keys: [Key]) -> ([Value?])
@@ -1076,7 +1830,7 @@ struct SortableDictionary<Key: Hashable, Value>
     }
     else
     {
-      update(overwriteValueForKey: key, withNewValue: value!)
+      update(valueForKey: key, withNewValue: value!)
     }
     
     return oldValue
@@ -1104,7 +1858,7 @@ struct SortableDictionary<Key: Hashable, Value>
           }
           else if (index < count)
           {
-            let tuple = update(overwriteKeyAtIndex: index, withExistingKey: key!)
+            let tuple = update(keyAtIndex: index, withExistingKey: key!)
             
             var key: Key? = tuple.key
             var value: Value? = tuple.value
@@ -1118,7 +1872,7 @@ struct SortableDictionary<Key: Hashable, Value>
         }
         else if (value != nil)
         {
-          insert(insertAtIndex: index, key: key!, value: value!)
+          insert(atIndex: index, newKey: key!, andNewValue: value!)
           return (key: nil, value: nil)
         }
         else
@@ -1158,86 +1912,6 @@ struct SortableDictionary<Key: Hashable, Value>
     }
     
     return oldValues
-  }
-  
-  mutating func overwrite(#index: Int, key: Key, value: Value) -> (key: Key, value: Value)
-  {
-    if (index >= count)
-    {
-      fatalError("Index out of bounds!")
-    }
-    else if (hasKey(key))
-    {
-      fatalError("Key: \(key) already exsists at another index.")
-    }
-    
-    let oldValue = sortedValues[index]
-    let oldKey = sortedKeys[index]
-    remove(index: index)
-    insert(insertAtIndex: index, key: key, value: value)
-    
-    return (key: oldKey, value: oldValue)
-  }
-  
-  mutating func overwrite(#index: Int, element: (key: Key, value: Value)) -> (key: Key, value: Value)
-  {
-    return overwrite(index: index, key: element.key, value: element.value)
-  }
-  
-  mutating func shift(#index: Int, key: Key)
-  {
-    if (!hasKey(key))
-    {
-      fatalError("Key: \(key) does not already exsist at another index.")
-    }
-    
-    let value = self[key]!
-    remove(key: key)
-    insert(insertAtIndex: index, key: key, value: value)
-  }
-  
-  mutating func swap(#index1: Int, index2: Int)
-  {
-    if (index1 >= count || index2 >= count)
-    {
-      fatalError("Index out of bounds!")
-    }
-    else if (index1 == index2)
-    {
-      fatalError("Cannot swap, indexes are identical.")
-    }
-    
-    let element1 = self[index1]
-    let element2 = self[index2]
-    remove(key: element1.key)
-    remove(key: element2.key)
-    
-    if (index1 < index2)
-    {
-      insert(insertAtIndex: index1, element: element2)
-      insert(insertAtIndex: index2, element: element1)
-    }
-    else
-    {
-      insert(insertAtIndex: index2, element: element1)
-      insert(insertAtIndex: index1, element: element2)
-    }
-  }
-  
-  mutating func swap(key1: Key, key2: Key)
-  {
-    if (!hasKey(key1))
-    {
-      fatalError("Cannot swap, Key: \(key1) missing")
-    }
-    else if (!hasKey(key2))
-    {
-      fatalError("Cannot swap, Key: \(key2) missing")
-    }
-    
-    let index1 = getIndex(forKey: key1)!
-    let index2 = getIndex(forKey: key2)!
-    return swap(index1: index1, index2: index2)
   }
   
   func getIndex(#forKey: Key) -> (Int?)
@@ -1280,46 +1954,27 @@ struct SortableDictionary<Key: Hashable, Value>
     sortedValues.reserveCapacity(minimumCapacity)
   }
   
-  func sorted(valueSort: (Value, Value) -> Bool) -> (SortableDictionary)
+  func sorted(var sortType: SortType? = nil, valueSort: ((Value, Value) -> Bool
+    )? = nil, keySort: ((Key, Key) -> Bool)? = nil) -> (SortableDictionary)
   {
-    return SortableDictionary(dictionary: dictionary, sortType: SortType.Value, valueSortID: nil, valueSort: valueSort, keySortID: keySortID, keySort: keySort)
-  }
-  
-  func sorted(valueSortID: String, valueSort: (Value, Value) -> Bool) -> (SortableDictionary)
-  {
-    return SortableDictionary(dictionary: dictionary, sortType: SortType.Value, valueSortID: valueSortID, valueSort: valueSort, keySortID: keySortID, keySort: keySort)
-  }
-  
-  func sorted(keySort: (Key, Key) -> Bool) -> (SortableDictionary)
-  {
-    return SortableDictionary(dictionary: dictionary, sortType: SortType.Key, valueSortID: valueSortID, valueSort: valueSort, keySortID: nil, keySort: keySort)
-  }
-  
-  func sorted(keySortID: String, keySort: (Key, Key) -> Bool) -> (SortableDictionary)
-  {
-    return SortableDictionary(dictionary: dictionary, sortType: SortType.Key, valueSortID: valueSortID, valueSort: valueSort, keySortID: keySortID, keySort: keySort)
-  }
-  
-  func sorted(sortType: SortType, valueSort: (Value, Value) -> Bool, keySort: (Key, Key) -> Bool) -> (SortableDictionary)
-  {
-    return SortableDictionary(dictionary: dictionary, sortType: sortType, valueSortID: nil, valueSort: valueSort, keySortID: nil, keySort: keySort)
-  }
-  
-  func sorted(sortType: SortType, valueSortID: String, valueSort: (Value, Value) -> Bool, keySortID: String, keySort: (Key, Key) -> Bool) -> (SortableDictionary)
-  {
-    return SortableDictionary(dictionary: dictionary, sortType: sortType, valueSortID: valueSortID, valueSort: valueSort, keySortID: keySortID, keySort: keySort)
+    if (sortType == nil)
+    {
+      sortType = sortingType
+    }
+    
+    return SortableDictionary(dictionary: dictionary, sortType: sortType!, valueSort: valueSort, keySort: keySort)
   }
   
   func filter(includeElement: (Value) -> Bool) -> (SortableDictionary)
   {
     let newDictionary = filterDictionaryOnly(includeElement)
-    return SortableDictionary(dictionary: newDictionary, sortType: sortType, valueSortID: valueSortID, valueSort: valueSort, keySortID: keySortID, keySort: keySort)
+    return SortableDictionary(dictionary: newDictionary, sortType: sortType, valueSort: valueSort, keySort: keySort)
   }
   
   func filter(includeElement: (Key) -> Bool) -> (SortableDictionary)
   {
     let newDictionary = filterDictionaryOnly(includeElement)
-    return SortableDictionary(dictionary: newDictionary, sortType: sortType, valueSortID: valueSortID, valueSort: valueSort, keySortID: keySortID, keySort: keySort)
+    return SortableDictionary(dictionary: newDictionary, sortType: sortType, valueSort: valueSort, keySort: keySort)
   }
   
   func filterDictionaryOnly(includeElement: (Value) -> Bool) -> ([Key: Value])
@@ -1355,7 +2010,7 @@ struct SortableDictionary<Key: Hashable, Value>
   func map(transform: (Value) -> Value) -> (SortableDictionary)
   {
     let newDictionary = mapDictionaryOnly(transform)
-    return SortableDictionary(dictionary: newDictionary, sortType: sortType, valueSortID: valueSortID, valueSort: valueSort, keySortID: keySortID, keySort: keySort)
+    return SortableDictionary(dictionary: newDictionary, sortType: sortType, valueSort: valueSort, keySort: keySort)
   }
   
   func mapDictionaryOnly(transform: (Value) -> Value) -> ([Key: Value])
@@ -1371,23 +2026,23 @@ struct SortableDictionary<Key: Hashable, Value>
     return newDictionary
   }
   
-  //     func reduce<U>(initial: U, combine: (U, Value) -> U) -> U
-  //     {
-  //
-  //     }
+//  func reduce<U>(initial: U, combine: (U, Value) -> U) -> U
+//  {
+//    
+//  }
   
   func combine(otherSortableDictionary: SortableDictionary, overwriteOther: Bool = true) -> (SortableDictionary)
   {
     if (overwriteOther)
     {
       var newSortedDictionary = SortableDictionary(sortedDictionary: self)
-      newSortedDictionary.insert(dictionary: otherSortableDictionary.dictionary)
+      newSortedDictionary.insert(elementsFromDictionary: otherSortableDictionary.dictionary)
       return newSortedDictionary
     }
     else
     {
       var newSortedDictionary = SortableDictionary(sortedDictionary: otherSortableDictionary)
-      newSortedDictionary.insert(dictionary: self.dictionary)
+      newSortedDictionary.insert(elementsFromDictionary: self.dictionary)
       return newSortedDictionary
     }
   }
@@ -1397,15 +2052,15 @@ struct SortableDictionary<Key: Hashable, Value>
     return combine(otherSortableDictionary, overwriteOther: overwriteOther).dictionary
   }
   
-  //     func print() -> String
-  //     {
-  //     let printString = "["
-  //
-  //     for i in 0..<count
-  //     {
-  //     printString += "\(sortedKeys[i]) "
-  //     }
-  //     }
+//  func print() -> String
+//  {
+//    let printString = "["
+//    
+//    for i in 0..<count
+//    {
+//      printString += "\(sortedKeys[i]) "
+//    }
+//  }
 }
 
 func ==<Key: Equatable, Value: Equatable>(lhs: SortableDictionary<Key, Value>, rhs: SortableDictionary<Key, Value>) -> (Bool)
@@ -1421,7 +2076,7 @@ func !=<Key: Equatable, Value: Equatable>(lhs: SortableDictionary<Key, Value>, r
 func +<Key, Value>(lhs: SortableDictionary<Key, Value>, rhs: SortableDictionary<Key, Value>) -> (SortableDictionary<Key, Value>)
 {
   var newSortedDictionary = lhs
-  newSortedDictionary.insert(dictionary: rhs.dictionary)
+  newSortedDictionary.insert(elementsFromDictionary: rhs.dictionary)
   return newSortedDictionary
 }
 
@@ -1445,13 +2100,13 @@ func -=<Key, Value>(inout lhs: SortableDictionary<Key, Value>, rhs: SortableDict
 func +<Key, Value>(lhs: SortableDictionary<Key, Value>, rhs: (key: Key, value: Value)) -> (SortableDictionary<Key, Value>)
 {
   var newSortedDictionary = lhs
-  newSortedDictionary.insert(element: rhs)
+  newSortedDictionary.insert(newElement: rhs)
   return newSortedDictionary
 }
 
 func +=<Key, Value>(inout lhs: SortableDictionary<Key, Value>, rhs: (key: Key, value: Value))
 {
-  lhs.insert(element: rhs)
+  lhs.insert(newElement: rhs)
 }
 
 func -<Key, Value>(lhs: SortableDictionary<Key, Value>, rhs: (key: Key, value: Value)) -> (SortableDictionary<Key, Value>)
@@ -1479,7 +2134,7 @@ func !=<Key: Equatable, Value: Equatable>(lhs: SortableDictionary<Key, Value>, r
 func +<Key, Value>(lhs: SortableDictionary<Key, Value>, rhs: [Key: Value]) -> (SortableDictionary<Key, Value>)
 {
   var newSortedDictionary = lhs
-  newSortedDictionary.insert(dictionary: rhs)
+  newSortedDictionary.insert(elementsFromDictionary: rhs)
   return newSortedDictionary
 }
 
