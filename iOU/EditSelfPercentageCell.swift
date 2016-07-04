@@ -29,7 +29,7 @@ class EditSelfPercentageCell: ContractorCell, UIPickerViewDelegate, UIPickerView
     return EditContractLogic.pickerCell(rowCountForComponent: component)
   }
   
-  func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> (String!)
+  func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> (String?)
   {
     return EditContractLogic.pickerCell(titleForRow: row, inComponent: component)
   }

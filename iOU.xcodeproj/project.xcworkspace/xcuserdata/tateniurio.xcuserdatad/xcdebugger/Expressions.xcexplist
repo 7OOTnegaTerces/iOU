@@ -1,0 +1,574 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "iOU.iOULogic.newContractMoneyRowSelection (iOU.iOULogic.Type)(iOU.NewContractMoneyController, indexPath : ObjectiveC.NSIndexPath) -&gt; ():iOULogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "iOUData.sharedInstance.temporaryData.dynamicEditLender">
+            </PersistentString>
+            <PersistentString
+               value = "iOUData.sharedInstance.temporaryData.contract.lenders">
+            </PersistentString>
+            <PersistentString
+               value = "iOUData.sharedInstance.temporaryData.contract.lenders.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.SortableDictionary.(sort in _EF79490F2EF7F090292FDDB84179FFD0) &lt;A : Swift.Hashable, B&gt;(inout iOU.SortableDictionary&lt;A, B&gt;)() -&gt; ():iOUData.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "dictionary">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "static iOU.iOULogic.newContractorsRowSelection (iOU.iOULogic.Type)(ObjectiveC.UITableView, ObjectiveC.NSIndexPath, contractorType : Swift.String) -&gt; ():iOULogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "iOUData.sharedInstance.temporaryData.borrowersTemporary">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "static EditContractLogic.trackRowRefreshes(table : String, index : NSIndexPath) -&gt; ():EditContractLogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "reloadedCells.indexForKey(loadedCell) == nil">
+            </PersistentString>
+            <PersistentString
+               value = "index.section">
+            </PersistentString>
+            <PersistentString
+               value = "index.row">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.iOULogic.keyboardWillShow (iOU.iOULogic.Type)(newContractController : iOU.NewContractController, notification : ObjectiveC.NSNotification) -&gt; ():iOULogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "temporaryData.dynamicEditID">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.SortableDictionary.subscript.getter (Swift.Int) -&gt; (key : A, value : B):MyLibrary.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.iOULogic.newContractInputSegue (iOU.iOULogic.Type)(ObjectiveC.UIViewController, save : Swift.Bool) -&gt; ():iOULogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "iOUData.sharedInstance.newContract.monetaryValue">
+            </PersistentString>
+            <PersistentString
+               value = "iOUData.sharedInstance.temporaryData.contract.monetaryValue">
+            </PersistentString>
+            <PersistentString
+               value = "iOUData.sharedInstance.temporaryData">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "static EditContractLogic.flipToggle(toggle : UISwitch) -&gt; ():EditContractLogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = " contractTempData.dynamicEditCell.coordinates">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "static iOU.EditContractLogic.newContractMoneyUpdateCell (iOU.EditContractLogic.Type)(cell : ObjectiveC.UITableViewCell, indexPath : ObjectiveC.NSIndexPath) -&gt; ():EditContractLogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "">
+            </PersistentString>
+            <PersistentString
+               value = "tempSwitchCell.cellID">
+            </PersistentString>
+            <PersistentString
+               value = "tempPickerCell.picker.numberOfComponents">
+            </PersistentString>
+            <PersistentString
+               value = "tempPickerCell.cellID">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "static iOU.iOULogic.addContractor (iOU.iOULogic.Type)(Swift.String, (Swift.String, (parts : Swift.Int, percent : Swift.Int, fixed : Swift.Double)), iOU.SortableDictionary&lt;Swift.String, (parts : Swift.Int, percent : Swift.Int, fixed : Swift.Double)&gt;) -&gt; ():iOULogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "contractors">
+            </PersistentString>
+            <PersistentString
+               value = "iOUData.sharedInstance.temporaryData.borrowersTemporary">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.iOULogic.newContractRefreshCells (iOU.iOULogic.Type)(view : iOU.NewContractController, notification : ObjectiveC.NSNotification) -&gt; ():iOULogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "refreshRows.count">
+            </PersistentString>
+            <PersistentString
+               value = "refreshRows[0].row">
+            </PersistentString>
+            <PersistentString
+               value = "refreshRows[0].section">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "NSIndexPath.coordinates.getter:MyLibrary.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "section">
+            </PersistentString>
+            <PersistentString
+               value = "row">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.iOULogic.newContractLendersRowSelection (iOU.iOULogic.Type)(ObjectiveC.NSIndexPath) -&gt; ():iOULogic.swift">
+      </ContextState>
+      <ContextState
+         contextName = "iOU.iOULogic.keyboardWillShow (iOU.iOULogic.Type)(newContractControllerTable : ObjectiveC.UITableView, notification : ObjectiveC.NSNotification) -&gt; ():iOULogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "temporaryData.dynamicEditCell.row">
+            </PersistentString>
+            <PersistentString
+               value = "newLenderInsertionOffset">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "static iOU.iOULogic.newContractorViewDidLoad (iOU.iOULogic.Type)(view : ObjectiveC.UIViewController, table : ObjectiveC.UITableView, contractorType : Swift.String) -&gt; ():iOULogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "&quot;RefreshNew&quot; + contractorType + &quot;Table&quot;">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.SortableDictionary.hasKey &lt;A : Swift.Hashable, B&gt;(iOU.SortableDictionary&lt;A, B&gt;)(A) -&gt; Swift.Bool:MyLibrary.swift">
+      </ContextState>
+      <ContextState
+         contextName = "iOU.iOULogic.updateContractors (iOU.iOULogic.Type)(sourceTable : Swift.Optional&lt;ObjectiveC.UITableView&gt;, indexPath : Swift.Optional&lt;ObjectiveC.NSIndexPath&gt;) -&gt; Swift.Bool:iOULogic.swift">
+      </ContextState>
+      <ContextState
+         contextName = "static EditContractLogic.newContractMoneyRowSelection(tableView : UITableView, indexPath : NSIndexPath) -&gt; ():EditContractLogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "temporaryContract.tip">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "static iOU.iOULogic.pickerCell (iOU.iOULogic.Type)(didSelectRow : Swift.Int, inComponent : Swift.Int, withID : Swift.String) -&gt; ():iOULogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "AlertNagRate(rawValue: row)!">
+            </PersistentString>
+            <PersistentString
+               value = "contractTempData.dynamicEditValue == nil">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.SortableDictionary.update &lt;A : Swift.Hashable, B&gt;(inout iOU.SortableDictionary&lt;A, B&gt;)(index : Swift.Int, key : A, value : B) -&gt; (key : A, value : B):iOUData.swift">
+      </ContextState>
+      <ContextState
+         contextName = "iOU.iOULogic.newContractorRefreshTable (iOU.iOULogic.Type)(sharesController : ObjectiveC.UISegmentedControl, table : ObjectiveC.UITableView, contractorType : Swift.String) -&gt; ():iOULogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "postedData[&quot;LenderTableIndexPath&quot;]!.row">
+            </PersistentString>
+            <PersistentString
+               value = "postedData[&quot;LenderTableIndexPath&quot;]!.section">
+            </PersistentString>
+            <PersistentString
+               value = "postedData.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.iOULogic.newContractLendersRowSelect (iOU.iOULogic.Type)(iOU.NewContractLenders, indexPath : ObjectiveC.NSIndexPath) -&gt; ():iOULogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "iOUData.sharedInstance.temporaryData[3]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "static iOU.iOULogic.failedToSaveDynamicChanges (iOU.iOULogic.Type)() -&gt; Swift.Bool:iOULogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "contractTempData.dynamicEditValue == nil">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.EditContractorPartCell.updateMonetaryParts (iOU.EditContractorPartCell)(ObjectiveC.UITextField) -&gt; ():EditContractorPartCell.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "focusContractorName">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.Contract.overWrite (iOU.Contract)(iOU.Contract) -&gt; ():iOUData.swift">
+      </ContextState>
+      <ContextState
+         contextName = "iOU.iOULogic.newContractorsRowSelection (iOU.iOULogic.Type)(indexPath : ObjectiveC.NSIndexPath, contractorType : Swift.String) -&gt; ():iOULogic.swift">
+      </ContextState>
+      <ContextState
+         contextName = "iOU.iOULogic.newContractorsCreateCell (iOU.iOULogic.Type)(ObjectiveC.UITableView, ObjectiveC.NSIndexPath, contractorType : Swift.String) -&gt; ObjectiveC.UITableViewCell:iOULogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "newLenderInsertionOffset">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "mach_msg_trap:(null)">
+         <PersistentStrings>
+            <PersistentString
+               value = "iOUData.sharedInstance.newContract.monetaryValue">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.iOULogic.newContractLendersCell (iOU.iOULogic.Type)(tableView : ObjectiveC.UITableView, indexPath : ObjectiveC.NSIndexPath) -&gt; ObjectiveC.UITableViewCell:iOULogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "temporaryContract.lenders.count">
+            </PersistentString>
+            <PersistentString
+               value = "contractorsTemporary.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.EditAmountCell.changeContractMonetaryValue (iOU.EditAmountCell)(ObjectiveC.UITextField) -&gt; ():EditAmountCell.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "iOUData.sharedInstance.newContract.monetaryValue">
+            </PersistentString>
+            <PersistentString
+               value = "iOUData.sharedInstance.temporaryData.contract.monetaryValue">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.NewContractTitleController.viewDidLoad (iOU.NewContractTitleController)() -&gt; ():NewContractTitleController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "iOUData.sharedInstance.temporaryData">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.iOULogic.isAddUserHeaderRow (iOU.iOULogic.Type)(Swift.String, ObjectiveC.NSIndexPath) -&gt; Swift.Bool:iOULogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "temporaryData.lendersTemporary.hasKey(&quot;@User@&quot;)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.EditTipPercentageCell.loadData (iOU.EditTipPercentageCell)() -&gt; ():EditTipPercentageCell.swift">
+      </ContextState>
+      <ContextState
+         contextName = "iOU.iOULogic.newContractorRowHeight (iOU.iOULogic.Type)(indexPath : ObjectiveC.NSIndexPath, contractorType : Swift.String) -&gt; CoreGraphics.CGFloat:iOULogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "temporaryData.borrowerSelfRow">
+            </PersistentString>
+            <PersistentString
+               value = "temporaryData.lenderSelfRow">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.iOULogic.toggleContractorSlackButton (iOU.iOULogic.Type)(iOU.ContractorCell) -&gt; ():iOULogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "sender.row">
+            </PersistentString>
+            <PersistentString
+               value = "newLenderInsertionOffset">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.iOULogic.addContractor (iOU.iOULogic.Type)(ObjectiveC.UITableView, Swift.String, iOU.SortableDictionary&lt;Swift.String, (parts : Swift.Int, percent : Swift.Int, fixed : Swift.Double)&gt;) -&gt; ():iOULogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "temporaryData.dynamicEditCell.row">
+            </PersistentString>
+            <PersistentString
+               value = "temporaryData.lenderSlackRow">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "static iOU.iOULogic.newContractMoneyRowSelection (iOU.iOULogic.Type)(tableView : ObjectiveC.UITableView, indexPath : ObjectiveC.NSIndexPath) -&gt; ():iOULogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "iOULogic.newContractMoneyRowCount(5)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.iOULogic.updateShares (iOU.iOULogic.Type)(sender : ObjectiveC.UISegmentedControl, contractorType : Swift.String) -&gt; ():iOULogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "temporaryContract.lenderShares!">
+            </PersistentString>
+            <PersistentString
+               value = "temporaryContract.borrowerShares!">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.iOULogic.newContractMoneyRowHeight (iOU.iOULogic.Type)(ObjectiveC.NSIndexPath) -&gt; CoreGraphics.CGFloat:iOULogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "temporaryData.lendersTemporary.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.SortableDictionary.init &lt;A : Swift.Hashable, B&gt;(iOU.SortableDictionary&lt;A, B&gt;.Type)(dictionary : Swift.Dictionary&lt;A, B&gt;, sortByValues : Swift.Bool, valueSort : (B, B) -&gt; Swift.Bool, keySort : (A, A) -&gt; Swift.Bool) -&gt; iOU.SortableDictionary&lt;A, B&gt;:iOUData.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "    self.dictionary = dictionary&#10;    &#10;    self.valueSortID = valueSortID&#10;    self.valueSort = valueSort&#10;    self.keySortID = keySortID&#10;    self.keySort = keySort&#10;    &#10;    sortingByValues = sortByValues&#10;    &#10;    self.sort()&#10;dictionary">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.iOULogic.newContractMoneyRowSelection (iOU.iOULogic.Type)(tableView : ObjectiveC.UITableView, indexPath : ObjectiveC.NSIndexPath) -&gt; ():iOULogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "temporaryContract.lenderShares!">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "static iOU.iOULogic.newContractRowCount (iOU.iOULogic.Type)(section : Swift.Int, contractorType : Swift.String) -&gt; Swift.Int:iOULogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "iOUData.sharedInstance.temporaryData.borrowersTemporary">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.iOULogic.newContractMoneyCell (iOU.iOULogic.Type)(iOU.NewContractMoneyController, staticCell : ObjectiveC.UITableViewCell, indexPath : ObjectiveC.NSIndexPath) -&gt; ObjectiveC.UITableViewCell:iOULogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "iOUData.sharedInstance.newContract.lenders">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.iOULogic.updateContractors (iOU.iOULogic.Type)() -&gt; Swift.Bool:iOULogic.swift">
+      </ContextState>
+      <ContextState
+         contextName = "iOU.iOULogic.newContractMoneyRowSelection (iOU.iOULogic.Type)(ObjectiveC.NSIndexPath) -&gt; ():iOULogic.swift">
+      </ContextState>
+      <ContextState
+         contextName = "iOU.NewContractTitleController.changeContractTitle (iOU.NewContractTitleController)(ObjectiveC.UITextField) -&gt; ():NewContractTitleController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "iOUData.sharedInstance.temporaryData">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.iOULogic.newContractLendersCell (iOU.iOULogic.Type)(ObjectiveC.UITableView, indexPath : ObjectiveC.NSIndexPath) -&gt; Swift.Optional&lt;ObjectiveC.UITableViewCell&gt;:iOULogic.swift">
+      </ContextState>
+      <ContextState
+         contextName = "iOU.iOULogic.newContractEdited (iOU.iOULogic.Type)(iOU.NewContractViewController, save : Swift.Bool) -&gt; ():iOULogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "iOUData.sharedInstance.newContract.lenders">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.iOULogic.newContractorsRowSelection (iOU.iOULogic.Type)(ObjectiveC.UITableView, ObjectiveC.NSIndexPath, contractorType : Swift.String) -&gt; ():iOULogic.swift">
+      </ContextState>
+      <ContextState
+         contextName = "iOU.EditLenderNameAndValuePercentageCell.pickerView (iOU.EditLenderNameAndValuePercentageCell)(ObjectiveC.UIPickerView, didSelectRow : Swift.Int, inComponent : Swift.Int) -&gt; ():EditLenderNameAndValuePercentageCell.swift">
+      </ContextState>
+      <ContextState
+         contextName = "static iOU.iOULogic.newContractMoneyUpdateCell (iOU.iOULogic.Type)(cell : ObjectiveC.UITableViewCell, indexPath : ObjectiveC.NSIndexPath) -&gt; ():iOULogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "indexPath.row">
+            </PersistentString>
+            <PersistentString
+               value = "indexPath.section">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.iOULogic.newContractorsUpdateCell (iOU.iOULogic.Type)(ObjectiveC.UITableViewCell, ObjectiveC.NSIndexPath, Swift.String) -&gt; ():iOULogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "newLenderInsertionOffset">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.iOULogic.contractorKeyboardWillShow (iOU.iOULogic.Type)(notification : ObjectiveC.NSNotification, view : iOU.NewContractController) -&gt; ():iOULogic.swift">
+      </ContextState>
+      <ContextState
+         contextName = "iOU.NewContractLenders.tableView (iOU.NewContractLenders)(ObjectiveC.UITableView, numberOfRowsInSection : Swift.Int) -&gt; Swift.Int:NewContractLenders.swift">
+      </ContextState>
+      <ContextState
+         contextName = "iOU.iOULogic.newContractorsCell (iOU.iOULogic.Type)(tableView : ObjectiveC.UITableView, indexPath : ObjectiveC.NSIndexPath, contractorType : Swift.String) -&gt; ObjectiveC.UITableViewCell:iOULogic.swift">
+      </ContextState>
+      <ContextState
+         contextName = "iOU.iOULogic.segueToNewContract (iOU.iOULogic.Type)(iOU.MainInterfaceController) -&gt; ():iOULogic.swift">
+      </ContextState>
+      <ContextState
+         contextName = "iOU.iOULogic.newContractMoneyCreateCell (iOU.iOULogic.Type)(tableView : ObjectiveC.UITableView, indexPath : ObjectiveC.NSIndexPath) -&gt; Swift.Optional&lt;ObjectiveC.UITableViewCell&gt;:iOULogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "data.mainScreenWidth">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.iOULogic.newContractorsCreateCell (iOU.iOULogic.Type)(tableView : ObjectiveC.UITableView, indexPath : ObjectiveC.NSIndexPath, contractorType : Swift.String) -&gt; ObjectiveC.UITableViewCell:iOULogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "newContractRowCount(&quot;Lender&quot;)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "static EditContractLogic.initializePercentagePicker(PercentagePicker, percentage : Int) -&gt; ():EditContractLogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "percentage[0]">
+            </PersistentString>
+            <PersistentString
+               value = "percentage[2]">
+            </PersistentString>
+            <PersistentString
+               value = "percentage[1]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "static EditContractLogic.trackFunctionCalls(table : String, index : NSIndexPath, function : String) -&gt; ():EditContractLogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "functionCalls[0]! == currentCall">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.iOULogic.newContractLendersRowSelection (iOU.iOULogic.Type)(iOU.NewContractLenders, indexPath : ObjectiveC.NSIndexPath) -&gt; ():iOULogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "iOUData.sharedInstance.temporaryData.lendersTemporary">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.NewContractInputController.saveInputAndSegue (iOU.NewContractInputController)(ObjectiveC.UIBarButtonItem) -&gt; ():NewContractInputController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "iOUData.sharedInstance.temporaryData">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.NewContractTitleController.changeContractTitle (iOU.NewContractTitleController)(Swift.AnyObject) -&gt; ():NewContractTitleController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "iOUData.sharedInstance.temporaryData">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.iOUData.totalLenderParts (iOU.iOUData)() -&gt; Swift.Int:iOUData.swift">
+      </ContextState>
+      <ContextState
+         contextName = "static iOU.EditContractLogic.newContractMoneyRowSelection (iOU.EditContractLogic.Type)(tableView : ObjectiveC.UITableView, indexPath : ObjectiveC.NSIndexPath) -&gt; ():EditContractLogic.swift">
+      </ContextState>
+      <ContextState
+         contextName = "iOU.iOULogic.newContractEdited (iOU.iOULogic.Type)(sender : iOU.NewContractController, save : Swift.Bool) -&gt; ():iOULogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "temporaryData.lenderSlackRow">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.iOULogic.newContractorsRowSelection (iOU.iOULogic.Type)(tableView : ObjectiveC.UITableView, indexPath : ObjectiveC.NSIndexPath, contractorType : Swift.String) -&gt; ():iOULogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "temporaryData.borrowerSlackRow">
+            </PersistentString>
+            <PersistentString
+               value = "temporaryData.lenderSlackRow">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.iOULogic.isSlackRow (iOU.iOULogic.Type)(Swift.String, ObjectiveC.NSIndexPath) -&gt; Swift.Bool:iOULogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "newLenderInsertionOffset">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.NewContractController.refreshCells (iOU.NewContractController)() -&gt; ():NewContractController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "iOUData.sharedInstance.temporaryData.refreshRows[0].section">
+            </PersistentString>
+            <PersistentString
+               value = "iOUData.sharedInstance.temporaryData.refreshRows[0].row">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.NewContractMoneyController.doneActivated (iOU.NewContractMoneyController)(ObjectiveC.UIBarButtonItem) -&gt; ():NewContractMoneyController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "iOUData.sharedInstance.newContract.monetaryValue">
+            </PersistentString>
+            <PersistentString
+               value = "iOUData.sharedInstance.temporaryData.contract.monetaryValue">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.iOULogic.dynamicallyEditingThisCell (iOU.iOULogic.Type)(ObjectiveC.NSIndexPath, dynamicEditID : Swift.String) -&gt; Swift.Bool:iOULogic.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "temporaryData.dynamicEditCell.row">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "iOU.NewContractLenders.cancelActivated (iOU.NewContractLenders)(ObjectiveC.UIBarButtonItem) -&gt; ():NewContractLenders.swift">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

@@ -17,7 +17,7 @@ class EditTitleCell: UITableViewCell, Focus
   @IBAction func changeTitle(sender: UITextField)
   {
     //Whenever the user changes the iOU contract's title, update it.
-    iOUData.sharedInstance.contractTemporaryData.contract.title = contractTitle.text
+    iOUData.sharedInstance.contractTemporaryData.contract.title = contractTitle.text!
   }
   
   @IBAction func changeType(sender: UISegmentedControl)

@@ -20,7 +20,7 @@ class EditMonetaryValueCell: UITableViewCell, MonetaryValue, Focus
   
   @IBAction func updateCurrency(sender: UIButton)
   {
-    //TODO - Implement Different Currencies.
+    //TODO: Implement Different Currencies.
   }
 
   @IBAction func displayCalculator(sender: UIButton)

@@ -29,7 +29,7 @@ class WaringController: UIViewController, Segueable
     // Dispose of any resources that can be recreated.
   }
   
-  func performSegue(#segueFrom: String, segueTo: String)
+  func performSegue(segueFrom segueFrom: String, segueTo: String)
   {
     performSegueWithIdentifier(segueFrom + "->" + segueTo, sender: self)
   }

@@ -12,10 +12,25 @@ class ToggleCell: UITableViewCell, SwitchCell
 {
   @IBOutlet weak var switchLabel: UILabel!
   @IBOutlet weak var toggle: UISwitch!
+  var toggleID: String
+  {
+    get
+    {
+      return id
+    }
+    set
+    {
+      if (id == nil)
+      {
+        id = newValue
+      }
+    }
+  }
+  private var id: String!
   
   @IBAction func flipToggle(sender: UISwitch)
   {
-    EditContractLogic.flipToggle(toggle: sender)
+    EditContractLogic.flipToggle(toggle: sender, toggleID: toggleID)
   }
   
   override func awakeFromNib()

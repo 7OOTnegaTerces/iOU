@@ -13,9 +13,9 @@ class UncoverVerticalSegue: UIStoryboardSegue
 {
   override func perform()
   {
-    var sourceViewController = self.sourceViewController as! UIViewController
-    var destinationViewController = self.destinationViewController as! UIViewController
-    var duplicatedSourceView: UIView = sourceViewController.view.snapshotViewAfterScreenUpdates(false) // Create a screenshot of the old view.
+    let sourceViewController = self.sourceViewController 
+    let destinationViewController = self.destinationViewController 
+    let duplicatedSourceView: UIView = sourceViewController.view.snapshotViewAfterScreenUpdates(false) // Create a screenshot of the old view.
     // We add a screenshot of the old view (Bottom) above the new one (Top), it looks like nothing changed.
     destinationViewController.view.addSubview(duplicatedSourceView)
     

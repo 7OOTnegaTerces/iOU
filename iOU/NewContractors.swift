@@ -64,7 +64,7 @@ class NewContractors: UIViewController, UITableViewDelegate, UITableViewDataSour
     EditContractLogic.newContractorsRowSelection(tableView, indexPath, contractorType: contractorType)
   }
 
-  func performSegue(#segueFrom: String, segueTo: String)
+  func performSegue(segueFrom segueFrom: String, segueTo: String)
   {
     performSegueWithIdentifier(segueFrom + "->" + segueTo, sender: self)
   }

@@ -13,18 +13,44 @@ import UIKit
 //MARK: - Extensions
 extension String
 {
-  subscript (index: Int) -> (String)
+  var floatValue: Float
   {
-    let characterAtIndex = Array(self)[index]
-    return String(characterAtIndex)
+    return (self as NSString).floatValue
   }
   
-  subscript (range: Range<Int>) -> (String)
+  var doubleValue: Double
   {
-    let start = advance(startIndex, range.startIndex)
-    let end = advance(startIndex, range.endIndex)
-    let range = Range(start: start, end: end)
-    return substringWithRange(range)
+    return (self as NSString).doubleValue
+  }
+  
+  var integerValue: Int
+  {
+    return (self as NSString).integerValue
+  }
+  
+  var count: Int
+  {
+    return Array(self.characters).count
+  }
+  
+  var lastCharacter: Character
+  {
+    return self[self.count - 1]
+  }
+  
+  var allButLastCharacter: String
+  {
+    return self[0..<self.count - 1]
+  }
+  
+  var firstCharacter: Character
+  {
+    return self[0]
+  }
+  
+  var allButFirstCharacter: String
+  {
+    return self[1..<self.count]
   }
   
   init(_ int: Int)
@@ -54,44 +80,29 @@ extension String
     }
   }
   
-  var floatValue: Float
+  subscript (index: Int) -> (Character)
   {
-    return (self as NSString).floatValue
+    return Array(self.characters)[index]
   }
   
-  var doubleValue: Double
+  subscript (range: Range<Int>) -> (String)
   {
-    return (self as NSString).doubleValue
+    let start = startIndex.advancedBy(range.startIndex)
+    let end = startIndex.advancedBy(range.endIndex)
+    let range = Range(start..<end)
+    return substringWithRange(range)
   }
   
-  var integerValue: Int
+  mutating func replaceCharacter(atIndex index: String.CharacterView.Index, withCharacter character: Character)
   {
-    return (self as NSString).integerValue
+    removeAtIndex(index)
+    insert(character, atIndex: index)
   }
   
-  var count: Int
+  mutating func replaceCharacter(atIndex index: Int, withCharacter character: Character)
   {
-    return Array(self).count
-  }
-  
-  var lastCharacter: String
-  {
-    return self[self.count - 1]
-  }
-  
-  var allButLastCharacter: String
-  {
-    return self[0..<self.count - 1]
-  }
-  
-  var firstCharacter: String
-    {
-      return self[0]
-  }
-  
-  var allButFirstCharacter: String
-    {
-      return self[1..<self.count]
+    let characerIndex = startIndex.advancedBy(index)
+    replaceCharacter(atIndex: characerIndex, withCharacter: character)
   }
 }
 
@@ -104,17 +115,21 @@ extension Int
   {
     get
     {
-      var remainder = self
-      var count = 0
-      
-      do
-      {
-        count++
-        remainder /= 10
-      }while (remainder > 0)
-      
+      let stringForm = String(self)
+      let count = stringForm.count
       return count
     }
+  }
+  
+  init (_ string: String)
+  {
+    self = string.integerValue
+  }
+  
+  init (_ character: Character)
+  {
+    let string = String(Character)
+    self = string.integerValue
   }
   
   subscript (index: Int) -> (Int)
@@ -127,38 +142,200 @@ extension Int
     {
       return 0
     }
-    
-    let greaterTenDivisor = Int(10 ^* (index + 1))
-    let digitsAboveIndex = (self / greaterTenDivisor) * 10
-    let tenDivisor = Int(10 ^* index)
-    let digit = self / tenDivisor
-    return digit - digitsAboveIndex
+    else if (index >= self.count)
+    {
+      return 0
+    }
+      
+    let stringForm = String(self)
+    let characterAtIndex = stringForm[index]
+      
+    return Int(characterAtIndex)
   }
-  subscript (var range: Range<Int>) -> (Int)
+  
+  subscript (range: Range<Int>) -> (Int)
   {
+    var range = range
     if (range.startIndex < 0)
     {
       range.startIndex = 0
     }
-    else if (range.startIndex > 18)
+    else if ((range.startIndex > 18) || (range.startIndex >= self.count))
     {
-      range.startIndex = 18
+      return 0
     }
     
     if (range.endIndex < 0)
     {
-      range.endIndex = 0
+      return 0
     }
     else if (range.endIndex > 18)
     {
       range.endIndex = 18
     }
+    else if (range.endIndex > self.count)
+    {
+      range.endIndex = self.count
+    }
     
-    let greaterTenDivisor = Int(10 ^* range.endIndex)
-    let digitsAboveRange = (self / greaterTenDivisor) * greaterTenDivisor
-    let lesserTenDivisor = Int(10 ^* range.startIndex)
-    let digits = self - digitsAboveRange
-    return digits / lesserTenDivisor
+    let stringForm = String(self)
+    let charactersAtIndex = stringForm[range]
+    
+    return Int(charactersAtIndex)
+  }
+}
+
+
+
+
+
+extension Double
+{
+  var count: Int
+  {
+    get
+    {
+      let stringForm = String(self)
+      let count = stringForm.count - 1
+      return count
+    }
+  }
+  var decimalLocation: Int
+  {
+    get
+    {
+      let integer = Int(self)
+      let location = integer.count
+      
+      return location
+    }
+  }
+  var decimalIndex: String.CharacterView.Index
+  {
+    get
+    {
+      let stringForm = String(self)
+      let startIndex = stringForm.startIndex
+      let decimalIndex = startIndex.advancedBy(decimalLocation)
+      
+      return decimalIndex
+    }
+  }
+  
+  init (_ string: String)
+  {
+    self = string.doubleValue
+  }
+  
+  init (_ character: Character)
+  {
+    let string = String(Character)
+    self = string.doubleValue
+  }
+  
+  subscript (index: Int) -> (Int)
+  {
+    if (index < 0)
+    {
+      return 0
+    }
+    else if (index > 18)
+    {
+      return 0
+    }
+    else if (index >= self.count)
+    {
+      return 0
+    }
+    
+    let stringForm = toStringWithoutDecimal()
+    let characterAtIndex = stringForm[index]
+    
+    return Int(characterAtIndex)
+  }
+  
+  subscript (range: Range<Int>) -> (Double)
+  {
+    var range = range
+    if (range.startIndex < 0)
+    {
+      range.startIndex = 0
+    }
+    else if ((range.startIndex > 18) || (range.startIndex >= self.count))
+    {
+      return 0
+    }
+    
+    if (range.endIndex < 0)
+    {
+      return 0
+    }
+    else if (range.endIndex > 18)
+    {
+      range.endIndex = 18
+    }
+    else if (range.endIndex > self.count)
+    {
+      range.endIndex = self.count
+    }
+    
+    let stringForm = toStringWithoutDecimal()
+    var charactersAtIndex = stringForm[range]
+      
+    if (range.contains(decimalLocation))
+    {
+      let startIndex = stringForm.startIndex
+      let adjustedDecimalLocation = startIndex.advancedBy(decimalLocation - range.startIndex)
+        charactersAtIndex.insert(".", atIndex: adjustedDecimalLocation)
+    }
+    else if (range.startIndex > decimalLocation)
+    {
+      let differnce = range.startIndex - decimalLocation
+      var padding = "."
+        
+      for _ in 0 ..< differnce
+      {
+        padding += "0"
+      }
+        
+      charactersAtIndex =+ padding
+    }
+    else if (range.endIndex < decimalLocation)
+    {
+      let differnce = decimalLocation - range.endIndex
+      var padding = "."
+        
+      for _ in 0 ..< differnce
+      {
+        padding =+ "0"
+      }
+      
+      charactersAtIndex += padding
+    }
+      
+    return Double(charactersAtIndex)
+  }
+  
+  func toStringWithoutDecimal() -> (String)
+  {
+    var stringForm = String(self)
+    stringForm.removeAtIndex(decimalIndex)
+    return stringForm
+  }
+}
+
+
+
+
+
+extension NSIndexPath
+{
+  var coordinates: (section: Int, row: Int)
+  {
+    get
+    {
+      return (section: section, row: row)
+    }
   }
 }
 
@@ -214,16 +391,6 @@ func ^*(lhs: Double, rhs: Float) -> (Double)
 func ^*(lhs: Double, rhs: Double) -> (Double)
 {
   return pow(lhs, rhs)
-}
-
-
-
-//MARK: Inverted Append Operations
-infix operator =+ { associativity right precedence 90 }
-
-func =+(inout lhs: String, rhs: String)
-{
-  lhs = rhs + lhs
 }
 
 
@@ -621,46 +788,15 @@ func =-(inout lhs: CGPoint, rhs: CGPoint)
 
 
 
-//MARK: Output Inclusion Overwritten Funtions
-postfix func ++(inout lhs: Int) -> (Int)
-{
-  lhs = lhs + 1
-  return lhs
-}
-
-postfix func ++(inout lhs: Float) -> (Float)
-{
-  lhs = lhs + 1
-  return lhs
-}
-
-postfix func ++(inout lhs: Double) -> (Double)
-{
-  lhs = lhs + 1
-  return lhs
-}
-
-postfix func --(inout lhs: Int) -> (Int)
-{
-  lhs = lhs - 1
-  return lhs
-}
-
-postfix func --(inout lhs: Float) -> (Float)
-{
-  lhs = lhs - 1
-  return lhs
-}
-
-postfix func --(inout lhs: Double) -> (Double)
-{
-  lhs = lhs - 1
-  return lhs
-}
-
-
-
 //MARK: String Operators
+infix operator =+ { associativity right precedence 90 }
+
+func =+(inout lhs: String, rhs: String)
+{
+  lhs = rhs + lhs
+}
+
+
 func +(lhs: String, rhs: Int) -> (String)
 {
   return lhs + String(rhs)
@@ -773,15 +909,16 @@ postfix func =!(inout bool: Bool) -> (Bool)
 
 
 //MARK: - Math Functions
-func round(var #value: Double, #decimals: Int) -> (Double)
+func round(value value: Double, decimals: Int) -> (Double)
 {
+  var value = value
   value *= 10 ^* decimals
   value = round(value)
   value /= 10 ^* decimals
   return value
 }
 
-func round(#value: Float, #decimals: Int) -> (Double)
+func round(value value: Float, decimals: Int) -> (Double)
 {
   var result = Double(value) * (10 ^* decimals)
   result = round(result)
@@ -789,15 +926,16 @@ func round(#value: Float, #decimals: Int) -> (Double)
   return result
 }
 
-func roundf(var #value: Double, #decimals: Int) -> (Float)
+func roundf(value value: Double, decimals: Int) -> (Float)
 {
+  var value = value
   value *= 10 ^* decimals
   value = round(value)
   value /= 10 ^* decimals
   return Float(value)
 }
 
-func roundf(var #value: Float, #decimals: Int) -> (Float)
+func roundf( value value: Float, decimals: Int) -> (Float)
 {
   var result = Double(value) * (10 ^* decimals)
   result = round(result)
@@ -805,15 +943,16 @@ func roundf(var #value: Float, #decimals: Int) -> (Float)
   return Float(result)
 }
 
-func floor(var #value: Double, #decimals: Int) -> (Double)
+func floor(value value: Double, decimals: Int) -> (Double)
 {
+  var value = value
   value *= 10 ^* decimals
   value = floor(value)
   value /= 10 ^* decimals
   return value
 }
 
-func floor(#value: Float, #decimals: Int) -> (Double)
+func floor(value value: Float, decimals: Int) -> (Double)
 {
   var result = Double(value) * (10 ^* decimals)
   result = floor(result)
@@ -821,15 +960,16 @@ func floor(#value: Float, #decimals: Int) -> (Double)
   return result
 }
 
-func floorf(var #value: Double, #decimals: Int) -> (Float)
+func floorf(value value: Double, decimals: Int) -> (Float)
 {
+  var value = value
   value *= 10 ^* decimals
   value = floor(value)
   value /= 10 ^* decimals
   return Float(value)
 }
 
-func floorf(var #value: Float, #decimals: Int) -> (Float)
+func floorf( value value: Float, decimals: Int) -> (Float)
 {
   var result = Double(value) * (10 ^* decimals)
   result = floor(result)
@@ -837,15 +977,16 @@ func floorf(var #value: Float, #decimals: Int) -> (Float)
   return Float(result)
 }
 
-func ceil(var #value: Double, #decimals: Int) -> (Double)
+func ceil(value value: Double, decimals: Int) -> (Double)
 {
+  var value = value
   value *= 10 ^* decimals
   value = ceil(value)
   value /= 10 ^* decimals
   return value
 }
 
-func ceil(#value: Float, #decimals: Int) -> (Double)
+func ceil(value value: Float, decimals: Int) -> (Double)
 {
   var result = Double(value) * (10 ^* decimals)
   result = ceil(result)
@@ -853,15 +994,16 @@ func ceil(#value: Float, #decimals: Int) -> (Double)
   return result
 }
 
-func ceilf(var #value: Double, #decimals: Int) -> (Float)
+func ceilf(value value: Double, decimals: Int) -> (Float)
 {
+  var value = value
   value *= 10 ^* decimals
   value = ceil(value)
   value /= 10 ^* decimals
   return Float(value)
 }
 
-func ceilf(var #value: Float, #decimals: Int) -> (Float)
+func ceilf(value value: Float, decimals: Int) -> (Float)
 {
   var result = Double(value) * (10 ^* decimals)
   result = ceil(result)
@@ -880,8 +1022,10 @@ func numberSuffix(digit: String) -> (String)
   return numberSuffix(number)
 }
 
-func numberSuffix(var digit: Int) -> (String)
+func numberSuffix(digit: Int) -> (String)
 {
+  var digit = digit
+  
   if (digit > -10 && digit < 0)
   {
     digit *= -1
@@ -890,7 +1034,7 @@ func numberSuffix(var digit: Int) -> (String)
   {
     let stringFormat = String(digit)
     let lastCharater = stringFormat.lastCharacter
-    digit = lastCharater.integerValue
+    digit = String(lastCharater).integerValue
   }
   
   switch digit
@@ -982,7 +1126,7 @@ struct SortableDictionary<Key: Hashable, Value>
   private var keySort: ((Key, Key) -> Bool)?
   private var sortingType: SortType
   var sortType: SortType
-    {
+  {
     get
     {
       return sortingType
@@ -1003,36 +1147,36 @@ struct SortableDictionary<Key: Hashable, Value>
     }
   }
   var count: Int
-    {
-      return dictionary.count
+  {
+    return dictionary.count
   }
   var currentValueSort: (((Value, Value) -> Bool)?)
-    {
-      return valueSort
+  {
+    return valueSort
   }
   var currentKeySort: (((Key, Key) -> Bool)?)
-    {
-      return keySort
+  {
+    return keySort
   }
   var isEmpty: Bool
-    {
-      return dictionary.isEmpty
+  {
+    return dictionary.isEmpty
   }
   var capacity: Int
-    {
-      return sortedKeys.capacity
+  {
+    return sortedKeys.capacity
   }
   var keys: [Key]
-    {
-      return sortedKeys
+  {
+    return sortedKeys
   }
   var values: [Value]
-    {
-      return sortedValues
+  {
+    return sortedValues
   }
   var unsortedDictionary: [Key: Value]
-    {
-      return dictionary
+  {
+    return dictionary
   }
   
   init(dictionary: [Key: Value] = [:])
@@ -1040,26 +1184,22 @@ struct SortableDictionary<Key: Hashable, Value>
     self = SortableDictionary(dictionary: dictionary, sortType: SortType.Manual, valueSort: nil, keySort: nil)
   }
   
-  init(dictionary: [Key: Value] = [:], sortType: SortType = SortType.Value, valueSortID: String = "", valueSort: (Value, Value) -> Bool)
+  init(dictionary: [Key: Value] = [:], sortType: SortType = SortType.Value, valueSort: (Value, Value) -> Bool)
   {
     if (sortType == SortType.Key)
     {
       fatalError("Cannot set sort type to Key without specifying a key sort.")
     }
     
-    let sortID: String? = (valueSortID == "") ? nil : valueSortID
-    
     self = SortableDictionary(dictionary: dictionary, sortType: sortType, valueSort: valueSort, keySort: nil)
   }
   
-  init(dictionary: [Key: Value] = [:], sortType: SortType = SortType.Key, keySortID: String = "", keySort: (Key, Key) -> Bool)
+  init(dictionary: [Key: Value] = [:], sortType: SortType = SortType.Key, keySort: (Key, Key) -> Bool)
   {
     if (sortType == SortType.Value)
     {
       fatalError("Cannot set sort type to Value without specifying a value sort.")
     }
-    
-    let sortID: String? = (keySortID == "") ? nil : keySortID
     
     self = SortableDictionary(dictionary: dictionary, sortType: SortType.Key, valueSort: nil, keySort: keySort)
   }
@@ -1171,6 +1311,8 @@ struct SortableDictionary<Key: Hashable, Value>
   {
     let oldDictionary = self.dictionary
     self.dictionary = dictionary
+    sortedKeys = []
+    sortedValues = []
     
     sort()
     
@@ -1207,7 +1349,7 @@ struct SortableDictionary<Key: Hashable, Value>
     }
   }
   
-  private mutating func addNewValueArraysOnly(#key: Key, value: Value)
+  private mutating func addNewValueArraysOnly(key key: Key, value: Value)
   {
     var index: Int
     
@@ -1225,13 +1367,13 @@ struct SortableDictionary<Key: Hashable, Value>
     sortedKeys.insert(key, atIndex: index)
   }
   
-  private mutating func addNewValue(#key: Key, value: Value)
+  private mutating func addNewValue(key key: Key, value: Value)
   {
     addNewValueArraysOnly(key: key, value: value)
     dictionary[key] = value
   }
   
-  private func findInsertionIndex(#upperBound: Int, lowerBound: Int, value: Value, key: Key) -> (Int)
+  private func findInsertionIndex(upperBound upperBound: Int, lowerBound: Int, value: Value, key: Key) -> (Int)
   {
     //If sorting manually, insert at end of the sorted dictionary.
     if (sortingType == SortType.Manual)
@@ -1380,12 +1522,14 @@ struct SortableDictionary<Key: Hashable, Value>
     }
   }
   
-  mutating func insert(var insertAtIndex index: Int, newElements elements: [(key: Key, value: Value)])
+  mutating func insert(insertAtIndex index: Int, newElements elements: [(key: Key, value: Value)])
   {
+    var index = index
+    
     for element in elements
     {
       insert(atIndex: index, newElement: element)
-      index++
+      index += 1
     }
   }
   
@@ -1726,21 +1870,22 @@ struct SortableDictionary<Key: Hashable, Value>
     return oldValues
   }
   
-  mutating func update(var elementsStartingAtIndex index: Int, withNewDictionary dictionary: [Key: Value]) -> ([(key: Key, value: Value)])
+  mutating func update(elementsStartingAtIndex index: Int, withNewDictionary dictionary: [Key: Value]) -> ([(key: Key, value: Value)])
   {
+    var index = index
     var oldValues: [(key: Key, value: Value)] = []
     
     for element: (Key, Value) in dictionary
     {
       let oldValue = update(elementAtIndex: index, withNewElement: element)
       oldValues.append(oldValue)
-      index++
+      index += 1
     }
     
     return oldValues
   }
   
-  mutating func remove(#key: Key) -> (Value?)
+  mutating func remove(key key: Key) -> (Value?)
   {
     let index = getIndex(forKey: key)
     
@@ -1755,7 +1900,7 @@ struct SortableDictionary<Key: Hashable, Value>
     }
   }
   
-  mutating func remove(#index: Int) -> (key: Key, value: Value)
+  mutating func remove(index index: Int) -> (key: Key, value: Value)
   {
     let value = sortedValues.removeAtIndex(index)
     let key = sortedKeys.removeAtIndex(index)
@@ -1777,7 +1922,7 @@ struct SortableDictionary<Key: Hashable, Value>
     return oldValues
   }
   
-  mutating func remove(#keys: [Key]) -> ([Value?])
+  mutating func remove(keys keys: [Key]) -> ([Value?])
   {
     var oldValues: [Value?] = []
     
@@ -1836,7 +1981,7 @@ struct SortableDictionary<Key: Hashable, Value>
     return oldValue
   }
   
-  mutating func edit(#index: Int, key: Key?, value: Value?) -> (key: Key?, value: Value?)
+  mutating func edit(index index: Int, key: Key?, value: Value?) -> (key: Key?, value: Value?)
   {
     if (sortingType == SortType.Manual)
     {
@@ -1860,8 +2005,8 @@ struct SortableDictionary<Key: Hashable, Value>
           {
             let tuple = update(keyAtIndex: index, withExistingKey: key!)
             
-            var key: Key? = tuple.key
-            var value: Value? = tuple.value
+            let key: Key? = tuple.key
+            let value: Value? = tuple.value
             return (key: key, value: value)
           }
           else
@@ -1896,12 +2041,12 @@ struct SortableDictionary<Key: Hashable, Value>
     }
   }
   
-  mutating func edit(#element: (key: Key, value: Value)) -> (Value?)
+  mutating func edit(element element: (key: Key, value: Value)) -> (Value?)
   {
     return edit(addUpdateOrRemoveKey: element.key, withNewOrNilValue: element.value)
   }
   
-  mutating func edit(#dictionary: [Key: Value]) -> ([Value?])
+  mutating func edit(dictionary dictionary: [Key: Value]) -> ([Value?])
   {
     var oldValues: [Value?] = []
     
@@ -1914,7 +2059,7 @@ struct SortableDictionary<Key: Hashable, Value>
     return oldValues
   }
   
-  func getIndex(#forKey: Key) -> (Int?)
+  func getIndex(forKey forKey: Key) -> (Int?)
   {
     for i in 0..<sortedKeys.count
     {
@@ -1954,9 +2099,11 @@ struct SortableDictionary<Key: Hashable, Value>
     sortedValues.reserveCapacity(minimumCapacity)
   }
   
-  func sorted(var sortType: SortType? = nil, valueSort: ((Value, Value) -> Bool
+  func sorted(sortType: SortType? = nil, valueSort: ((Value, Value) -> Bool
     )? = nil, keySort: ((Key, Key) -> Bool)? = nil) -> (SortableDictionary)
   {
+    var sortType = sortType
+    
     if (sortType == nil)
     {
       sortType = sortingType
@@ -2087,7 +2234,7 @@ func +=<Key, Value>(inout lhs: SortableDictionary<Key, Value>, rhs: SortableDict
 
 func -<Key, Value>(lhs: SortableDictionary<Key, Value>, rhs: SortableDictionary<Key, Value>) -> (SortableDictionary<Key, Value>)
 {
-  var newSortedDictionary = lhs
+  let newSortedDictionary = lhs
   //  newSortedDictionary.remove(rhs.dictionary)
   return newSortedDictionary
 }

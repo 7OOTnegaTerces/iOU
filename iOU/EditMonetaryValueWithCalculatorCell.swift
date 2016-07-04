@@ -49,7 +49,7 @@ class EditMonetaryValueWithCalculatorCell: EditMonetaryValueCell
   @IBAction func clearAllValues(sender: UIButton)
   {
     monetaryValue.text = "0.00"
-    iOUData.sharedInstance.contractTemporaryData.dynamicEditValue["CalculatorValue"] = nil
+    iOUData.sharedInstance.contractTemporaryData.dynamicEditValues["CalculatorValue"] = nil
     iOUData.sharedInstance.contractTemporaryData.contract.monetaryValue = Double(0)
   }
 }

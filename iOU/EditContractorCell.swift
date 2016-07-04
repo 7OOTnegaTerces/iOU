@@ -17,9 +17,9 @@ class EditContractorCell: ContractorCell, Focus
   @IBAction func updateContractorName(sender: UITextField)
   {
     //Whenever the user changes the Contractor's name, update Contractor.
-    var dynamicEditValue = iOUData.sharedInstance.contractTemporaryData.dynamicEditValue
+    var dynamicEditValue = iOUData.sharedInstance.contractTemporaryData.dynamicEditValues
     var contractor = dynamicEditValue["DynamicEditContractor"] as! (key: String, value: (parts: Int, percent: Int, fixed: Double))
-    contractor.key = contractorName.text
+    contractor.key = contractorName.text!
     dynamicEditValue["DynamicEditContractor"] = contractor
     focusContractorName = true
   }

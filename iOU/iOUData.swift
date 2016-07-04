@@ -20,33 +20,6 @@ class iOUData
   }
   private let managedObjectContext: NSManagedObjectContext
   private let mainData: NSManagedObject
-  var debug: Bool
-  {
-    get
-    {
-      if let temporaryExtractedDatum: AnyObject = mainData.valueForKey("debug")
-      {
-        return temporaryExtractedDatum as! Bool
-      }
-      else
-      {
-        return true
-      }
-    }
-    set
-    {
-      debugFlag = newValue
-      saveToMainData("debug", dataValue: newValue)
-    }
-  }
-  private var debugFlag = true
-  var debugging: Bool
-  {
-    get
-    {
-      return debugFlag
-    }
-  }
   var listType: ListType
   {
     get
@@ -228,9 +201,10 @@ class iOUData
       }
     }
   }
+  private(set) var debugData = DebugData()
   
-  internal var cTD = ContractTemporaryData()
-  internal var nC = Contract()
+  internal var nC: Contract
+  internal var cTD: ContractTemporaryData
   internal var mCs: [Contract] = []
   internal var iCs: [Contract] = []
   internal var sCs: [Contract] = []
@@ -243,15 +217,19 @@ class iOUData
   private init()
   {
     //Initalize Temporary Data and New Contract data values.
+    nC = Contract()
+    cTD = ContractTemporaryData(contract: nC)
+    
     //Set it up so that we can save and load variables.
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-    managedObjectContext = appDelegate.managedObjectContext!
+    managedObjectContext = appDelegate.managedObjectContext
     let fetchRequest = NSFetchRequest(entityName:"MainData")
-    var error: NSError?
     
-    if let fetchedResults = managedObjectContext.executeFetchRequest(fetchRequest, error: &error) as! [NSManagedObject]?
+    do
     {
-      if (fetchedResults == [])
+      let fetchResults = try self.managedObjectContext.executeFetchRequest(fetchRequest) as! [NSManagedObject]
+      
+      if (fetchResults == [])
       {
         //If this is the first time this app has ever run, create mainData Core Data storage object to save all main app data values.
         let entity =  NSEntityDescription.entityForName("MainData", inManagedObjectContext: managedObjectContext)
@@ -260,12 +238,12 @@ class iOUData
       else
       {
         //Otherwise, initialize mainData from saved data.
-        mainData = fetchedResults[0]
+        mainData = fetchResults[0]
       }
     }
-    else
+    catch let fetchError as NSError
     {
-      fatalError("Could not fetch \(error), \(error!.userInfo)")
+      fatalError("Could not fetch \(fetchError), \(fetchError.userInfo)")
     }
   }
   
@@ -299,7 +277,7 @@ class iOUData
     return totalContractorValue(contractorType: "Borrower", valueIndex: 2, includeDynamicCell: false)
   }
   
-  private func totalContractorValue(#contractorType: String, valueIndex: Int, includeDynamicCell: Bool) -> (Double)
+  private func totalContractorValue(contractorType contractorType: String, valueIndex: Int, includeDynamicCell: Bool) -> (Double)
   {
     var total: Double = 0
     var contractorValues: [(parts: Int, percent: Int, fixed: Double)]
@@ -313,7 +291,7 @@ class iOUData
       contractorValues = cTD.borrowersTemporary.values
     }
     
-    if (cTD.dynamicallyEditing && cTD.dynamicEditID == contractorType)
+    if (cTD.dynamicallyEditing && cTD.dynamicEditTable == contractorType)
     {
       var dynamicEditIndex = cTD.dynamicEditCell.row
       
@@ -382,15 +360,15 @@ class iOUData
     return total
   }
   
-  private func dynamicEditContractorTally(#contractorValues: [(parts: Int, percent: Int, fixed: Double)], dynamicEditIndex: Int, valueIndex: Int, includeDynamicCell: Bool) -> (Double)
+  private func dynamicEditContractorTally(contractorValues contractorValues: [(parts: Int, percent: Int, fixed: Double)], dynamicEditIndex: Int, valueIndex: Int, includeDynamicCell: Bool) -> (Double)
   {
-    var value: Double = 0
+    let value: Double = 0
     
     
     return value
   }
   
-  private func getContractorValue(#contratorValue: (parts: Int, percent: Int, fixed: Double), valueIndex: Int) -> (Double)
+  private func getContractorValue(contratorValue contratorValue: (parts: Int, percent: Int, fixed: Double), valueIndex: Int) -> (Double)
   {
     switch valueIndex
     {
@@ -407,18 +385,21 @@ class iOUData
   
   func eraseNewContractData()
   {
-    cTD = ContractTemporaryData()
     nC = Contract()
+    cTD = ContractTemporaryData(contract: nC)
   }
   
   private func saveToMainData(key: String, dataValue: AnyObject)
   {
     mainData.setValue(dataValue, forKey: key)
-    var error: NSError?
     
-    if (!managedObjectContext.save(&error))
+    do
     {
-      fatalError("Could not save \(error), \(error?.userInfo)")
+      try managedObjectContext.save()
+    }
+    catch let saveError as NSError
+    {
+      fatalError("Could not save \(saveError), \(saveError.userInfo)")
     }
   }
   
@@ -433,32 +414,119 @@ class iOUData
 
 
 
-class ContractTemporaryData
+internal class DebugData
 {
-  var dynamicallyEditing: Bool
+  var debugging: Bool
   {
     get
     {
-      return dEditing
+      if (!flagLoaded)
+      {
+        if let temporaryExtractedDatum: AnyObject = iOUData.sharedInstance.mainData.valueForKey("debug")
+        {
+          debugFlag = temporaryExtractedDatum as! Bool
+        }
+        
+        flagLoaded = true
+      }
+      
+      return debugFlag
     }
     set
     {
-      if (newValue)
-      {
-        dEditing = true
-      }
-      else
-      {
-        fatalError("DynamicallyEditing cannot be set to false, ContractTemporaryData must be reset instead.")
-      }
+      debugFlag = newValue
+      iOUData.sharedInstance.saveToMainData("debug", dataValue: newValue)
+    }
+  }
+  private var debugFlag = true
+  private var flagLoaded = false
+  var debugCellReloads = true
+  var debugFunctionCalls = true
+  
+  //Debugging tool to make sure cells only get updated once per refresh.  This just monitors total changes made to a particular row in a table.
+  var reloadedCells: SortableDictionary<TableAndIndex, Int> = SortableDictionary()
+  
+  //Debugging tool to make sure cells only get updated once per refresh. This monitors the number of times a fuction is called and for which row in what table.
+  var functionCalls: SortableDictionary<FunctionAndIndex, Int> = SortableDictionary()
+}
+
+
+
+
+
+//Debugging tool to make sure cells only get updated once per refresh.  This just monitors total changes made to a particular row in a table.
+class TableAndIndex: Hashable
+{
+  let table: String
+  let index: NSIndexPath
+  var hashValue: Int
+  {
+    get
+    {
+      return toString().hashValue
     }
   }
   
-  var dynamicEditID = ""
+  init(table t: String, index i: NSIndexPath)
+  {
+    table = t
+    index = i
+  }
+  
+  func toString() -> (String)
+  {
+    return "Index: (\(index.section), \(index.row )), in Table: \(table)"
+  }
+}
+
+
+//Debugging tool to make sure cells only get updated once per refresh.  This just monitors total changes made to a particular row in a table.
+func ==(lhs: TableAndIndex, rhs: TableAndIndex) -> (Bool)
+{
+  return (lhs.table == rhs.table) && (lhs.index.section == rhs.index.section) && (lhs.index.row == rhs.index.row)
+}
+
+
+
+
+
+//Debugging tool to make sure cells only get updated once per refresh. This monitors the number of times a fuction is called and for which row in what table.
+class FunctionAndIndex: TableAndIndex
+{
+  let function: String
+  
+  init(table t: String, index i: NSIndexPath, function f: String)
+  {
+    function = f
+    super.init(table: t, index: i)
+  }
+  
+  override func toString() -> (String)
+  {
+    return "Function: \(function), was called for " + super.toString()
+  }
+}
+
+
+//Debugging tool to make sure cells only get updated once per refresh. This monitors the number of times a function is called and for which row in what table.
+func ==(lhs: FunctionAndIndex, rhs: FunctionAndIndex) -> (Bool)
+{
+  let lhsTableAndIndex = lhs as TableAndIndex
+  let rhsTableAndIndex = rhs as TableAndIndex
+  return (lhsTableAndIndex == rhsTableAndIndex) && (lhs.function == rhs.function)
+}
+
+
+
+
+
+class ContractTemporaryData
+{
+  var dynamicEditTable = ""
   var dynamicEditCell = NSIndexPath()
-  internal var dEditing = false
-  var dynamicEditValues: [String:Any]
-  var continuousEditValue: [String:Any] = ["IncludeInterest": false, "DisplayingLenders": false, "DisplayingBorrowers": false, "AdjustForKeyboard": false, "DisplayAlertSettings": false, "DisplayAlertRepeatSettings": false, "DisplayDueCalender": false, "DisplayAlertCalender": false]
+  private(set) var dynamicallyEditing = false
+  var dynamicEditValues: [String: Any] = [:]
+  var toggles: [String: Bool] = ["DisplayCalculator": false, "IncludeTip": false, "IncludeInterest": false, "DisplayingLenders": false, "DisplayingBorrowers": false, "AdjustForKeyboard": false, "DisplayAlertSettings": false, "DisplayAlertRepeatSettings": false, "DisplayDueCalender": false, "DisplayAlertCalender": false]
   var lenderSlackRow = -1
   var borrowerSlackRow = -1
   var warnRefreshID = ""
@@ -471,15 +539,23 @@ class ContractTemporaryData
   init(contract c: Contract)
   {
     contract = c
+    toggles["UseAlert"] = contract.useAlert
+    toggles["RepeatAlert"] = contract.repeatAlert
+  }
+  
+  func beginDynamicEditing()
+  {
+    dynamicallyEditing = true
+    dynamicEditValues = [:]
   }
   
 //  var scrollResetPoint: CGPoint! = nil Now to be found in ContinousEditing, or not if value is nil.
   
-  func reset()
+  func endDynamicEditing()
   {
-    dynamicEditID = ""
+    dynamicEditTable = ""
     dynamicEditCell = NSIndexPath()
-    dEditing = false
+    dynamicallyEditing = false
     warnRefreshID = ""
     warnFromID = ""
     warnToID = ""
@@ -492,8 +568,8 @@ class ContractTemporaryData
   private func setEditDictionaries()
   {
     dynamicEditValues = ["DisplayCalculator": false]
-    continuousEditValue["IncludeTip"] = contract.includeTip
-    continuousEditValue["IncludeInterest"] = contract.includeInterest
+    toggles["IncludeTip"] = contract.includeTip
+    toggles["IncludeInterest"] = contract.includeInterest
     
   }
 }
@@ -504,7 +580,7 @@ class ContractTemporaryData
 
 class CurrencyFormatter: NSNumberFormatter
 {
-  required init(coder aDecoder: NSCoder)
+  required init?(coder aDecoder: NSCoder)
   {
     super.init(coder: aDecoder)
   }
@@ -1318,7 +1394,6 @@ class Contract
   var borrowerShares: Shares!
   var useAlert: Bool
   var alertDate: NSDate
-  var alertTime: NSDate
   var alertTone: AlertTone
   var alertNagRate: AlertNagRate
   var repeatAlert: Bool
@@ -1353,7 +1428,7 @@ class Contract
   var contractExpectationsMaximum: String
   
   
-  init(title: String = "", photo: [String] = [], video: [String] = [], sound: [String] = [],remindDate: NSDate = NSDate(), remindTime: NSDate = NSDate(), remindTimeSpan: NSTimeInterval = NSTimeInterval(), useTimeSpan: Bool = false, type: Type = Type.Money, lenders: SortableDictionary<String, Double> = SortableDictionary(), borrowers: SortableDictionary<String, Double> = SortableDictionary(), lenderShares: Shares = Shares.Equal, borrowerShares: Shares = Shares.Equal, monetaryValue: Double = 0, includeTip: Bool = false, tip: Int = 15, includeInterest: Bool = false, interest: Double = 0, useAlert: Bool = false, alertDate: NSDate = NSDate(), alertTime: NSDate = NSDate(), alertTone: AlertTone = AlertTone(rawValue: 0)!, alertNagRate: AlertNagRate = AlertNagRate.Once, autoRepeatAlert: Bool = false, alertRepeatPattern: Any = Int(1), alertRepeatInterval: Any = TimeInterval.Day, alertRepeatRate: Int = 1, alertRepeatType: AlertRepeatType = AlertRepeatType.Simple, repeatFromCompleation: Bool = false, alertRepeatDate: NSDate = NSDate(), autoComplete: Bool = true,
+  init(title: String = "", photo: [String] = [], video: [String] = [], sound: [String] = [],remindDate: NSDate = NSDate(), remindTime: NSDate = NSDate(), remindTimeSpan: NSTimeInterval = NSTimeInterval(), useTimeSpan: Bool = false, type: Type = Type.Money, lenders: SortableDictionary<String, Double> = SortableDictionary(), borrowers: SortableDictionary<String, Double> = SortableDictionary(), lenderShares: Shares = Shares.Equal, borrowerShares: Shares = Shares.Equal, monetaryValue: Double = 0, includeTip: Bool = false, tip: Int = 15, includeInterest: Bool = false, interest: Double = 0, useAlert: Bool = false, alertDate: NSDate = NSDate(), alertTone: AlertTone = AlertTone(rawValue: 0)!, alertNagRate: AlertNagRate = AlertNagRate.Once, autoRepeatAlert: Bool = false, alertRepeatPattern: Any = Int(1), alertRepeatInterval: Any = TimeInterval.Day, alertRepeatRate: Int = 1, alertRepeatType: AlertRepeatType = AlertRepeatType.Simple, repeatFromCompleation: Bool = false, alertRepeatDate: NSDate = NSDate(), autoComplete: Bool = true,
     
     tags: [String] = [], dateCreated: NSDate = NSDate(), dateDue: NSDate = NSDate(), notes: String = "", simplifyGroupDebts: Bool = false,
 //    locationCreated: AnyObject, locationDue: AnyObject,
@@ -1364,7 +1439,6 @@ class Contract
     self.video = video
     self.sound = sound
     self.alertDate = remindDate
-    self.alertTime = remindTime
     self.alertRepeatDate = alertRepeatDate
     self.repeatAlert = useTimeSpan
     self.type = type
@@ -1378,8 +1452,6 @@ class Contract
     self.includeInterest = includeInterest
     self.interest = interest
     self.useAlert = useAlert
-    self.alertDate = alertDate
-    self.alertTime = alertTime
     self.alertTone = alertTone
     self.alertNagRate = alertNagRate
     self.repeatAlert = autoRepeatAlert
@@ -1418,7 +1490,6 @@ class Contract
     video  = contract.video
     sound  = contract.sound
     alertDate  = contract.alertDate
-    alertTime  = contract.alertTime
     alertRepeatDate  = contract.alertRepeatDate
     repeatAlert  = contract.repeatAlert
     type  = contract.type
@@ -1430,7 +1501,6 @@ class Contract
     tip = contract.tip
     useAlert = contract.useAlert
     alertDate = contract.alertDate
-    alertTime = contract.alertTime
     alertTone = contract.alertTone
     alertNagRate = contract.alertNagRate
     repeatAlert = contract.repeatAlert
@@ -1469,7 +1539,7 @@ class Contract
 
 protocol Segueable
 {
-  func performSegue(#segueFrom: String, segueTo: String)
+  func performSegue(segueFrom segueFrom: String, segueTo: String)
 }
 
 
@@ -1563,6 +1633,7 @@ protocol SwitchCell
 {
   weak var switchLabel: UILabel! { get set }
   weak var toggle: UISwitch! { get set }
+  var toggleID: String { get set }
   
   func flipToggle(sender: UISwitch)
 }

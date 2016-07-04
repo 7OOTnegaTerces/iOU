@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EditContractController: UITableViewController, UITableViewDelegate, UITableViewDataSource, Segueable
+class EditContractController: UITableViewController, Segueable
 {
   override func viewDidLoad()
   {
@@ -99,7 +99,7 @@ class EditContractController: UITableViewController, UITableViewDelegate, UITabl
     performSegue(segueFrom: "NewContract", segueTo: "BorrowerNameWarning")
   }
   
-  func performSegue(#segueFrom: String, segueTo: String)
+  func performSegue(segueFrom segueFrom: String, segueTo: String)
   {
     performSegueWithIdentifier(segueFrom + "->" + segueTo, sender: self)
   }

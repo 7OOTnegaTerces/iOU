@@ -1,5 +1,5 @@
 //
-//  EditContractLogic.swift
+//  iOULogic.swift
 //  iOU
 //
 //  Created by Tateni Urio on 11/20/14.
@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class EditContractLogic
+class iOULogic
 {
   class var lenderTableIndexPath: NSIndexPath
   {
@@ -80,6 +80,10 @@ class EditContractLogic
     {
       return data.contractTemporaryData
     }
+    set
+    {
+      data.contractTemporaryData = newValue
+    }
   }
   class var temporaryContract: Contract
   {
@@ -98,45 +102,9 @@ class EditContractLogic
     {
       return data.newContract
     }
-  }
-  class var dynamicEditValues: [String: Any]
-  {
-    get
-    {
-      return contractTempData.dynamicEditValues
-    }
     set
     {
-      contractTempData.dynamicEditValues = newValue
-    }
-  }
-  class var toggles: [String: Bool]
-  {
-    get
-    {
-      return contractTempData.toggles
-    }
-    set
-    {
-      contractTempData.toggles = newValue
-    }
-  }
-  class var debugData: DebugData
-  {
-    get
-    {
-      return data.debugData
-    }
-  }
-  class var debugging: Bool
-  {
-    get
-    {
-    return debugData.debugging
-    }
-    set
-    {
-      debugData.debugging = newValue
+      data.newContract = newValue
     }
   }
   
@@ -147,7 +115,7 @@ class EditContractLogic
   //MARK: General Logic Functions
   class func segueToNewContract(sender: MainInterfaceController)
   {
-    data.eraseNewContractData()
+    data.resetNewContractData()
     
     //If the user was viewing the Starred contract list when they touched the new contract button, set the contract type and this view's segmented control to the most popular contract type (the type with the most stars).  Otherwise, set the new contract type and this view's segmented control to the type of contract the user was viewing when they hit the new contract button.
     var type: Type
@@ -168,12 +136,12 @@ class EditContractLogic
     sender.performSegue(segueFrom: "MainInterface", segueTo: "NewContract")
   }
   
-  class func newContractViewDidLoad(view: EditContractController)
+  class func newContractViewDidLoad(view: NewContractController)
   {
-    NSNotificationCenter.defaultCenter().addObserver(view, selector: #selector(NewContractors.refreshTable), name: "RefreshNewContract", object: nil)
-    NSNotificationCenter.defaultCenter().addObserver(view, selector: #selector(EditContractController.refreshCells), name: "RefreshNewContractCells", object: nil)
-    NSNotificationCenter.defaultCenter().addObserver(view, selector: #selector(NewContractors.keyboardWillShow), name: "NewContractKeyboardWillShow", object: nil)
-    NSNotificationCenter.defaultCenter().addObserver(view, selector: #selector(self.keyboardWillHide), name: UIKeyboardWillHideNotification, object: nil)
+    NSNotificationCenter.defaultCenter().addObserver(view, selector: "refreshTable", name: "RefreshNewContract", object: nil)
+    NSNotificationCenter.defaultCenter().addObserver(view, selector: "refreshCells:", name: "RefreshNewContractCells", object: nil)
+    NSNotificationCenter.defaultCenter().addObserver(view, selector: "keyboardWillShow:", name: "NewContractKeyboardWillShow", object: nil)
+    NSNotificationCenter.defaultCenter().addObserver(view, selector: "keyboardWillHide", name: UIKeyboardWillHideNotification, object: nil)
     
     //Register Table.
     view.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
@@ -189,7 +157,7 @@ class EditContractLogic
     }
   }
   
-  class func newContractViewWillDisappear(view: EditContractController)
+  class func newContractViewWillDisappear(view: NewContractController)
   {
     NSNotificationCenter.defaultCenter().removeObserver(view, name: "RefreshNewContractCells", object: nil)
     NSNotificationCenter.defaultCenter().removeObserver(view, name: "NewContractKeyboardWillShow", object: nil)
@@ -206,7 +174,7 @@ class EditContractLogic
     }
   }
   
-  class func newContractEdited(sender sender: EditContractController, save: Bool)
+  class func newContractEdited(#sender: NewContractController, save: Bool)
   {
     //This function controls what happens when the user clicks done or cancel when creating a new iOU contract.
     
@@ -242,7 +210,7 @@ class EditContractLogic
     {
       if (contractTempData.dynamicallyEditing)
       {
-        if (contractTempData.dynamicEditTable == "Lender")
+        if (contractTempData.dynamicEditID == "Lender")
         {
           if (contractTempData.lendersTemporary.count > temporaryContract.lenders.count)
           {
@@ -250,11 +218,11 @@ class EditContractLogic
             
             if (contractTempData.lenderSlackRow >= 0)
             {
-              contractTempData.lenderSlackRow -= 1
+              contractTempData.lenderSlackRow--
             }
           }
         }
-        else if (contractTempData.dynamicEditTable == "Borrower")
+        else if (contractTempData.dynamicEditID == "Borrower")
         {
           if (contractTempData.borrowersTemporary.count > temporaryContract.borrowers.count)
           {
@@ -262,7 +230,7 @@ class EditContractLogic
             
             if (contractTempData.borrowerSlackRow >= 0)
             {
-              contractTempData.borrowerSlackRow -= 1
+              contractTempData.borrowerSlackRow--
             }
           }
         }
@@ -274,23 +242,22 @@ class EditContractLogic
     if (contractTempData.dynamicallyEditing)
     {
       //If dynamic cell editing was taking place, end it and reload the table to update the changes.
-      if (contractTempData.dynamicEditTable == "Lender")
+      if (contractTempData.dynamicEditID == "Lender")
       {
         resetDynamicEditing()
         refreshNewContractorTable("Lender")
       }
-      else if (contractTempData.dynamicEditTable == "Borrower")
+      else if (contractTempData.dynamicEditID == "Borrower")
       {
         resetDynamicEditing()
         refreshNewContractorTable("Borrower")
       }
       else
       {
-//        TODO: Return here...
-//        if (contractTempData.dynamicEditCell.)
-//        {
-//          refreshNewContractors()
-//        }
+        if (contractTempData.dynamicEditID == "MonetaryValue")
+        {
+          refreshNewContractors()
+        }
         
         let refreshRows = [contractTempData.dynamicEditCell]
         resetDynamicEditing()
@@ -300,7 +267,7 @@ class EditContractLogic
     else
     {
       //Return to the Main Interface
-      data.eraseNewContractData()
+      data.resetNewContractData()
       sender.performSegue(segueFrom: "NewContract", segueTo: "MainInterface")
     }
   }
@@ -313,18 +280,18 @@ class EditContractLogic
     switch type
     {
       case Type.Money:
-        count = EditContractLogic.newContractMoneyRowCount(section)
+        count = iOULogic.newContractMoneyRowCount(section)
       case Type.Item:
-        count = EditContractLogic.newContractItemRowCount(section)
+        count = iOULogic.newContractItemRowCount(section)
       case Type.Service:
-        count = EditContractLogic.newContractServiceRowCount(section)
+        count = iOULogic.newContractServiceRowCount(section)
     }
     
     return count
   }
 
   
-  class func newContractCreateCell(tableView tableView: UITableView, indexPath: NSIndexPath) -> (UITableViewCell?)
+  class func newContractCreateCell(#tableView: UITableView, indexPath: NSIndexPath) -> (UITableViewCell?)
   {
     var cell: UITableViewCell?
     let type = iOUData.sharedInstance.newContract.type
@@ -332,38 +299,38 @@ class EditContractLogic
     switch type
     {
       case Type.Money:
-        cell = EditContractLogic.newContractMoneyCreateCell(tableView: tableView, indexPath: indexPath)
+        cell = iOULogic.newContractMoneyCreateCell(tableView: tableView, indexPath: indexPath)
       case Type.Item:
-        cell = EditContractLogic.newContractItemCreateCell(tableView: tableView, indexPath: indexPath)
+        cell = iOULogic.newContractItemCreateCell(tableView: tableView, indexPath: indexPath)
       case Type.Service:
-        cell = EditContractLogic.newContractServiceCreateCell(tableView: tableView, indexPath: indexPath)
+        cell = iOULogic.newContractServiceCreateCell(tableView: tableView, indexPath: indexPath)
     }
     
     return cell
   }
   
-  class func newContractSelectRow(tableView tableView: UITableView, indexPath: NSIndexPath)
+  class func newContractSelectRow(#tableView: UITableView, indexPath: NSIndexPath)
   {
     let type = iOUData.sharedInstance.newContract.type
     
     switch type
     {
       case Type.Money:
-        EditContractLogic.newContractMoneyRowSelection(tableView: tableView, indexPath: indexPath)
+        iOULogic.newContractMoneyRowSelection(tableView: tableView, indexPath: indexPath)
       case Type.Item:
-        EditContractLogic.newContractItemRowSelection(tableView: tableView, indexPath: indexPath)
+        iOULogic.newContractItemRowSelection(tableView: tableView, indexPath: indexPath)
       case Type.Service:
-        EditContractLogic.newContractServiceRowSelection(tableView: tableView, indexPath: indexPath)
+        iOULogic.newContractServiceRowSelection(tableView: tableView, indexPath: indexPath)
     }
   }
   
   
   
   //MARK: New Money Contract Logic
-  class func newContractMoneyViewDidLoad(view: EditContractController)
+  class func newContractMoneyViewDidLoad(view: NewContractController)
   {
-    NSNotificationCenter.defaultCenter().addObserver(view, selector: #selector(EditContractController.lenderNameWarning), name: "LenderNameWarning", object: nil)
-    NSNotificationCenter.defaultCenter().addObserver(view, selector: #selector(EditContractController.borrowerNameWarning), name: "BorrowerNameWarning", object: nil)
+    NSNotificationCenter.defaultCenter().addObserver(view, selector: "lenderNameWarning", name: "LenderNameWarning", object: nil)
+    NSNotificationCenter.defaultCenter().addObserver(view, selector: "borrowerNameWarning", name: "BorrowerNameWarning", object: nil)
     
     //Initialzie the Table.
     var nib = UINib(nibName: "EditMonetaryValueCell", bundle: nil)
@@ -372,6 +339,8 @@ class EditContractLogic
     view.tableView.registerNib(nib, forCellReuseIdentifier: "EditMonetaryValueWithCalculatorCell")
     nib = UINib(nibName: "EditTitleCell", bundle: nil)
     view.tableView.registerNib(nib, forCellReuseIdentifier: "EditTitleCell")
+    nib = UINib(nibName: "EditPercentageCell", bundle: nil)
+    view.tableView.registerNib(nib, forCellReuseIdentifier: "EditPercentageCell")
     nib = UINib(nibName: "EditDatePickerCell", bundle: nil)
     view.tableView.registerNib(nib, forCellReuseIdentifier: "EditDatePickerCell")
     nib = UINib(nibName: "EditDatePickerNarrowCell", bundle: nil)
@@ -386,11 +355,9 @@ class EditContractLogic
     view.tableView.registerNib(nib, forCellReuseIdentifier: "EditTimeNarrowCell")
     nib = UINib(nibName: "EditPickerCell", bundle: nil)
     view.tableView.registerNib(nib, forCellReuseIdentifier: "EditPickerCell")
-    nib = UINib(nibName: "EditPickerSwitchCell", bundle: nil)
-    view.tableView.registerNib(nib, forCellReuseIdentifier: "EditPickerSwitchCell")
   }
   
-  class func newContractMoneyViewWillDisappear(view: EditContractController)
+  class func newContractMoneyViewWillDisappear(view: NewContractController)
   {
     NSNotificationCenter.defaultCenter().removeObserver(view, name: "LenderNameWarning", object: nil)
     NSNotificationCenter.defaultCenter().removeObserver(view, name: "BorrowerNameWarning", object: nil)
@@ -407,7 +374,7 @@ class EditContractLogic
       case 1:
         count = 3
       case 2:
-        if (toggles["DisplayingLenders"]!)
+        if (contractTempData.displayingLenders)
         {
           count = 2
         }
@@ -416,7 +383,7 @@ class EditContractLogic
           count = 1
         }
       case 3:
-        if (toggles["DisplayingBorrowers"]!)
+        if (contractTempData.displayingBorrowers)
         {
           count = 2
         }
@@ -429,11 +396,11 @@ class EditContractLogic
       case 5:
         count = 1
         
-        if (toggles["DisplayAlertSettings"]!)
+        if (contractTempData.displayAlertSettings)
         {
           count += 5
           
-          if (toggles["DisplayAlertRepeatSettings"]!)
+          if (contractTempData.displayAlertRepeatSettings)
           {
             count += 3
           }
@@ -454,12 +421,12 @@ class EditContractLogic
     switch location
     {
       case (0, 0):
-        if (dynamicallyEditingThisCell(indexPath, inTable: "Money"))
+        if (contractTempData.dynamicallyEditing && contractTempData.dynamicEditID == "Title")
         {
           height = 84
         }
       case (1, 0):
-        if (dynamicallyEditingThisCell(indexPath, inTable: "Money") && toggles["DisplayCalculator"]!)
+        if (contractTempData.dynamicallyEditing && contractTempData.dynamicEditID == "MonetaryValue" && contractTempData.displayCalculator)
         {
           height = 84
         }
@@ -487,15 +454,15 @@ class EditContractLogic
           height += contractors.count * 40
         }
       case (4, 0):
-        if (toggles["DisplayDueCalender"]!)
+        if (contractTempData.displayDueCalender)
         {
-          //TODO: Finish when calender is implented.
+          //TODO - Finish when calender is implented.
         }
         else if (data.mainScreenWidth < iPhone6Width)
         {
           height = 72
         }
-        else if (dynamicallyEditingThisCell(indexPath, inTable: "Money") && data.mainScreenWidth > iPhone6Width)
+        else if (contractTempData.dynamicallyEditing && contractTempData.dynamicEditID == "DueDate" && data.mainScreenWidth > iPhone6Width)
         {
           height = 72
         }
@@ -512,7 +479,7 @@ class EditContractLogic
     return height!
   }
   
-  class func newContractMoneyCreateCell(tableView tableView: UITableView, indexPath: NSIndexPath) -> (UITableViewCell?)
+  class func newContractMoneyCreateCell(#tableView: UITableView, indexPath: NSIndexPath) -> (UITableViewCell?)
   {
     var cell: UITableViewCell?
     
@@ -521,23 +488,23 @@ class EditContractLogic
       switch indexPath.section
       {
         case 0:
-          cell = tableView.dequeueReusableCellWithIdentifier("EditTitleCell")
+          cell = (tableView.dequeueReusableCellWithIdentifier("EditTitleCell") as! UITableViewCell)
         case 1:
           switch indexPath.row
           {
             case 0:
-              if (toggles["DisplayCalculator"]!)
+              if (contractTempData.displayCalculator)
               {
-                cell = (tableView.dequeueReusableCellWithIdentifier("EditMonetaryValueWithCalculatorCell"))
+                cell = (tableView.dequeueReusableCellWithIdentifier("EditMonetaryValueWithCalculatorCell") as! UITableViewCell)
               }
               else
               {
-                cell = tableView.dequeueReusableCellWithIdentifier("EditMonetaryValueCell")
+                cell = (tableView.dequeueReusableCellWithIdentifier("EditMonetaryValueCell") as! UITableViewCell)
               }
             case 1:
-              cell = tableView.dequeueReusableCellWithIdentifier("EditPickerSwitchCell")
+              cell = (tableView.dequeueReusableCellWithIdentifier("EditPercentageCell") as! UITableViewCell)
             case 2:
-              cell = tableView.dequeueReusableCellWithIdentifier("EditPickerSwitchCell")
+              cell = (tableView.dequeueReusableCellWithIdentifier("EditPercentageCell") as! UITableViewCell)
             default:
               fatalError("There is no dynamic edit cell at row: \(indexPath.row) in section:\(indexPath.section)")
           }
@@ -547,7 +514,7 @@ class EditContractLogic
             case 0:
               var cellID = "EditDate"
               
-              if (toggles["DisplayDueCalender"]!)
+              if (contractTempData.displayDueCalender)
               {
                 cellID += "Calender"
               }
@@ -562,9 +529,9 @@ class EditContractLogic
               }
               
               cellID += "Cell"
-              cell = tableView.dequeueReusableCellWithIdentifier(cellID)
+              cell = (tableView.dequeueReusableCellWithIdentifier(cellID) as! UITableViewCell)
             case 1:
-              cell = tableView.dequeueReusableCellWithIdentifier("EditTimeCell")
+              cell = (tableView.dequeueReusableCellWithIdentifier("EditTimeCell") as! UITableViewCell)
             default:
               fatalError("There is no dynamic edit cell at row: \(indexPath.row) in section:\(indexPath.section)")
           }
@@ -574,7 +541,7 @@ class EditContractLogic
             case 1:
               var cellID = "EditDate"
               
-              if (toggles["DisplayAlertCalender"]!)
+              if (contractTempData.displayAlertCalender)
               {
                 cellID += "Calender"
               }
@@ -589,36 +556,34 @@ class EditContractLogic
               }
               
               cellID += "Cell"
-              cell = tableView.dequeueReusableCellWithIdentifier(cellID)
+              cell = (tableView.dequeueReusableCellWithIdentifier(cellID) as! UITableViewCell)
             case 2:
-              cell = tableView.dequeueReusableCellWithIdentifier("EditTimeCell")
+              cell = (tableView.dequeueReusableCellWithIdentifier("EditTimeCell") as! UITableViewCell)
             case 3:
-              cell = tableView.dequeueReusableCellWithIdentifier("EditToneCell")
+              cell = (tableView.dequeueReusableCellWithIdentifier("EditToneCell") as! UITableViewCell)
             case 4:
-              cell = tableView.dequeueReusableCellWithIdentifier("EditPickerCell")
+              cell = (tableView.dequeueReusableCellWithIdentifier("EditPickerCell") as! UITableViewCell)
             case 6:
               switch temporaryContract.alertRepeatType
               {
                 case AlertRepeatType.Simple:
-                  cell = tableView.dequeueReusableCellWithIdentifier("EditAlertRepeatSimpleCell")
+                  cell = (tableView.dequeueReusableCellWithIdentifier("EditAlertRepeatSimpleCell") as! UITableViewCell)
                 case AlertRepeatType.Month:
-                  cell = tableView.dequeueReusableCellWithIdentifier("EditAlertRepeatCell")
+                  cell = (tableView.dequeueReusableCellWithIdentifier("EditAlertRepeatCell") as! UITableViewCell)
                 case AlertRepeatType.Days:
-                  let cellType = dynamicEditValues["AlertRepeatCellType"] as! AlertRepeatCellType
-                  
-                  if (cellType.isPattern())
+                  if (contractTempData.alertRepeatCellType.isPattern())
                   {
-                    cell = tableView.dequeueReusableCellWithIdentifier("EditAlertRepeatDaysCell")
+                    cell = (tableView.dequeueReusableCellWithIdentifier("EditAlertRepeatDaysCell") as! UITableViewCell)
                   }
                   else
                   {
-                    cell = tableView.dequeueReusableCellWithIdentifier("EditAlertRepeatCell")
+                    cell = (tableView.dequeueReusableCellWithIdentifier("EditAlertRepeatCell") as! UITableViewCell)
                   }
               }
             case 7:
               var cellID = "EditDate"
               
-              if (toggles["DisplayAlertRepeatCalender"]!)
+              if (contractTempData.displayAlertRepeatCalender)
               {
                 cellID += "Calender"
               }
@@ -633,7 +598,7 @@ class EditContractLogic
               }
               
               cellID += "Cell"
-              cell = tableView.dequeueReusableCellWithIdentifier(cellID)
+              cell = (tableView.dequeueReusableCellWithIdentifier(cellID) as! UITableViewCell)
             break
             default:
               fatalError("There is no dynamic edit cell at row: \(indexPath.row) in section:\(indexPath.section)")
@@ -646,22 +611,19 @@ class EditContractLogic
     return cell
   }
   
-  class func newContractMoneyUpdateCell(cell cell: UITableViewCell, indexPath: NSIndexPath)
+  class func newContractMoneyUpdateCell(#cell: UITableViewCell, indexPath: NSIndexPath)
   {
-    //Debugging tool to make sure cells only get updated once per refresh.
-    trackRowRefreshes(table: "Contract", index: indexPath)
-    
     switch indexPath.section
     {
       case 0:
         if (indexPath.row == 0)
         {
-          if (dynamicallyEditingThisCell(indexPath, inTable: "Money"))
+          if (contractTempData.dynamicallyEditing && contractTempData.dynamicEditID == "Title")
           {
-            let tempTitleCell = cell as! EditTitleCell
-            tempTitleCell.contractTitle.text = temporaryContract.title
-            tempTitleCell.contractType.selectedSegmentIndex = temporaryContract.type.rawValue
-            data.currentFocus = tempTitleCell
+            let tempCell = cell as! EditTitleCell
+            tempCell.contractTitle.text = temporaryContract.title
+            tempCell.contractType.selectedSegmentIndex = temporaryContract.type.rawValue
+            data.currentFocus = tempCell
           }
           else
           {
@@ -675,19 +637,17 @@ class EditContractLogic
           case 0:
             let currency = data.currency.rawValue
             
-            if (dynamicallyEditingThisCell(indexPath, inTable: "Money"))
+            if (contractTempData.dynamicallyEditing && contractTempData.dynamicEditID == "MonetaryValue")
             {
-              let tempMoneyCell = cell as! EditMonetaryValueCell
-              tempMoneyCell.contractCurrency.setTitle(currency, forState: UIControlState.Normal)
+              let tempCell = cell as! EditMonetaryValueCell
+              tempCell.contractCurrency.setTitle(currency, forState: UIControlState.Normal)
               let monetaryValue = temporaryContract.monetaryValue
-              tempMoneyCell.monetaryValue.text = String(format: "%.2f", monetaryValue)
-              data.currentFocus = tempMoneyCell
+              tempCell.monetaryValue.text = String(format: "%.2f", monetaryValue)
+              data.currentFocus = tempCell
             }
             else
             {
-              let status = toggles["IncludeTip"]!
-              
-              if (status)
+              if (contractTempData.includeTip)
               {
                 let monetaryValue = totalMonetaryValue()
                 cell.detailTextLabel?.text = currency + String(format: " %.2f", monetaryValue) + String(format: " (%.2f", temporaryContract.monetaryValue) + ")"
@@ -698,50 +658,41 @@ class EditContractLogic
               }
             }
           case 1:
-            var tempSwitchCell = cell as! SwitchCell
+            let switchCell = cell as! SwitchCell
             
-            if (dynamicallyEditingThisCell(indexPath, inTable: "Money"))
+            if (contractTempData.dynamicallyEditing && contractTempData.dynamicEditID == "TipPercentage")
             {
-              let tempPickerCell = cell as! EditPickerSwitchCell
-              tempPickerCell.pickerPreLabel.text = "Include Tip:"
-              tempPickerCell.pickerPostLabel.text = "%"
+              let tempCell = cell as! EditPercentageCell
+              tempCell.percentageLabel.text = "Include Tip:"
               
               //Initialize percentage picker.
-              let tip = dynamicEditValues["Tip"] as! Int
-              initializePercentagePicker(tempPickerCell, percentage: tip)
+              initializePercentagePicker(tempCell, percentage: temporaryContract.tip)
             }
             else
             {
-              tempSwitchCell.switchLabel.text = "\(temporaryContract.tip)%"
+              switchCell.toggleLabel.text = "\(temporaryContract.tip)%"
             }
             
-            let toggleID = "IncludeTip"
-            let status = toggles[toggleID]!
-            tempSwitchCell.toggle.setOn(status, animated: false)
-            tempSwitchCell.toggleID = toggleID
+            switchCell.toggleID = "Tip"
+            switchCell.toggle.setOn(contractTempData.includeTip, animated: false)
           case 2:
-            var tempSwitchCell = cell as! SwitchCell
+            let switchCell = cell as! SwitchCell
             
-            if (dynamicallyEditingThisCell(indexPath, inTable: "Money"))
+            if (contractTempData.dynamicallyEditing && contractTempData.dynamicEditID == "IntrestPercentage")
             {
-              let tempPickerCell = cell as! EditPickerSwitchCell
-              tempPickerCell.pickerPreLabel.text = "Interest:"
-              tempPickerCell.pickerPostLabel.text = "%"
-              tempPickerCell.pickerWidthConstraint.constant = CGFloat(175)
-             
-              //Initialize picker.
-              let interest = dynamicEditValues["Interest"] as! Double
-              initializePercentagePicker(tempPickerCell, percentage: interest)
+              let tempCell = cell as! EditPercentageCell
+              tempCell.percentageLabel.text = "Include Intrest:"
+              
+              //Initialize percentage picker.
+              initializePercentagePicker(tempCell, percentage: temporaryContract.tip)
             }
             else
             {
-              tempSwitchCell.switchLabel.text = "\(temporaryContract.interest)%"
+              switchCell.toggleLabel.text = "\(temporaryContract.tip)%"
             }
             
-            let toggleID = "IncludeInterest"
-            let status = toggles[toggleID]!
-            tempSwitchCell.toggle.setOn(status, animated: false)
-            tempSwitchCell.toggleID = toggleID
+            switchCell.toggleID = "Intrest"
+            switchCell.toggle.setOn(contractTempData.includeTip, animated: false)
           default:
             return
         }
@@ -753,17 +704,17 @@ class EditContractLogic
           
           if (contractTempData.dynamicallyEditing)
           {
-            if (contractTempData.dynamicEditTable == "Contract" && indexPath.row == 0)
+            if (contractTempData.dynamicEditID == "DueDate" && indexPath.row == 0)
             {
-              if (toggles["DisplayDueCalender"]!)
+              if (contractTempData.displayDueCalender)
               {
-//                let tempCalenderCell = cell as! EditDateCalenderCell
-//                TODO: Finish when calender is working!!!
+                let tempCell = cell as! EditDateCalenderCell
+                //TODO - Finish when calender is working!!!
               }
               
               dateCell = cell as! EditDatePickerCell
             }
-            else if (contractTempData.dynamicEditTable == "Contract" && indexPath.row == 1)
+            else if (contractTempData.dynamicEditID == "DueTime" && indexPath.row == 1)
             {
               dateCell = (cell as! EditDateCell)
             }
@@ -784,7 +735,7 @@ class EditContractLogic
             }
             
             dateCell.datePicker.setDate(date, animated: false)
-            dynamicEditValues["DueDate"] = date
+            contractTempData.dynamicEditValue = date
           }
           else
           {
@@ -804,28 +755,26 @@ class EditContractLogic
         switch indexPath.row
         {
           case 0:
-            var tempSwitchCell = cell as! SwitchCell
-            let toggleID = "UseAlert"
-            let status = toggles[toggleID]!
-            tempSwitchCell.toggle.setOn(status, animated: false)
-            tempSwitchCell.toggleID = toggleID
+            let tempcell = cell as! SwitchCell
+            tempcell.toggleID = "UseAlert"
+            tempcell.toggle.setOn(temporaryContract.useAlert, animated: false)
           case 1, 2:
             let date = temporaryContract.alertDate
             var dateCell: EditDateCell!
             
             if (contractTempData.dynamicallyEditing == true)
             {
-              if (contractTempData.dynamicEditTable == "Contract" && indexPath.row == 1)
+              if (contractTempData.dynamicEditID == "AlertDate" && indexPath.row == 1)
               {
-                if (toggles["DisplayAlertCalender"]!)
+                if (contractTempData.displayAlertCalender)
                 {
-//                  let tempCalenderCell = cell as! EditDateCalenderCell
-//                  TODO: Finish when calender is working!!!
+                  let tempCell = cell as! EditDateCalenderCell
+                  //TODO - Finish when calender is working!!!
                 }
                 
                 dateCell = (cell as! EditDateCell)
               }
-              else if (contractTempData.dynamicEditTable == "Contract" && indexPath.row == 2)
+              else if (contractTempData.dynamicEditID == "AlertTime" && indexPath.row == 2)
               {
                 dateCell = (cell as! EditDateCell)
               }
@@ -846,7 +795,7 @@ class EditContractLogic
               }
               
               dateCell.datePicker.setDate(date, animated: false)
-              dynamicEditValues["AlertDueDate"] = date
+              contractTempData.dynamicEditValue = date
             }
             else
             {
@@ -862,38 +811,38 @@ class EditContractLogic
               cell.detailTextLabel?.text = data.dateFormatter.stringFromDate(date)
             }
           case 3:
-            if (dynamicallyEditingThisCell(indexPath, inTable: "Money"))
+            if (contractTempData.dynamicallyEditing && contractTempData.dynamicEditID == "AlertTone")
             {
-              let tempPickerCell = cell as! EditPickerCell
-              tempPickerCell.pickerPreLabel.text = "Alert Tone"
-              tempPickerCell.picker.selectRow(temporaryContract.alertTone.rawValue, inComponent: 0, animated: false)
+              let tempCell = cell as! EditPickerCell
+              tempCell.pickerID = "AlertTone"
+              tempCell.pickerLabel.text = "Alert Tone"
+              tempCell.picker.selectRow(temporaryContract.alertTone.rawValue, inComponent: 0, animated: false)
             }
             else
             {
               cell.detailTextLabel?.text = temporaryContract.alertNagRate.toString()
             }
-            break //TODO: Finish!!!
+            break //TODO - Finish!!!
           case 4:
-            if (dynamicallyEditingThisCell(indexPath, inTable: "Money"))
+            if (contractTempData.dynamicallyEditing && contractTempData.dynamicEditID == "AlertNagRate")
             {
-              let tempPickerCell = cell as! EditPickerCell
-              tempPickerCell.pickerPreLabel.text = "Alert Nag Rate"
-              tempPickerCell.picker.selectRow(temporaryContract.alertNagRate.rawValue, inComponent: 0, animated: false)
+              let tempCell = cell as! EditPickerCell
+              tempCell.pickerID = "AlertNagRate"
+              tempCell.pickerLabel.text = "Alert Nag Rate"
+              tempCell.picker.selectRow(temporaryContract.alertNagRate.rawValue, inComponent: 0, animated: false)
             }
             else
             {
               cell.detailTextLabel?.text = temporaryContract.alertNagRate.toString()
             }
           case 5:
-            var tempSwitchCell = cell as! SwitchCell
-            let toggleID = "RepeatAlert"
-            let status = toggles[toggleID]!
-            tempSwitchCell.toggle.setOn(status, animated: false)
-            tempSwitchCell.toggleID = toggleID
+            let tempcell = cell as! SwitchCell
+            tempcell.toggleID = "RepeatAlert"
+            tempcell.toggle.setOn(temporaryContract.repeatAlert, animated: false)
           case 6:
             let date = temporaryContract.dateDue
             
-            if (dynamicallyEditingThisCell(indexPath, inTable: "Money"))
+            if (contractTempData.dynamicallyEditing && contractTempData.dynamicEditID == "AlertRepeatRate")
             {
               var repeatPattern = ""
               var repeatRate = "Every "
@@ -901,28 +850,29 @@ class EditContractLogic
               switch temporaryContract.alertRepeatType
               {
                 case AlertRepeatType.Simple:
-                  let tempSimpleCell = cell as! EditAlertRepeatSimpleCell
+                  let tempCell = cell as! EditAlertRepeatSimpleCell
+                  tempCell.pickerID = "AlertRepeatSimple"
                   
-                  tempSimpleCell.fromCompleation.setOn(temporaryContract.repeatFromCompleation, animated: false)
+                  tempCell.fromCompleation.setOn(temporaryContract.repeatFromCompleation, animated: false)
                   
-                  let rate = temporaryContract.alertRepeatRate
-                  let interval = temporaryContract.alertRepeatInterval as! TimeInterval
-                  tempSimpleCell.picker.selectRow(rate, inComponent: 0, animated: false)
-                  tempSimpleCell.picker.selectRow(interval.rawValue, inComponent: 1, animated: false)
+                  let rate = contractTempData.alertRepeatSimpleRate
+                  let interval = contractTempData.alertRepeatSimpleInterval.rawValue
+                  tempCell.picker.selectRow(rate, inComponent: 0, animated: false)
+                  tempCell.picker.selectRow(interval, inComponent: 1, animated: false)
                   
-                  if (rate == 1)
+                  if (contractTempData.alertRepeatSimpleRate == 1)
                   {
-                    repeatRate += interval.toString()
+                    repeatRate += contractTempData.alertRepeatSimpleInterval.toString()
                   }
                   else
                   {
-                    repeatRate += rate + " " + interval.toString() + "s"
+                    repeatRate += contractTempData.alertRepeatSimpleRate + " " + contractTempData.alertRepeatSimpleInterval.toString() + "s"
                     
-                    if (interval != TimeInterval.Day)
+                    if (contractTempData.alertRepeatSimpleInterval != TimeInterval.Day)
                     {
                       repeatRate += " on "
                       
-                      switch interval
+                      switch contractTempData.alertRepeatSimpleInterval
                       {
                         case TimeInterval.Week:
                           data.dateFormatter.dateFormat = "E"
@@ -943,73 +893,74 @@ class EditContractLogic
                     }
                   }
                   
-                  tempSimpleCell.repeatRate.titleLabel?.text = repeatRate
+                  tempCell.repeatRate.titleLabel?.text = repeatRate
                 case AlertRepeatType.Month:
-                  let tempMonthCell = cell as! EditAlertRepeatCell
-                  let pattern = temporaryContract.alertRepeatPattern as! Int
-                  let interval = temporaryContract.alertRepeatInterval as! Days
-                  let rate = temporaryContract.alertRepeatRate
-                  let cellType = dynamicEditValues["AlertRepeatCellType"] as! AlertRepeatCellType
+                  let tempCell = cell as! EditAlertRepeatCell
+                  let pattern = contractTempData.alertRepeatMonthPattern
+                  let interval = contractTempData.alertRepeatMonthInterval
+                  let rate = contractTempData.alertRepeatMonthRate
                   
-                  if (cellType.isPattern())
+                  if (contractTempData.alertRepeatCellType.isPattern())
                   {
+                    tempCell.pickerID = "AlertRepeatMonthPattern"
                     
-                    tempMonthCell.picker.selectRow(pattern, inComponent: 0, animated: false)
-                    tempMonthCell.picker.selectRow(interval.rawValue, inComponent: 1, animated: false)
+                    tempCell.picker.selectRow(pattern, inComponent: 0, animated: false)
+                    tempCell.picker.selectRow(interval.rawValue, inComponent: 1, animated: false)
                   }
                   else
                   {
-                    tempMonthCell.picker.selectRow(rate, inComponent: 0, animated: false)
+                    tempCell.pickerID = "AlertRepeatMonthRate"
+                    tempCell.picker.selectRow(rate, inComponent: 0, animated: false)
                   }
                   
                   repeatPattern = "The " + pattern + numberSuffix(pattern) + " " + interval.toString()
-                  tempMonthCell.repeatPattern.titleLabel?.text = repeatPattern
+                  tempCell.repeatPattern.titleLabel?.text = repeatPattern
                   
-                  if (temporaryContract.alertRepeatRate == 1)
+                  if (contractTempData.alertRepeatMonthRate == 1)
                   {
                     repeatRate += "Month"
                   }
                   else
                   {
-                    repeatRate += temporaryContract.alertRepeatRate + "Months"
+                    repeatRate += contractTempData.alertRepeatMonthRate + "Months"
                   }
                   
-                  tempMonthCell.repeatPattern.titleLabel?.text = repeatPattern
-                  tempMonthCell.repeatRate.titleLabel?.text = repeatRate
+                  tempCell.repeatPattern.titleLabel?.text = repeatPattern
+                  tempCell.repeatRate.titleLabel?.text = repeatRate
                 case AlertRepeatType.Days:
-                  let tempDaysCell = cell as! EditAlertRepeatCell
+                  let tempCell = cell as! EditAlertRepeatCell
 
-                  if (alertBoolFor("Monday"))
+                  if (contractTempData.alertRepeatDaysPattern.monday)
                   {
                     repeatPattern += "Mon, "
                   }
                   
-                  if (alertBoolFor("Tuesday"))
+                  if (contractTempData.alertRepeatDaysPattern.tuesday)
                   {
                     repeatPattern += "Tue, "
                   }
                   
-                  if (alertBoolFor("Wednesday"))
+                  if (contractTempData.alertRepeatDaysPattern.wednesday)
                   {
                     repeatPattern += "Wed, "
                   }
                   
-                  if (alertBoolFor("Thursday"))
+                  if (contractTempData.alertRepeatDaysPattern.thursday)
                   {
                     repeatPattern += "Thu, "
                   }
                   
-                  if (alertBoolFor("Friday"))
+                  if (contractTempData.alertRepeatDaysPattern.friday)
                   {
                     repeatPattern += "Fri, "
                   }
                   
-                  if (alertBoolFor("Saturday"))
+                  if (contractTempData.alertRepeatDaysPattern.saturday)
                   {
                     repeatPattern += "Sat, "
                   }
                   
-                  if (alertBoolFor("Sunday"))
+                  if (contractTempData.alertRepeatDaysPattern.sunday)
                   {
                     repeatPattern += "Sun, "
                   }
@@ -1033,66 +984,67 @@ class EditContractLogic
                     repeatPattern = "Every Weekend"
                   }
                   
-                  tempDaysCell.repeatPattern.titleLabel?.text = repeatPattern
+                  tempCell.repeatPattern.titleLabel?.text = repeatPattern
                   
-                  if (temporaryContract.alertRepeatRate == 1)
+                  if (contractTempData.alertRepeatDaysRate == 1)
                   {
                     repeatRate += "Week"
                   }
                   else
                   {
-                    repeatRate += temporaryContract.alertRepeatRate + "Weeks"
+                    repeatRate += contractTempData.alertRepeatDaysRate + "Weeks"
                   }
                   
-                  tempDaysCell.repeatRate.titleLabel?.text = repeatRate
-                  let cellType = dynamicEditValues["AlertRepeatCellType"] as! AlertRepeatCellType
+                  tempCell.repeatRate.titleLabel?.text = repeatRate
                   
-                  if (cellType.isPattern())
+                  if (contractTempData.alertRepeatCellType.isPattern())
                   {
                     let daysCell = cell as! EditAlertRepeatDaysCell
                     
-                    setCheckboxImage(state: alertBoolFor("Monday"), button: daysCell.monday)
-                    setCheckboxImage(state: alertBoolFor("Tuesday"), button: daysCell.tuesday)
-                    setCheckboxImage(state: alertBoolFor("Wednesday"), button: daysCell.wednesday)
-                    setCheckboxImage(state: alertBoolFor("Thursday"), button: daysCell.thursday)
-                    setCheckboxImage(state: alertBoolFor("Friday"), button: daysCell.friday)
-                    setCheckboxImage(state: alertBoolFor("Sunday"), button: daysCell.saturday)
-                    setCheckboxImage(state: alertBoolFor("Sunday"), button: daysCell.sunday)
+                    setRepeatDayButtonImage(state: contractTempData.alertRepeatDaysPattern.monday, button: daysCell.monday)
+                    setRepeatDayButtonImage(state: contractTempData.alertRepeatDaysPattern.tuesday, button: daysCell.tuesday)
+                    setRepeatDayButtonImage(state: contractTempData.alertRepeatDaysPattern.wednesday, button: daysCell.wednesday)
+                    setRepeatDayButtonImage(state: contractTempData.alertRepeatDaysPattern.thursday, button: daysCell.thursday)
+                    setRepeatDayButtonImage(state: contractTempData.alertRepeatDaysPattern.friday, button: daysCell.friday)
+                    setRepeatDayButtonImage(state: contractTempData.alertRepeatDaysPattern.sunday, button: daysCell.saturday)
+                    setRepeatDayButtonImage(state: contractTempData.alertRepeatDaysPattern.sunday, button: daysCell.sunday)
                   }
                   else
                   {
-                    let rate = temporaryContract.alertRepeatRate
-                    tempDaysCell.picker.selectRow(rate, inComponent: 0, animated: false)
+                    tempCell.pickerID = "AlertRepeatDaysRate"
+
+                    let rate = contractTempData.alertRepeatMonthRate
+                    tempCell.picker.selectRow(rate, inComponent: 0, animated: false)
                   }
               }
             }
           case 7:
             let date = temporaryContract.alertRepeatDate
             
-            if (contractTempData.dynamicallyEditing == true && contractTempData.dynamicEditTable == "Contract")
+            if (contractTempData.dynamicallyEditing == true && contractTempData.dynamicEditID == "AlertDate")
             {
-              if (toggles["DisplayAlertCalender"]!)
+              if (contractTempData.displayAlertCalender)
               {
-//                let tempCalenderCell = cell as! EditDateCalenderCell
-//                TODO: Finish when calender is working!!!
+                let tempCell = cell as! EditDateCalenderCell
+                //TODO - Finish when calender is working!!!
               }
               
-              let tempDateCell = cell as! EditDateCell
+              let tempCell = cell as! EditDateCell
               
-              if (tempDateCell.dateLabel != nil)
+              if (tempCell.dateLabel != nil)
               {
                 if (indexPath.row == 1)
                 {
-                  tempDateCell.dateLabel.text = "Alert Date"
+                  tempCell.dateLabel.text = "Alert Date"
                 }
                 else
                 {
-                  tempDateCell.dateLabel.text = "Alert Time"
+                  tempCell.dateLabel.text = "Alert Time"
                 }
               }
               
-              tempDateCell.datePicker.setDate(date, animated: false)
-              dynamicEditValues["AlertDueDate"] = date
+              tempCell.datePicker.setDate(date, animated: false)
+              contractTempData.dynamicEditValue = date
             }
             else
             {
@@ -1100,8 +1052,9 @@ class EditContractLogic
               cell.detailTextLabel?.text = data.dateFormatter.stringFromDate(date)
             }
           case 8:
-            var tempSwitchCell = cell as! SwitchCell
-            tempSwitchCell.toggle.setOn(temporaryContract.autoCompleteAlert, animated: false)
+            let tempcell = cell as! SwitchCell
+            tempcell.toggleID = "AutoCompleteAlert"
+            tempcell.toggle.setOn(temporaryContract.autoCompleteAlert, animated: false)
           default:
             return
         }
@@ -1110,7 +1063,7 @@ class EditContractLogic
     }
   }
   
-  class func newContractMoneyRowSelection(tableView tableView: UITableView, indexPath: NSIndexPath)
+  class func newContractMoneyRowSelection(#tableView: UITableView, indexPath: NSIndexPath)
   {
     if (indexPath != contractTempData.dynamicEditCell)
     {
@@ -1124,12 +1077,12 @@ class EditContractLogic
           return
         }
         
-        if (contractTempData.dynamicEditTable == "Lender")
+        if (contractTempData.dynamicEditID == "Lender")
         {
           resetDynamicEditing()
           refreshNewContractorTable("Lender")
         }
-        else if (contractTempData.dynamicEditTable == "Borrower")
+        else if (contractTempData.dynamicEditID == "Borrower")
         {
           resetDynamicEditing()
           refreshNewContractorTable("Borrower")
@@ -1142,17 +1095,15 @@ class EditContractLogic
       }
       
       let type = newContract.type.toString()
-      contractTempData.dynamicEditTable = "Contract"
       
       switch indexPath.section
       {
         case 0:
           if (indexPath.row == 0)
           {
-            contractTempData.beginDynamicEditing()
-            dynamicEditValues["Title"] = temporaryContract.title
-            dynamicEditValues["Type"] = temporaryContract.type
+            contractTempData.dynamicEditID = "Title"
             contractTempData.dynamicEditCell = indexPath
+            contractTempData.dynamicallyEditing = true
           }
           else
           {
@@ -1162,17 +1113,17 @@ class EditContractLogic
           switch indexPath.row
           {
             case 0:
-              contractTempData.beginDynamicEditing()
-              dynamicEditValues["MonetaryValue"] = temporaryContract.monetaryValue
+              contractTempData.dynamicEditID = "MonetaryValue"
               contractTempData.dynamicEditCell = indexPath
+              contractTempData.dynamicallyEditing = true
             case 1:
-              contractTempData.beginDynamicEditing()
-              dynamicEditValues["Tip"] = temporaryContract.tip
+              contractTempData.dynamicEditID = "TipPercentage"
               contractTempData.dynamicEditCell = indexPath
+              contractTempData.dynamicallyEditing = true
             case 2:
-              contractTempData.beginDynamicEditing()
-              dynamicEditValues["Interest"] = temporaryContract.interest
+              contractTempData.dynamicEditID = "IntrestPercentage"
               contractTempData.dynamicEditCell = indexPath
+              contractTempData.dynamicallyEditing = true
             default:
               fatalError("There is no row \(indexPath.row) in section \(indexPath.section) in New Contract \(type)'s form.")
           }
@@ -1180,11 +1131,11 @@ class EditContractLogic
           if (indexPath.row == 0)
           {
             //If displaing the lenders, update temporary and new contract and stop displaying lenders.  Otherwise update contracteeTemporary and start displaying lenders.
-            let row: [NSIndexPath] = [lenderTableIndexPath]
+            let row: [AnyObject] = [lenderTableIndexPath]
             
-            if (toggles["DisplayingLenders"]!)
+            if (contractTempData.displayingLenders)
             {
-              toggles["DisplayingLenders"] = false
+              contractTempData.displayingLenders = false
               tableView.beginUpdates()
               tableView.deleteRowsAtIndexPaths(row, withRowAnimation: UITableViewRowAnimation.None)
               tableView.endUpdates()
@@ -1203,7 +1154,7 @@ class EditContractLogic
                 }
               }
               
-              toggles["DisplayingLenders"] = true
+              contractTempData.displayingLenders = true
               tableView.beginUpdates()
               tableView.insertRowsAtIndexPaths(row, withRowAnimation: UITableViewRowAnimation.None)
               tableView.endUpdates()
@@ -1217,11 +1168,11 @@ class EditContractLogic
           if (indexPath.row == 0)
           {
             //If displaing the borrowers, update temporary and new contract and stop displaying borrowers.  Otherwise update contracteeTemporary and start displaying borrowers.
-            let row: [NSIndexPath] = [borrowerTableIndexPath]
+            let row: [AnyObject] = [borrowerTableIndexPath]
             
-            if (toggles["DisplayingBorrowers"]!)
+            if (contractTempData.displayingBorrowers)
             {
-              toggles["DisplayingBorrowers"] = false
+              contractTempData.displayingBorrowers = false
               tableView.beginUpdates()
               tableView.deleteRowsAtIndexPaths(row, withRowAnimation: UITableViewRowAnimation.None)
               tableView.endUpdates()
@@ -1240,7 +1191,7 @@ class EditContractLogic
                 }
               }
               
-              toggles["DisplayingBorrowers"] = true
+              contractTempData.displayingBorrowers = true
               tableView.beginUpdates()
               tableView.insertRowsAtIndexPaths(row, withRowAnimation: UITableViewRowAnimation.None)
               tableView.endUpdates()
@@ -1251,11 +1202,17 @@ class EditContractLogic
             fatalError("There is no row \(indexPath.row) in section \(indexPath.section) in New Contract \(type)'s form.")
           }
         case 4:
-          if (indexPath.row =| [0, 1])
+          if (indexPath.row == 0)
           {
-            contractTempData.beginDynamicEditing()
-            dynamicEditValues["DueDate"] = temporaryContract.dateDue
+            contractTempData.dynamicEditID = "DueDate"
             contractTempData.dynamicEditCell = indexPath
+            contractTempData.dynamicallyEditing = true
+          }
+          else if (indexPath.row == 1)
+          {
+            contractTempData.dynamicEditID = "DueTime"
+            contractTempData.dynamicEditCell = indexPath
+            contractTempData.dynamicallyEditing = true
           }
           else
           {
@@ -1266,10 +1223,10 @@ class EditContractLogic
           {
             case 0:
               //If displaing the alert settings, update temporary and new contract and stop displaying alert settings.  Otherwise update contracteeTemporary and start displaying alert settings.
-              var rows: [NSIndexPath] = []
+              var rows: [AnyObject] = []
               var count = 5
               
-              if (toggles["DisplayAlertRepeatSettings"]!)
+              if (contractTempData.displayAlertRepeatSettings)
               {
                 count += 3
               }
@@ -1279,9 +1236,9 @@ class EditContractLogic
                 rows.append(NSIndexPath(forRow: i, inSection: 5))
               }
               
-              if (toggles["DisplayAlertSettings"]!)
+              if (contractTempData.displayAlertSettings)
               {
-                toggles["DisplayAlertSettings"] = false
+                contractTempData.displayAlertSettings = false
                 
                 tableView.beginUpdates()
                 tableView.deleteRowsAtIndexPaths(rows, withRowAnimation: UITableViewRowAnimation.None)
@@ -1289,36 +1246,40 @@ class EditContractLogic
               }
               else
               {
-                toggles["DisplayAlertSettings"] = true
+                contractTempData.displayAlertSettings = true
                 
                 tableView.beginUpdates()
                 tableView.insertRowsAtIndexPaths(rows, withRowAnimation: UITableViewRowAnimation.None)
                 tableView.endUpdates()
               }
-            case 1, 2:
-              contractTempData.beginDynamicEditing()
-              dynamicEditValues["AlertDueDate"] = temporaryContract.alertDate
+            case 1:
+              contractTempData.dynamicEditID = "AlertDate"
               contractTempData.dynamicEditCell = indexPath
+              contractTempData.dynamicallyEditing = true
+            case 2:
+              contractTempData.dynamicEditID = "AlertTime"
+              contractTempData.dynamicEditCell = indexPath
+              contractTempData.dynamicallyEditing = true
             case 3:
-              contractTempData.beginDynamicEditing()
-              dynamicEditValues["AlertTone"] = temporaryContract.alertTone
+              contractTempData.dynamicEditID = "AlertTone"
               contractTempData.dynamicEditCell = indexPath
+              contractTempData.dynamicallyEditing = true
             case 4:
-              contractTempData.beginDynamicEditing()
-              dynamicEditValues["AlertNagRate"] = temporaryContract.alertNagRate
+              contractTempData.dynamicEditID = "AlertNagRate"
               contractTempData.dynamicEditCell = indexPath
+              contractTempData.dynamicallyEditing = true
             case 5:
               //If displaing the alert Repeat settings, update temporary and new contract and stop displaying alert settings.  Otherwise update contracteeTemporary and start displaying alert Repeat settings.
-              var rows: [NSIndexPath] = []
+              var rows: [AnyObject] = []
               
               for i in 6...8
               {
                 rows.append(NSIndexPath(forRow: i, inSection: 5))
               }
               
-              if (toggles["DisplayAlertRepeatSettings"]!)
+              if (contractTempData.displayAlertRepeatSettings)
               {
-                toggles["DisplayAlertRepeatSettings"] = false
+                contractTempData.displayAlertRepeatSettings = false
                 
                 tableView.beginUpdates()
                 tableView.deleteRowsAtIndexPaths(rows, withRowAnimation: UITableViewRowAnimation.None)
@@ -1326,46 +1287,24 @@ class EditContractLogic
               }
               else
               {
-                toggles["DisplayAlertRepeatSettings"] = true
+                contractTempData.displayAlertRepeatSettings = true
                 
                 tableView.beginUpdates()
                 tableView.insertRowsAtIndexPaths(rows, withRowAnimation: UITableViewRowAnimation.None)
                 tableView.endUpdates()
               }
             case 6:
-              contractTempData.beginDynamicEditing()
+              contractTempData.dynamicEditID = "AlertRepeatRate"
               contractTempData.dynamicEditCell = indexPath
-              dynamicEditValues["AlertRepeatType"] = temporaryContract.alertRepeatType
-              
-              switch temporaryContract.alertRepeatType
-              {
-                case AlertRepeatType.Simple:
-                  dynamicEditValues["AlertRepeatSimpleInterval"] = temporaryContract.alertRepeatInterval
-                  dynamicEditValues["AlertRepeatSimpleRate"] = temporaryContract.alertRepeatRate
-                case AlertRepeatType.Month:
-                  dynamicEditValues["AlertRepeatMonthPattern"] = temporaryContract.alertRepeatPattern
-                  dynamicEditValues["AlertRepeatMonthInterval"] = temporaryContract.alertRepeatInterval
-                  dynamicEditValues["AlertRepeatMonthRate"] = temporaryContract.alertRepeatRate
-                case AlertRepeatType.Days:
-                  let pattern = temporaryContract.alertRepeatPattern as! (monday: Bool, tuesday: Bool, wednesday: Bool, thursday: Bool, friday: Bool, saturday: Bool, suday: Bool)
-
-                  dynamicEditValues["Monday"] = pattern.monday
-                  dynamicEditValues["Tuesday"] = pattern.tuesday
-                  dynamicEditValues["Wednesday"] = pattern.wednesday
-                  dynamicEditValues["Thursday"] = pattern.thursday
-                  dynamicEditValues["Friday"] = pattern.friday
-                  dynamicEditValues["Saturday"] = pattern.saturday
-                  dynamicEditValues["Sunday"] = pattern.suday
-                    
-                  dynamicEditValues["AlertRepeatDaysRate"] = temporaryContract.alertRepeatRate
-              }
+              contractTempData.dynamicallyEditing = true
             case 7:
-              contractTempData.beginDynamicEditing()
-              dynamicEditValues["AlertRepeatDate"] = temporaryContract.alertRepeatDate
+              contractTempData.dynamicEditID = "AlertRepeatDate"
               contractTempData.dynamicEditCell = indexPath
+              contractTempData.dynamicallyEditing = true
             default:
               fatalError("There is no row \(indexPath.row) in section \(indexPath.section) in New Contract \(type)'s form.")
           }
+        break
         default:
           fatalError("there are only 3 sections, not \(indexPath.section), in New Contract \(type)'s form.")
       }
@@ -1378,12 +1317,12 @@ class EditContractLogic
   
   
   //MARK: New Item Contract Logic
-  class func newContractItemViewDidLoad(view: EditContractController)
+  class func newContractItemViewDidLoad(view: NewContractController)
   {
     
   }
   
-  class func newContractItemViewWillDisapear(view: EditContractController)
+  class func newContractItemViewWillDisapear(view: NewContractController)
   {
     
   }
@@ -1398,17 +1337,17 @@ class EditContractLogic
     return CGFloat()
   }
   
-  class func newContractItemCreateCell(tableView tableView: UITableView, indexPath: NSIndexPath) -> (UITableViewCell?)
+  class func newContractItemCreateCell(#tableView: UITableView, indexPath: NSIndexPath) -> (UITableViewCell?)
   {
     return nil
   }
   
-  class func newContractItemUpdateCell(cell cell: UITableViewCell, indexPath: NSIndexPath)
+  class func newContractItemUpdateCell(#cell: UITableViewCell, indexPath: NSIndexPath)
   {
     
   }
   
-  class func newContractItemRowSelection(tableView tableView: UITableView, indexPath: NSIndexPath)
+  class func newContractItemRowSelection(#tableView: UITableView, indexPath: NSIndexPath)
   {
     
   }
@@ -1416,12 +1355,12 @@ class EditContractLogic
   
   
   //MARK: New Service Contract Logic
-  class func newContractServiceViewDidLoad(view: EditContractController)
+  class func newContractServiceViewDidLoad(view: NewContractController)
   {
     
   }
   
-  class func newContractServiceViewWillDisappear(view: EditContractController)
+  class func newContractServiceViewWillDisappear(view: NewContractController)
   {
     
   }
@@ -1436,17 +1375,17 @@ class EditContractLogic
     return CGFloat()
   }
   
-  class func newContractServiceCreateCell(tableView tableView: UITableView, indexPath: NSIndexPath) -> (UITableViewCell?)
+  class func newContractServiceCreateCell(#tableView: UITableView, indexPath: NSIndexPath) -> (UITableViewCell?)
   {
     return nil
   }
   
-  class func newContractServiceUpdateCell(cell cell: UITableViewCell, indexPath: NSIndexPath)
+  class func newContractServiceUpdateCell(#cell: UITableViewCell, indexPath: NSIndexPath)
   {
     
   }
   
-  class func newContractServiceRowSelection(tableView tableView: UITableView, indexPath: NSIndexPath)
+  class func newContractServiceRowSelection(#tableView: UITableView, indexPath: NSIndexPath)
   {
     
   }
@@ -1454,10 +1393,10 @@ class EditContractLogic
   
   
   //MARK: New Contract Lender And Borrower Logic
-  class func newContractorViewDidLoad(view view: UIViewController, table: UITableView, contractorType: String)
+  class func newContractorViewDidLoad(#view: UIViewController, table: UITableView, contractorType: String)
   {
-    NSNotificationCenter.defaultCenter().addObserver(view, selector: #selector(NewContractors.refreshTable), name:"RefreshNew" + contractorType + "Table", object: nil)
-    NSNotificationCenter.defaultCenter().addObserver(view, selector: #selector(NewContractors.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+    NSNotificationCenter.defaultCenter().addObserver(view, selector: "refreshTable", name:"RefreshNew" + contractorType + "Table", object: nil)
+    NSNotificationCenter.defaultCenter().addObserver(view, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
     
     //Register Table.
     table.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
@@ -1490,13 +1429,13 @@ class EditContractLogic
     table.registerNib(nib, forCellReuseIdentifier: "SelfPartPercentageCell")
   }
   
-  class func newContractorViewWillDisappear(view view: UIViewController, contractorType: String)
+  class func newContractorViewWillDisappear(#view: UIViewController, contractorType: String)
   {
     NSNotificationCenter.defaultCenter().removeObserver(view, name:"RefreshNew" + contractorType + "Table", object: nil)
     NSNotificationCenter.defaultCenter().removeObserver(view, name: UIKeyboardWillShowNotification, object: nil)
   }
   
-  class func updateShares(sender sender: UISegmentedControl, contractorType: String)
+  class func updateShares(#sender: UISegmentedControl, contractorType: String)
   {
     var previousShare: Int
     
@@ -1530,7 +1469,7 @@ class EditContractLogic
     refreshNewContractors()
   }
   
-  class func newContractRowCount(section section: Int, contractorType: String) -> (Int)
+  class func newContractRowCount(#section: Int, contractorType: String) -> (Int)
   {
     //There should only be one section, if it asks about any others, print a warning and return.
     if (section > 0)
@@ -1546,7 +1485,7 @@ class EditContractLogic
       
       if (!contractTempData.lendersTemporary.hasKey("@User@"))
       {
-        count += 1
+        count++
       }
     }
     else
@@ -1555,14 +1494,14 @@ class EditContractLogic
       
       if (!contractTempData.borrowersTemporary.hasKey("@User@"))
       {
-        count += 1
+        count++
       }
     }
     
     return count
   }
   
-  class func newContractorRowHeight(indexPath indexPath: NSIndexPath, contractorType: String) -> (CGFloat)
+  class func newContractorRowHeight(#indexPath: NSIndexPath, contractorType: String) -> (CGFloat)
   {
     //There should only be one section, if it asks about any others, print a warning and return.
     if (indexPath.section > 0)
@@ -1593,11 +1532,11 @@ class EditContractLogic
     
     if (isAddUserHeaderRow(contractorType, indexPath))
     {
-      cell = tableView.dequeueReusableCellWithIdentifier("NewSelfCell")!
+      cell = tableView.dequeueReusableCellWithIdentifier("NewSelfCell") as! UITableViewCell
     }
     else if (isNewContractorHeaderRow(contractorType, indexPath))
     {
-      cell = tableView.dequeueReusableCellWithIdentifier("NewContractorCell")!
+      cell = tableView.dequeueReusableCellWithIdentifier("NewContractorCell") as! UITableViewCell
     }
     else
     {
@@ -1625,7 +1564,7 @@ class EditContractLogic
         cellID = "Contractor"
       }
       
-      if (dynamicallyEditingThisCell(indexPath, inTable: contractorType))
+      if (contractTempData.dynamicallyEditing && contractTempData.dynamicEditID == contractorType && indexPath == contractTempData.dynamicEditCell)
       {
         if (cellID == "Self" && shares == Shares.Equal)
         {
@@ -1648,7 +1587,7 @@ class EditContractLogic
         }
       }
       
-      cell = tableView.dequeueReusableCellWithIdentifier(cellID)!
+      cell = tableView.dequeueReusableCellWithIdentifier(cellID) as! UITableViewCell
     }
     
     newContractorsUpdateCell(cell, indexPath, contractorType)
@@ -1658,9 +1597,6 @@ class EditContractLogic
   
   class func newContractorsUpdateCell(cell: UITableViewCell, _ indexPath: NSIndexPath, _ contractorType: String)
   {
-    //Debugging tool to make sure cells only get updated once per refresh.
-    trackRowRefreshes(table: "Contract", index: indexPath)
-    
     //There should only be one section, if it asks about any others, print a warning and return.
     if (indexPath.section > 0)
     {
@@ -1685,111 +1621,111 @@ class EditContractLogic
         isUser = (contractTempData.borrowersTemporary[indexPath.row - newBorrowerInsertionOffset].key == "@User@")
       }
       
-      if (dynamicallyEditingThisCell(indexPath, inTable: contractorType))
+      if (dynamicallyEditingThisCell(indexPath, dynamicEditID: contractorType))
       {
-        contractor = dynamicEditValues["DynamicEditContractor"] as! (key: String, value: (parts: Int, percent: Int, fixed: Double))
+        contractor = contractTempData.dynamicEditContractor
         
         switch shares
         {
           case Shares.Equal:
-            var tempMoneyCell: MonetaryCell
+            var tempCell: MonetaryCell
             
             if (isUser)
             {
-              tempMoneyCell = cell as! SelfEqualFixedCell
+              tempCell = cell as! SelfEqualFixedCell
             }
             else
             {
               let contractorCell = cell as! EditContractorEqualCell
               contractorCell.contractorName.text = contractor.key
               data.currentFocus = contractorCell
-              tempMoneyCell = contractorCell
+              tempCell = contractorCell
             }
             
             let calculatedValues = equalSharesMonetaryValue(contractorType, indexPath)
             
             if (isSlackRow(contractorType, indexPath))
             {
-              tempMoneyCell.monetaryLabel.text = String(format: "%.2f", calculatedValues.slack)
+              tempCell.monetaryValue.text = String(format: "%.2f", calculatedValues.slack)
             }
             else
             {
-              tempMoneyCell.monetaryLabel.text = String(format: "%.2f", calculatedValues.given)
+              tempCell.monetaryValue.text = String(format: "%.2f", calculatedValues.given)
             }
           case Shares.Part:
-            var tempPartCell: EditPartCell
+            var tempCell: EditPartCell
             
             if (isUser)
             {
-              tempPartCell = cell as! EditSelfPartCell
+              tempCell = cell as! EditSelfPartCell
             }
             else
             {
               let contractorCell = cell as! EditContractorPartCell
               contractorCell.contractorName.text = contractor.key
-              tempPartCell = contractorCell
+              tempCell = contractorCell
             }
             
             
             let parts = contractor.value.parts
-            tempPartCell.monetaryShare.text = String(parts)
+            tempCell.monetaryShare.text = String(parts)
             let calculatedValues = partSharesMonetaryValue(Double(parts), contractorType, indexPath)
             
             if (isSlackRow(contractorType, indexPath))
             {
               if (calculatedValues.noSharesYet)
               {
-                tempPartCell.monetaryLabel.text = String(format: "%.2f", calculatedValues.slack) + " (0.00)"
+                tempCell.monetaryValue.text = String(format: "%.2f", calculatedValues.slack) + " (0.00)"
               }
               else
               {
-                tempPartCell.monetaryLabel.text = String(format: "%.2f", calculatedValues.slack)
+                tempCell.monetaryValue.text = String(format: "%.2f", calculatedValues.slack)
               }
             }
             else
             {
-              tempPartCell.monetaryLabel.text = String(format: "%.2f", calculatedValues.given)
+              tempCell.monetaryValue.text = String(format: "%.2f", calculatedValues.given)
             }
           case Shares.Percentage:
-            var tempPercentageCell: EditPercentagesCell
+            var tempCell: EditPercentagesCell
             
             if (isUser)
             {
-              tempPercentageCell = cell as! EditSelfPercentageCell
+              tempCell = cell as! EditSelfPercentageCell
             }
             else
             {
               let contractorCell = cell as! EditContractorPercentageCell
               contractorCell.contractorName.text = contractor.key
               data.currentFocus = contractorCell
-              tempPercentageCell = contractorCell
+              tempCell = contractorCell
             }
             
             //Initialize percentage picker.
             let monetaryPercentage = contractor.value.percent
-            initializePercentagePicker(tempPercentageCell, percentage: monetaryPercentage)
+            initializePercentagePicker(tempCell, percentage: monetaryPercentage)
             
             let calculatedValues = percentageSharesMonetaryValue(monetaryPercentage, contractorType, indexPath)
             
-            tempPercentageCell.monetaryLabel.text = String(format: " %.2f", calculatedValues.given.value)
+            tempCell.monetaryValue.text = String(format: " %.2f", calculatedValues.given.value)
           case Shares.Fixed:
-            var tempMoneyCell: EditMonetaryCell
+            var tempCell: EditMonetaryCell
             
             if (isUser)
             {
-              tempMoneyCell = cell as! EditSelfFixedCell
+              tempCell = cell as! EditSelfFixedCell
             }
             else
             {
               let contractorCell = cell as! EditContractorFixedCell
               contractorCell.contractorName.text = contractor.key
-              tempMoneyCell = contractorCell
+              tempCell = contractorCell
             }
             
             let calculatedValues = fixedSharesMonetaryValue(contractor, contractorType, indexPath)
-            tempMoneyCell.monetaryValue.text = String(format: "%.2f", calculatedValues.given)
+            tempCell.monetaryValue.text = String(format: "%.2f", calculatedValues.given)
             
-            data.currentFocus = tempMoneyCell
+            data.currentFocus = tempCell
         }
       }
       else
@@ -1806,41 +1742,41 @@ class EditContractLogic
         switch shares
         {
           case Shares.Equal:
-            var tempMoneyCell: MonetaryCell
+            var tempCell: MonetaryCell
             
             if (isUser)
             {
-              tempMoneyCell = cell as! SelfEqualFixedCell
+              tempCell = cell as! SelfEqualFixedCell
             }
             else
             {
               let contractorCell = cell as! ContractorEqualFixedCell
               contractorCell.contractorName.text = contractor.key
-              tempMoneyCell = contractorCell
+              tempCell = contractorCell
             }
             
             let calculatedValues = equalSharesMonetaryValue(contractorType, indexPath)
             
             if (isSlackRow(contractorType, indexPath))
             {
-              tempMoneyCell.monetaryLabel.text = String(format: " %.2f", calculatedValues.slack)
+              tempCell.monetaryValue.text = String(format: " %.2f", calculatedValues.slack)
             }
             else
             {
-              tempMoneyCell.monetaryLabel.text = String(format: " %.2f", calculatedValues.given)
+              tempCell.monetaryValue.text = String(format: " %.2f", calculatedValues.given)
             }
           case Shares.Part:
-            var tempPartCell: PartPercentageCell
+            var tempCell: PartPercentageCell
             
             if (isUser)
             {
-              tempPartCell = cell as! SelfPartPercentageCell
+              tempCell = cell as! SelfPartPercentageCell
             }
             else
             {
               let contractorCell = cell as! ContractorPartPercentageCell
               contractorCell.contractorName.text = contractor.key
-              tempPartCell = contractorCell
+              tempCell = contractorCell
             }
             
             let parts = contractor.value.parts
@@ -1850,32 +1786,32 @@ class EditContractLogic
             {
               if (calculatedValues.noSharesYet)
               {
-                tempPartCell.monetaryShare.text = "1 (0)"
-                tempPartCell.monetaryLabel.text = String(format: "%.2f", calculatedValues.slack) + " (0.00)"
+                tempCell.monetaryShare.text = "1 (0)"
+                tempCell.monetaryValue.text = String(format: "%.2f", calculatedValues.slack) + " (0.00)"
               }
               else
               {
-                tempPartCell.monetaryShare.text = String(parts)
-                tempPartCell.monetaryLabel.text = String(format: "%.2f", calculatedValues.slack)
+                tempCell.monetaryShare.text = String(parts)
+                tempCell.monetaryValue.text = String(format: "%.2f", calculatedValues.slack)
               }
             }
             else
             {
-              tempPartCell.monetaryShare.text = String(parts)
-              tempPartCell.monetaryLabel.text = String(format: "%.2f", calculatedValues.given)
+              tempCell.monetaryShare.text = String(parts)
+              tempCell.monetaryValue.text = String(format: "%.2f", calculatedValues.given)
             }
           case Shares.Percentage:
-            var tempPercentageCell: PartPercentageCell
+            var tempCell: PartPercentageCell
             
             if (isUser)
             {
-              tempPercentageCell = cell as! SelfPartPercentageCell
+              tempCell = cell as! SelfPartPercentageCell
             }
             else
             {
               let contractorCell = cell as! ContractorPartPercentageCell
               contractorCell.contractorName.text = contractor.key
-              tempPercentageCell = contractorCell
+              tempCell = contractorCell
             }
             
             let monetaryPercentage = contractor.value.percent
@@ -1883,69 +1819,69 @@ class EditContractLogic
             
             if (isSlackRow(contractorType, indexPath) && calculatedValues.slack.percentage != calculatedValues.given.percentage)
             {
-              tempPercentageCell.monetaryShare.text = "\(calculatedValues.slack.percentage) (\(calculatedValues.given.percentage)) %"
-              tempPercentageCell.monetaryLabel.text = String(format: " %.2f", calculatedValues.slack.value) + String(format: " (%.2f", calculatedValues.given.value) + ")"
+              tempCell.monetaryShare.text = "\(calculatedValues.slack.percentage) (\(calculatedValues.given.percentage)) %"
+              tempCell.monetaryValue.text = String(format: " %.2f", calculatedValues.slack.value) + String(format: " (%.2f", calculatedValues.given.value) + ")"
             }
             else
             {
-              tempPercentageCell.monetaryShare.text = String(calculatedValues.given.percentage) + "%"
-              tempPercentageCell.monetaryLabel.text = String(format: " %.2f", calculatedValues.given.value)
+              tempCell.monetaryShare.text = String(calculatedValues.given.percentage) + "%"
+              tempCell.monetaryValue.text = String(format: " %.2f", calculatedValues.given.value)
             }
           case Shares.Fixed:
-            var tempMoneyCell: MonetaryCell
+            var tempCell: MonetaryCell
             
             if (isUser)
             {
-              tempMoneyCell = cell as! SelfEqualFixedCell
+              tempCell = cell as! SelfEqualFixedCell
             }
             else
             {
               let contractorCell = cell as! ContractorEqualFixedCell
               contractorCell.contractorName.text = contractor.key
-              tempMoneyCell = contractorCell
+              tempCell = contractorCell
             }
             
             let calculatedValues = fixedSharesMonetaryValue(contractor, contractorType, indexPath)
             
             if (isSlackRow(contractorType, indexPath) && calculatedValues.slack != calculatedValues.given)
             {
-              tempMoneyCell.monetaryLabel.text = String(format: "%.2f", calculatedValues.slack) + String(format: " (%.2f", calculatedValues.given) + ")"
+              tempCell.monetaryValue.text = String(format: "%.2f", calculatedValues.slack) + String(format: " (%.2f", calculatedValues.given) + ")"
             }
             else
             {
-              tempMoneyCell.monetaryLabel.text = String(format: "%.2f", calculatedValues.given)
+              tempCell.monetaryValue.text = String(format: "%.2f", calculatedValues.given)
             }
         }
       }
       
       //Set the currency button's text, then determine if this is the cell contains the contractor marked as the designated "Slack Taker" (includes unallocated monetaryValue on top of their own value, if any), by compare this cell's row against temporaryData.takeUpSlackRow.
-      let tempContractorCell = cell as! ContractorCell
+      let tempCell = cell as! ContractorCell
       let currency = data.currency.rawValue
-      tempContractorCell.currency.setTitle(currency, forState: UIControlState.Normal)
+      tempCell.currency.setTitle(currency, forState: UIControlState.Normal)
       
       if (contractorType == "Lender")
       {
-        tempContractorCell.isLenderCell = true
-        tempContractorCell.row = indexPath.row - newLenderInsertionOffset
+        tempCell.isLenderCell = true
+        tempCell.row = indexPath.row - newLenderInsertionOffset
       }
       else
       {
-        tempContractorCell.isLenderCell = false
-        tempContractorCell.row = indexPath.row - newBorrowerInsertionOffset
+        tempCell.isLenderCell = false
+        tempCell.row = indexPath.row - newBorrowerInsertionOffset
       }
       
       if (isSlackRow(contractorType, indexPath))
       {
         if let image = UIImage(named: "Radio Button On.png")
         {
-          tempContractorCell.takeUpSlack.setImage(image, forState: UIControlState.Normal)
+          tempCell.takeUpSlack.setImage(image, forState: UIControlState.Normal)
         }
       }
       else
       {
         if let image = UIImage(named: "Radio Button Off.png")
         {
-          tempContractorCell.takeUpSlack.setImage(image, forState: UIControlState.Normal)
+          tempCell.takeUpSlack.setImage(image, forState: UIControlState.Normal)
         }
       }
     }
@@ -1965,16 +1901,21 @@ class EditContractLogic
       return
     }
     
-    toggles["AdjustForKeyboard"] = contractTempData.dynamicallyEditing
+    contractTempData.adjustForKeyboard = contractTempData.dynamicallyEditing
     
     if (contractTempData.dynamicallyEditing)
     {
-      if (contractTempData.dynamicEditTable != contractorType)
+      if (contractTempData.dynamicEditID != contractorType)
       {
-        if (contractTempData.dynamicEditTable =| ["Lender", "Borrower"])
+        if (contractTempData.dynamicEditID == "Lender")
         {
           resetDynamicEditing()
-          refreshNewContractorTable(contractTempData.dynamicEditTable)
+          refreshNewContractorTable("Lender")
+        }
+        else if (contractTempData.dynamicEditID == "Borrower")
+        {
+          resetDynamicEditing()
+          refreshNewContractorTable("Borrower")
         }
         else
         {
@@ -1986,8 +1927,8 @@ class EditContractLogic
     }
     
     //Then set dynamic editing
-    contractTempData.beginDynamicEditing()
-    contractTempData.dynamicEditTable = contractorType
+    contractTempData.dynamicEditID = contractorType
+    contractTempData.dynamicallyEditing = true
     var contractors: SortableDictionary<String, (parts: Int, percent: Int, fixed: Double)>
     
     if (contractorType == "Lender")
@@ -2029,7 +1970,7 @@ class EditContractLogic
       
       addContractor(contractorType, contractor, contractors)
       
-      let row: [NSIndexPath] = [contractTempData.dynamicEditCell]
+      var row: [AnyObject] = [contractTempData.dynamicEditCell]
       tableView.beginUpdates()
       tableView.insertRowsAtIndexPaths(row, withRowAnimation: UITableViewRowAnimation.None)
       tableView.endUpdates()
@@ -2038,42 +1979,37 @@ class EditContractLogic
     {
       //Otherwise, if an exsisting contractor has been seleced, set the dynamicEditCell to the current indexPath.
       contractTempData.dynamicEditCell = indexPath
-      var contractor: (key: String, value: (parts: Int, percent: Int, fixed: Double))
       
       if (contractorType == "Lender")
       {
-        contractor = contractors[indexPath.row - newLenderInsertionOffset]
+        contractTempData.dynamicEditContractor = contractors[indexPath.row - newLenderInsertionOffset]
       }
       else
       {
-        contractor = contractors[indexPath.row - newBorrowerInsertionOffset]
+        contractTempData.dynamicEditContractor = contractors[indexPath.row - newBorrowerInsertionOffset]
       }
-      
-      dynamicEditValues["DynamicEditContractor"] = contractor
     }
     
     refreshNewContractorTable(contractorType)
   }
   
-  class func addContractor(contractorType: String, _ contractor: (key: String, value: (parts: Int, percent: Int, fixed: Double)), _ contractors: SortableDictionary<String, (parts: Int, percent: Int, fixed: Double)>)
+  class func addContractor(contractorType: String, _ contractor: (String, (parts: Int, percent: Int, fixed: Double)), var _ contractors: SortableDictionary<String, (parts: Int, percent: Int, fixed: Double)>)
   {
-    var contractors = contractors
-    
-    //Update dynamicEditValue, dynamicEditCell, and either lendersTemporary and lenderSlackRow or BorrowersTemporary and borrowerSlackRow
-    dynamicEditValues["DynamicEditContractor"] = contractor
+    //Update dynamicEditContractor, dynamicEditCell, and either lendersTemporary and lenderSlackRow or BorrowersTemporary and borrowerSlackRow
+    contractTempData.dynamicEditContractor = contractor
     contractors.insert(atIndex: 0, newElement: contractor)
     
     if (contractorType == "Lender")
     {
       contractTempData.lendersTemporary = contractors
       contractTempData.dynamicEditCell = newLenderInsertionIndexPath
-      contractTempData.lenderSlackRow += 1
+      contractTempData.lenderSlackRow++
     }
     else
     {
       contractTempData.borrowersTemporary = contractors
       contractTempData.dynamicEditCell = newBorrowerInsertionIndexPath
-      contractTempData.borrowerSlackRow += 1
+      contractTempData.borrowerSlackRow++
     }
   }
   
@@ -2082,15 +2018,13 @@ class EditContractLogic
   //MARK: Contract Alert Repeat Functions
   class func changeRepeatType(sender: UISegmentedControl)
   {
-    contractTempData.dynamicEditValues["AlertRepeatType"] = AlertRepeatType(rawValue: sender.selectedSegmentIndex)!
+    temporaryContract.alertRepeatType = AlertRepeatType(rawValue: sender.selectedSegmentIndex)!
     refreshNewContractCells([NSIndexPath(forRow: 6, inSection: 5)])
   }
   
   class func editRepeatPattern()
   {
-    let cellType = dynamicEditValues["AlertRepeatCellType"] as! AlertRepeatCellType
-    
-    if (cellType.isRate())
+    if (contractTempData.alertRepeatCellType.isRate())
     {
       swapAlertRepeatType()
     }
@@ -2098,9 +2032,7 @@ class EditContractLogic
   
   class func editRepeatRate()
   {
-    let cellType = dynamicEditValues["AlertRepeatCellType"] as! AlertRepeatCellType
-    
-    if (cellType.isPattern())
+    if (contractTempData.alertRepeatCellType.isPattern())
     {
       swapAlertRepeatType()
     }
@@ -2108,8 +2040,7 @@ class EditContractLogic
   
   private class func swapAlertRepeatType()
   {
-    let cellType = dynamicEditValues["AlertRepeatCellType"] as! AlertRepeatCellType
-    dynamicEditValues["AlertRepeatCellType"] = cellType.swapPatternRate()
+    contractTempData.alertRepeatCellType = contractTempData.alertRepeatCellType.swapPatternRate()
     refreshNewContractCells([NSIndexPath(forRow: 6, inSection: 5)])
   }
   
@@ -2120,66 +2051,79 @@ class EditContractLogic
   
   class func toggleWeekdays(sender: EditAlertRepeatDaysCell)
   {
-    invertBool(inDictionary: &dynamicEditValues, withKey: "Monday")
-    invertBool(inDictionary: &dynamicEditValues, withKey: "Tuesday")
-    invertBool(inDictionary: &dynamicEditValues, withKey: "Wednesday")
-    invertBool(inDictionary: &dynamicEditValues, withKey: "Thursday")
-    invertBool(inDictionary: &dynamicEditValues, withKey: "Friday")
+    contractTempData.alertRepeatDaysPattern.monday=!
+    contractTempData.alertRepeatDaysPattern.tuesday=!
+    contractTempData.alertRepeatDaysPattern.wednesday=!
+    contractTempData.alertRepeatDaysPattern.thursday=!
+    contractTempData.alertRepeatDaysPattern.friday=!
     refreshNewContractCells([NSIndexPath(forRow: 6, inSection: 5)])
   }
   
   class func toggleWeekends(sender: EditAlertRepeatDaysCell)
   {
-    invertBool(inDictionary: &dynamicEditValues, withKey: "Saturday")
-    invertBool(inDictionary: &dynamicEditValues, withKey: "Sunday")
+    contractTempData.alertRepeatDaysPattern.sunday=!
+    contractTempData.alertRepeatDaysPattern.sunday=!
     refreshNewContractCells([NSIndexPath(forRow: 6, inSection: 5)])
   }
   
   class func toggleMonday(sender: UIButton)
   {
-    invertBool(inDictionary: &dynamicEditValues, withKey: "Monday")
+    contractTempData.alertRepeatDaysPattern.monday=!
     refreshNewContractCells([NSIndexPath(forRow: 6, inSection: 5)])
   }
   
   class func toggleTuesday(sender: UIButton)
   {
-    invertBool(inDictionary: &dynamicEditValues, withKey: "Tuesday")
+    contractTempData.alertRepeatDaysPattern.tuesday=!
     refreshNewContractCells([NSIndexPath(forRow: 6, inSection: 5)])
   }
   
   class func toggleWednesday(sender: UIButton)
   {
-    invertBool(inDictionary: &dynamicEditValues, withKey: "Wednesday")
+    contractTempData.alertRepeatDaysPattern.wednesday=!
     refreshNewContractCells([NSIndexPath(forRow: 6, inSection: 5)])
   }
   
   class func toggleThursday(sender: UIButton)
   {
-    invertBool(inDictionary: &dynamicEditValues, withKey: "Thursday")
+    contractTempData.alertRepeatDaysPattern.thursday=!
     refreshNewContractCells([NSIndexPath(forRow: 6, inSection: 5)])
   }
   
   class func toggleFriday(sender: UIButton)
   {
-    invertBool(inDictionary: &dynamicEditValues, withKey: "Friday")
+    contractTempData.alertRepeatDaysPattern.friday=!
     refreshNewContractCells([NSIndexPath(forRow: 6, inSection: 5)])
   }
   
   class func toggleSaturday(sender: UIButton)
   {
-    invertBool(inDictionary: &dynamicEditValues, withKey: "Saturday")
+    contractTempData.alertRepeatDaysPattern.saturday=!
     refreshNewContractCells([NSIndexPath(forRow: 6, inSection: 5)])
   }
   
   class func toggleSunday(sender: UIButton)
   {
-    invertBool(inDictionary: &dynamicEditValues, withKey: "Sunday")
+    contractTempData.alertRepeatDaysPattern.sunday=!
     refreshNewContractCells([NSIndexPath(forRow: 6, inSection: 5)])
   }
   
-  class func alertBoolFor(day: String) -> (Bool)
+  class func setRepeatDayButtonImage(#state: Bool, button: UIButton)
   {
-    return dynamicEditValues[day] as! Bool
+    if (state)
+    {
+      if let image = UIImage(named: "Checkbox Checked.png")
+      {
+        button.setImage(image, forState: UIControlState.Normal)
+      }
+    }
+    else
+    {
+      if let image = UIImage(named: "Checkbox Unchecked.png")
+      {
+        button.setImage(image, forState: UIControlState.Normal)
+      }
+    }
   }
   
   
@@ -2187,125 +2131,83 @@ class EditContractLogic
   //MARK: - Utility Functions
   
   //MARK: Dynamic Editing Functions
-  
-  //This function attemtps to save the new values from the dynamically edited cell.  It is ment to be used in an if statement (hence the odd name), with the body of the if statement containing the code to deal with instances where in the save process failed due to invalid states for any of the new values in the dynamically edited cell (such as two lenders or borrowers with the same name).  Any and all errors of invaild data are to be caught by this function and then dealt with.  Whenever shifting from dynamically editing one cell to another it is imperitave that this function be called and DynamicEditValues be reset.
   class func failedToSaveDynamicChanges() -> (Bool)
   {
     //If dynamically editing make sure temporaryContract is uptodate.
     if (contractTempData.dynamicallyEditing)
     {
       let type = temporaryContract.type
-      let section = contractTempData.dynamicEditCell.section
-      let row = contractTempData.dynamicEditCell.row
+      let editRow = contractTempData.dynamicEditCell.row
       
-      if (contractTempData.dynamicEditTable =| ["Lender", "Borrower"])
+      switch contractTempData.dynamicEditID
       {
-        //If dynamically editing lenders or borrowers, update contracteeTemporary and the appropirate list in temporaryContract. Check if the user attempted to use the same name twice.  If they did, ignore all other actions and request that they make the name unique.
-        if (row > 0)
-        {
-          if (updateContractors())
-          {
-            return true
-          }
-        }
-      }
-      else
-      {
+        case "Title":
+          //Check if the new contract title is blank, and if so, set it to the default.
+          var title = temporaryContract.title
         
-        switch section
-        {
-          case 0:
-            if (row == 0)
-            {
-              //Check if the new contract title is blank, and if so, set it to the default.
-              if (temporaryContract.title == "")
-              {
-                temporaryContract.title = "Title (" + type.toAlternateString() + " iOU)"
-              }
-            }
-            else
-            {
-              fatalError("There is no row \(row) in section \(section) in New Contract \(type)'s form.")
-            }
-          case 1:
-            switch row
-            {
-              case 0:
-                calculateValue()
-              case 1:
-                temporaryContract.tip = dynamicEditValues["Tip"] as! Int
-                calculateValue()
-              case 2:
-                temporaryContract.interest = dynamicEditValues["Interest"] as! Double
-              default:
-                fatalError("There is no row \(row) in section \(section) in New Contract \(type)'s form.")
-            }
-          case 2, 3:
-            break
-          case 4:
-            if (row =| [0, 1])
-            {
-              temporaryContract.dateDue = dynamicEditValues["DueDate"] as! NSDate
-            }
-            else
-            {
-              fatalError("There is no row \(row) in section \(section) in New Contract \(type)'s form.")
-            }
-          case 5:
-            switch row
-            {
-              case 0:
-                break
-              case 1, 2:
-                temporaryContract.alertDate = dynamicEditValues["AlertDueDate"] as! NSDate
-              case 3:
-                temporaryContract.alertTone = dynamicEditValues["AlertTone"] as! AlertTone
-              case 4:
-                temporaryContract.alertNagRate = dynamicEditValues["AlertNagRate"] as! AlertNagRate
-              case 5:
-                break
-              case 6:
-                let pattern: Any
-                let interval: Any
-                let rate: Int
-              
-                switch temporaryContract.alertRepeatType
-                {
-                  case AlertRepeatType.Simple:
-                    pattern = 0
-                    interval = dynamicEditValues["AlertRepeatSimpleInterval"]
-                    rate = dynamicEditValues["AlertRepeatSimpleRate"] as! Int
-                  case AlertRepeatType.Month:
-                    pattern = dynamicEditValues["AlertRepeatMonthPattern"]
-                    interval = dynamicEditValues["AlertRepeatMonthInterval"]
-                    rate = dynamicEditValues["AlertRepeatMonthRate"] as! Int
-                  case AlertRepeatType.Days:
-                    pattern =
-                    (
-                      monday: alertBoolFor("Monday"),
-                      tuesday: alertBoolFor("Tuesday"),
-                      wednesday: alertBoolFor("Wednesday"),
-                      thursday: alertBoolFor("Thursday"),
-                      friday: alertBoolFor("Friday"),
-                      saturday: alertBoolFor("Saturday"),
-                      sunday: alertBoolFor("Sunday")
-                    )
-                
-                    interval = 0
-                    rate = dynamicEditValues["AlertRepeatDaysRate"] as! Int
-                }
-              
-                temporaryContract.alertRepeatPattern = pattern
-                temporaryContract.alertRepeatInterval = interval
-                temporaryContract.alertRepeatRate = rate
-              case 7:
-                temporaryContract.alertRepeatDate = dynamicEditValues["AlertRepeat Date"] as! NSDate
-              default:
-                fatalError("There is no row \(row) in section \(section) in New Contract \(type)'s form.")
+          if (title == "")
+          {
+            temporaryContract.title = "Title (" + type.toAlternateString() + " iOU)"
           }
+        case "MonetaryValue":
+          calculateValue()
+        case "Lender":
+          //If dynamically editing lenders, update contracteeTemporary and the appropirate list in temporaryContract. Check if the user attempted to use the same name twice.  If they did, ignore all other actions and request that they make the name unique.
+          if (editRow > 0)
+          {
+            if (updateContractors())
+            {
+              return true
+            }
+          }
+        case "Borrower":
+          //If dynamically editing borrowers, update contracteeTemporary and the appropirate list in temporaryContract. Check if the user attempted to use the same name twice.  If they did, ignore all other actions and request that they make the name unique.
+          if (editRow > 0)
+          {
+            if (updateContractors())
+            {
+              return true
+            }
+          }
+        case "DueDate", "DueTime":
+          temporaryContract.dateDue = contractTempData.dynamicEditValue as! NSDate
+        case "AlertDate", "AlertTime":
+          temporaryContract.alertDate = contractTempData.dynamicEditValue as! NSDate
+        case "AlertTone":
+          temporaryContract.alertTone = contractTempData.dynamicEditValue as! AlertTone
+        case "AlertNagRate":
+          temporaryContract.alertNagRate = contractTempData.dynamicEditValue as! AlertNagRate
+        case "AlertRepeatRate":
+          var pattern: Any
+          var interval: Any
+          var rate: Int
+          
+          switch temporaryContract.alertRepeatType
+          {
+            case AlertRepeatType.Simple:
+              pattern = 0
+              interval = contractTempData.alertRepeatSimpleInterval
+              rate = contractTempData.alertRepeatSimpleRate
+            case AlertRepeatType.Month:
+              pattern = contractTempData.alertRepeatMonthPattern
+              interval = contractTempData.alertRepeatMonthInterval
+              rate = contractTempData.alertRepeatMonthRate
+            case AlertRepeatType.Days:
+              pattern = contractTempData.alertRepeatDaysPattern
+              interval = 0
+              rate = contractTempData.alertRepeatDaysRate
+          }
+          
+          temporaryContract.alertRepeatPattern = pattern
+          temporaryContract.alertRepeatInterval = interval
+          temporaryContract.alertRepeatRate = rate
+        case "AlertRepeatDate":
+          temporaryContract.alertRepeatDate = contractTempData.dynamicEditValue as! NSDate
         default:
-          fatalError("there are only 3 sections, not \(section), in New Contract \(type)'s form.")
-        }
+          if (data.debugging)
+          {
+            fatalError("There is no Dynamic Edit ID: \(contractTempData.dynamicEditID).")
+          }
       }
     }
     
@@ -2318,12 +2220,13 @@ class EditContractLogic
   class func updateContractors() -> (Bool)
   {
     //If the user was dynamically editing a contractor and attempted to use the same name twice, ignore all other actions and request that they make the name unique.
-    if (contractTempData.dynamicEditTable =| ["Lender", "Borrower"])
+    if (contractTempData.dynamicEditID =| ["Lender", "Borrower"])
     {
+      var contractor = contractTempData.dynamicEditContractor
       var index: Int
       var contractors: SortableDictionary<String, (parts: Int, percent: Int, fixed: Double)>
       
-      if (contractTempData.dynamicEditTable == "Lender")
+      if (contractTempData.dynamicEditID == "Lender")
       {
         contractors = contractTempData.lendersTemporary
         index = contractTempData.dynamicEditCell.row - newLenderInsertionOffset
@@ -2335,8 +2238,8 @@ class EditContractLogic
       }
       
       //Find if the contractor's name already exists at some index keyIndex in the appropirate list.
-      let contractor = dynamicEditValues["DynamicEditContractor"] as! (key: String, value: (parts: Int, percent: Int, fixed: Double))
-      let keyIndex = contractors.getIndex(forKey: contractor.key)
+      let name = contractor.key
+      let keyIndex = contractors.getIndex(forKey: name)
       
       if (keyIndex == nil)
       {
@@ -2353,15 +2256,15 @@ class EditContractLogic
         //The contractor's name matches another contractor's name somehwere else in the list.  Warn the user and ask them to uniquely identify the current contractor.  Use NSNotificationCenter to request NewContractContoller to perform the segue.
         
         contractTempData.warnRefreshID = "RefreshNewContract"
-        contractTempData.warnFromID = contractTempData.dynamicEditTable + "NameWarning"
+        contractTempData.warnFromID = contractTempData.dynamicEditID + "NameWarning"
         contractTempData.warnToID = "NewContract"
         NSNotificationCenter.defaultCenter().postNotificationName(contractTempData.warnFromID, object: nil)
         
         return true
       }
       
-      //Make sure the contractor lists in temporaryContract are updated properly.
-      if (contractTempData.dynamicEditTable == "Lender")
+      //Make usre the contractor lists in temporaryContract are updated properly.
+      if (contractTempData.dynamicEditID == "Lender")
       {
         contractTempData.lendersTemporary = contractors
         
@@ -2510,7 +2413,11 @@ class EditContractLogic
   
   class func resetDynamicEditing()
   {
-    contractTempData.endDynamicEditing()
+    contractTempData.dynamicallyEditing = false
+    contractTempData.dynamicEditID = ""
+    contractTempData.dynamicEditCell = NSIndexPath()
+    contractTempData.dynamicEditContractor.key = ""
+    contractTempData.dynamicEditContractor.value = (parts: Int(), percent: Int(), fixed: Double())
     data.currentFocus = nil
   }
   
@@ -2520,9 +2427,8 @@ class EditContractLogic
   class func totalMonetaryValue() -> (Double)
   {
     var monetaryValue = temporaryContract.monetaryValue
-    let status = toggles["IncludeTip"]!
     
-    if (status)
+    if (contractTempData.includeTip)
     {
       var tip = Double(temporaryContract.tip)
       tip /= 100
@@ -2534,7 +2440,7 @@ class EditContractLogic
   
   class func equalSharesMonetaryValue(contractorType: String, _ indexPath: NSIndexPath)-> (given: Double, slack: Double)
   {
-    let monetaryValue = totalMonetaryValue()
+    var monetaryValue = totalMonetaryValue()
     
     //If using equal shares, change the monetary value displayed. (The actual monetary value of each lender can be changed when saving the final contract.)
     var contractorCount: Double
@@ -2565,7 +2471,7 @@ class EditContractLogic
   
   class func partSharesMonetaryValue(numerator: Double, _ contractorType: String, _ indexPath: NSIndexPath) -> (given: Double, slack: Double, noSharesYet: Bool)
   {
-    let monetaryValue = totalMonetaryValue()
+    var monetaryValue = totalMonetaryValue()
     var denomenator: Double
     
     if (contractorType == "Lender")
@@ -2670,11 +2576,11 @@ class EditContractLogic
   
   class func updateMonetaryParts(sender: EditPartCell)
   {
-    let numerator = updateNumericalValue(sender: sender.monetaryShare, includeDecimal: false, inTable: contractTempData.dynamicEditTable)
-    dynamicEditValues["ContractorPartValue"] = Int(numerator)
+    let numerator = updateNumericalValue(sender: sender.monetaryShare, includeDecimal: false, fieldType: contractTempData.dynamicEditID)
+    contractTempData.dynamicEditContractor.value.parts = Int(numerator)
     var denomenator: Int
     
-    if (contractTempData.dynamicEditTable == "Lender")
+    if (contractTempData.dynamicEditID == "Lender")
     {
       denomenator = data.totalLenderParts()
     }
@@ -2695,36 +2601,30 @@ class EditContractLogic
       monetaryFraction = (numerator / Double(denomenator)) * monetaryValue
     }
     
-    sender.monetaryLabel.text = String(format: "%.2f", monetaryFraction)
-    var contractor = dynamicEditValues["DynamicEditContractor"] as! (key: String, value: (parts: Int, percent: Int, fixed: Double))
-    contractor.value.parts = Int(numerator)
-    dynamicEditValues["DynamicEditContractor"] = contractor
+    sender.monetaryValue.text = String(format: "%.2f", monetaryFraction)
+    contractTempData.dynamicEditContractor.value.parts = Int(numerator)
     
-    refreshNewContractorTable(contractTempData.dynamicEditTable)
+    refreshNewContractorTable(contractTempData.dynamicEditID)
   }
   
   class func updateMonetaryValue(sender: UITextField)
   {
-    temporaryContract.monetaryValue = updateNumericalValue(sender: sender, includeDecimal: true, inTable: "Contract")
+    temporaryContract.monetaryValue = updateNumericalValue(sender: sender, includeDecimal: true, fieldType: "MonetaryValue")
   }
   
-  class func updateFixedMonetaryValue(sender sender: UITextField, contractorType: String)
+  class func updateFixedMonetaryValue(#sender: UITextField, contractorType: String)
   {
-    var contractor = dynamicEditValues["DynamicEditContractor"] as! (key: String, value: (parts: Int, percent: Int, fixed: Double))
-    
-    contractor.value.fixed = updateNumericalValue(sender: sender, includeDecimal: true, inTable: contractorType)
-    
-    dynamicEditValues["DynamicEditContractor"] = contractor
+    contractTempData.dynamicEditContractor.value.fixed = updateNumericalValue(sender: sender, includeDecimal: true, fieldType: contractorType)
   }
   
-  private class func updateNumericalValue(sender sender: UITextField, includeDecimal: Bool, inTable: String) -> (Double)
+  private class func updateNumericalValue(#sender: UITextField, includeDecimal: Bool, fieldType: String) -> (Double)
   {
     //Whenever the user changes the contract monetary value, update temporaryContract.monetaryValue.
     
     //First, eliminate any characters that are not numbers from contractMonetaryValue.text. (Note: Since this is being done in real time, this effectively prevents the user from inputing any non-number characters.)
     var textualNumericalValue = ""
     
-    for character in sender.text!.characters
+    for character in sender.text
     {
       switch character
       {
@@ -2744,11 +2644,11 @@ class EditContractLogic
       numericalValue /= 100
       
       //If sender is a Lender or Borrower textbox, and if numericalValues is greater than the remainder of the contract's monetary value after all other contractor's values are subtracted, reduce numericalValue.
-      if (inTable =| ["Lender", "Borrower"])
+      if (fieldType =| ["Lender", "Borrower"])
       {
         var totalMonetaryValueUsed: Double
         
-        if (inTable == "Lender")
+        if (fieldType == "Lender")
         {
           totalMonetaryValueUsed = data.totalLenderFixedUsed()
         }
@@ -2765,7 +2665,7 @@ class EditContractLogic
         }
       }
       
-      sender.text = String(format: "%.2f", numericalValue)
+      sender.text = data.currencyFormatter.stringFromNumber(numericalValue)
     }
     else
     {
@@ -2777,7 +2677,7 @@ class EditContractLogic
   
   class func displayCalculator(shouldDisplay: Bool)
   {
-    toggles["DisplayCalculator"] = shouldDisplay
+    contractTempData.displayCalculator = shouldDisplay
     
     if (!shouldDisplay)
     {
@@ -2789,25 +2689,25 @@ class EditContractLogic
   
   class func performOperation(operation: Operation) -> (String)
   {
-    if (dynamicEditValues["CalculatorValue"] != nil)
+    if (contractTempData.calculatorValue != nil)
     {
       calculateValue()
     }
     
-    dynamicEditValues["CalculatorValue"] = temporaryContract.monetaryValue
+    contractTempData.calculatorValue = temporaryContract.monetaryValue
     temporaryContract.monetaryValue = Double(0)
-    dynamicEditValues["CalculatorOperator"] = operation
+    contractTempData.calculatorOperator = operation
     return "0.00"
   }
   
   class func calculateValue() -> (String)
   {
-    if let previousValue = dynamicEditValues["CalculatorValue"] as? Double
+    if let previousValue = contractTempData.calculatorValue
     {
       let currentValue = temporaryContract.monetaryValue
       var newValue: Double
       
-      switch dynamicEditValues["CalculatorOperator"] as! Operation
+      switch contractTempData.calculatorOperator
       {
         case Operation.Add:
           newValue = previousValue + currentValue
@@ -2819,7 +2719,7 @@ class EditContractLogic
           newValue = previousValue / currentValue
       }
       
-      dynamicEditValues["CalculatorValue"] = nil
+      contractTempData.calculatorValue = nil
       temporaryContract.monetaryValue = newValue
       return String(format: "%.2f", newValue)
     }
@@ -2830,7 +2730,7 @@ class EditContractLogic
     }
   }
   
-  class func flipToggle(toggle toggle: UISwitch, toggleID: String)
+  class func flipToggle(#toggle: UISwitch, toggleID: String)
   {
     if (failedToSaveDynamicChanges())
     {
@@ -2838,443 +2738,61 @@ class EditContractLogic
       return
     }
     
+    switch toggleID
+    {
+      case "Tip":
+        contractTempData.includeTip = toggle.on
+      case "UseAlert":
+        temporaryContract.useAlert = toggle.on
+        contractTempData.displayAlertSettings = toggle.on
+      break
+      case "RepeatAlert":
+        temporaryContract.repeatAlert = toggle.on
+        contractTempData.displayAlertRepeatSettings = toggle.on
+      case "AutoCompleteAlert":
+        temporaryContract.autoCompleteAlert = toggle.on
+      default:
+        fatalError(toggleID + " is not a recognized toggle ID.")
+    }
+    
     resetDynamicEditing()
-    
-    if (toggles[toggleID] != nil)
-    {
-      toggles[toggleID] = toggle.on
-      
-      switch toggleID
-      {
-        case "UseAlert":
-          temporaryContract.useAlert = toggle.on
-        case "RepeatAlert":
-          temporaryContract.repeatAlert = toggle.on
-        default:
-          break
-      }
-    }
-    else
-    {
-      fatalError("There is no toggle with ID: \(toggleID)")
-    }
-    
     refreshNewContract()
   }
   
-  class func updateTip(picker picker: PercentagePicker, didSelectRow row: Int, inComponent component: Int)
+  class func updateTip(#picker: PercentagePicker, didSelectRow row: Int, inComponent component: Int)
   {
     temporaryContract.tip = percentagePicker(didSelectRow: row, forComponent: component, forPercentagePicker: picker, withCap: -1)
-    let refreshRows = [NSIndexPath(forRow: 0, inSection: 1)]
+    let refreshRows = [NSIndexPath(forRow: 0, inSection: 1)!]
     refreshNewContractCells(refreshRows)
   }
   
   
   
-  //MARK: Picker Cell Functions
-  class func pickerCellComponentCount() -> (Int)
-  {
-    trackRowRefreshes(table: contractTempData.dynamicEditTable, index: contractTempData.dynamicEditCell)
-    trackFunctionCalls(table: contractTempData.dynamicEditTable, index: contractTempData.dynamicEditCell, function: "pickerCellComponentCount")
-    
-    if (!contractTempData.dynamicallyEditing)
-    {
-      fatalError("There should be no active pickers if no cell is being dynamically edited.")
-    }
-    
-    if (contractTempData.dynamicEditTable =| ["Lender", "Borrower"])
-    {
-      return 3
-    }
-    else
-    {
-      let tableSection = contractTempData.dynamicEditCell.section
-      let tableRow = contractTempData.dynamicEditCell.row
-      
-      switch (tableSection)
-      {
-        case 1:
-          switch (tableRow)
-          {
-            case 1: //Tip
-              return 3
-            case 2: //Interest
-              return 6
-            default:
-              fatalError("There are no pickers in row: \(tableRow) of section: \(tableSection).")
-          }
-        case 5:
-          switch (tableRow)
-          {
-            case 3, 4: //Alert Tone, Nag Rate
-              return 1
-            case 6:
-              let repeatType = dynamicEditValues["AlertRepeatCellType"] as! AlertRepeatCellType
-              
-              switch repeatType
-              {
-                case AlertRepeatCellType.Simple, AlertRepeatCellType.MonthPattern:
-                  return 2
-                case AlertRepeatCellType.MonthRate, AlertRepeatCellType.DaysRate:
-                  return 1
-                default:
-                  fatalError("There are no pickers in \(repeatType.toString()).")
-              }
-            default:
-              fatalError("There are no pickers in row: \(tableRow) of section: \(tableSection).")
-          }
-        default:
-          fatalError("There are no pickers in section: \(tableSection).")
-      }
-    }
-  }
-  
-  class func pickerCell(rowCountForComponent component: Int) -> (Int)
-  {
-    trackRowRefreshes(table: contractTempData.dynamicEditTable, index: contractTempData.dynamicEditCell)
-    trackFunctionCalls(table: contractTempData.dynamicEditTable, index: contractTempData.dynamicEditCell, function: "rowCountForComponent")
-    
-    if (!contractTempData.dynamicallyEditing)
-    {
-      fatalError("There should be no active pickers if no cell is being dynamically edited.")
-    }
-    
-    if (contractTempData.dynamicEditTable =| ["Lender", "Borrower"])
-    {
-      let loopRadius = iOUData.sharedInstance.loopRadius
-      let loop = loopRadius * 2 + 1
-      return 10 * loop
-    }
-    else
-    {
-      let tableSection = contractTempData.dynamicEditCell.section
-      let tableRow = contractTempData.dynamicEditCell.row
-      
-      switch (tableSection)
-      {
-        case 1:
-          switch (tableRow)
-          {
-            case 1: //Tip
-              let loopRadius = iOUData.sharedInstance.loopRadius
-              let loop = loopRadius * 2 + 1
-              return 10 * loop
-            case 2: //Interest
-              if (component == 3)
-              {
-                return 1
-              }
-              else
-              {
-                return 10
-              }
-            default:
-              fatalError("There are no pickers in row: \(tableRow) of section: \(tableSection).")
-          }
-        case 5:
-          switch (tableRow)
-          {
-           case 3: //Alert Tone
-              return 93
-            case 4: //Nag Rate
-              return 5
-            case 6:
-              let repeatType = dynamicEditValues["AlertRepeatCellType"] as! AlertRepeatCellType
-          
-              switch repeatType
-              {
-                case AlertRepeatCellType.Simple:
-                  switch component
-                  {
-                    case 0:
-                      return 100
-                    case 1:
-                      return 4
-                    default:
-                      fatalError("There is no component \(component) in AlertRepeatSimple.")
-                  }
-                case AlertRepeatCellType.MonthPattern:
-                  if (component == 0)
-                  {
-                    switch dynamicEditValues["AlertMonthPattern"] as! Days
-                    {
-                      case Days.Monday, Days.Tuesday, Days.Wednesday, Days.Thursday, Days.Friday, Days.Saturday, Days.Sunday:
-                        return 6
-                      case Days.AnyDay:
-                        return 32
-                      case Days.Weekday:
-                        return 22
-                      case Days.WeekendDay:
-                        return 11
-                    }
-                  }
-                  else
-                  {
-                    return 10
-                  }
-                case AlertRepeatCellType.MonthRate, AlertRepeatCellType.DaysRate:
-                  return 100
-                default:
-                  fatalError("There are no pickers in \(repeatType.toString()).")
-              }
-            default:
-              fatalError("There are no pickers in row: \(tableRow) of section: \(tableSection).")
-          }
-        default:
-          fatalError("There are no pickers in section: \(tableSection).")
-      }
-    }
-  }
-  
-  class func pickerCell(titleForRow row: Int, inComponent component: Int) -> (String!)
-  {
-    trackRowRefreshes(table: contractTempData.dynamicEditTable, index: contractTempData.dynamicEditCell)
-    trackFunctionCalls(table: contractTempData.dynamicEditTable, index: contractTempData.dynamicEditCell, function: "titleForRow")
-    
-    if (!contractTempData.dynamicallyEditing)
-    {
-      fatalError("There should be no active pickers if no cell is being dynamically edited.")
-    }
-    
-    if (contractTempData.dynamicEditTable =| ["Lender", "Borrower"])
-    {
-      return String(row % 10)
-    }
-    else
-    {
-      let tableSection = contractTempData.dynamicEditCell.section
-      let tableRow = contractTempData.dynamicEditCell.row
-      
-      switch (tableSection)
-      {
-        case 1:
-          switch (tableRow)
-          {
-            case 1: //Tip
-              return String(row % 10)
-            case 2: //Interest
-              if (component == 3)
-              {
-                return "."
-              }
-              else
-              {
-                return String(row)
-              }
-            default:
-              fatalError("There are no pickers in row: \(tableRow) of section: \(tableSection).")
-          }
-        case 5:
-          switch (tableRow)
-          {
-            case 3: //Alert Tone
-              return AlertTone(rawValue: row)!.toString()
-            case 4: //Nag Rate
-              return AlertNagRate(rawValue: row)!.toString()
-            case 6:
-              let repeatType = dynamicEditValues["AlertRepeatCellType"] as! AlertRepeatCellType
-          
-              switch repeatType
-              {
-                case AlertRepeatCellType.Simple:
-                  switch component
-                  {
-                    case 0:
-                      return String(row + 1)
-                    case 1:
-                      return TimeInterval(rawValue: row)!.toString()
-                    default:
-                      fatalError("There is no component \(component) in AlertRepeatSimple.")
-                  }
-                case AlertRepeatCellType.MonthPattern:
-                  if (component == 0)
-                  {
-                    let lastRow = pickerCell(rowCountForComponent: component) - 1
-                    
-                    if (row == lastRow)
-                    {
-                      return "Last"
-                    }
-                    else
-                    {
-                      return String(row) + numberSuffix(row)
-                    }
-                  }
-                  else
-                  {
-                    return Days(rawValue: row)!.toString()
-                  }
-                case AlertRepeatCellType.MonthRate, AlertRepeatCellType.DaysRate:
-                  return String(row + 1)
-                default:
-                  fatalError("There are no pickers in \(repeatType.toString()).")
-              }
-            default:
-              fatalError("There are no pickers in row: \(tableRow) of section: \(tableSection).")
-          }
-        default:
-        fatalError("There are no pickers in section: \(tableSection).")
-      }
-    }
-  }
-  
-  class func pickerCell(didSelectRow row: Int, inComponent component: Int, fromPicker cell: UITableViewCell)
-  {
-    trackRowRefreshes(table: contractTempData.dynamicEditTable, index: contractTempData.dynamicEditCell)
-    trackFunctionCalls(table: contractTempData.dynamicEditTable, index: contractTempData.dynamicEditCell, function: "didSelectRow")
-    
-    if (!contractTempData.dynamicallyEditing)
-    {
-      fatalError("There should be no active pickers if no cell is being dynamically edited.")
-    }
-    
-    if (contractTempData.dynamicEditTable =| ["Lender", "Borrower"])
-    {
-      let editCell = cell as! EditPercentagesCell
-      percentagePicker(rowSelected: row, forComponent: component, forPercentagePicker: editCell)
-    }
-    else
-    {
-      let tableSection = contractTempData.dynamicEditCell.section
-      let tableRow = contractTempData.dynamicEditCell.row
-      
-      switch (tableSection)
-      {
-        case 1:
-          switch (tableRow)
-          {
-          case 1: //Tip
-            let percentageCell = cell as! PercentagePicker
-            dynamicEditValues["Tip"] = percentagePicker(didSelectRow: row, forComponent: component, forPercentagePicker: percentageCell, withCap: -1)
-          case 2: //Interest
-            let pickerCell = cell as! EditPickerCell
-            let picker = pickerCell.picker
-            
-            let hundreds = Double(picker.selectedRowInComponent(0))
-            let tens = Double(picker.selectedRowInComponent(1))
-            let ones = Double(picker.selectedRowInComponent(2))
-            let tenths = Double(picker.selectedRowInComponent(4))
-            let hundredths = Double(picker.selectedRowInComponent(5))
-            
-            let interest = hundreds * 100 + tens * 10 + ones + tenths / 10 + hundredths / 100
-            dynamicEditValues["Interest"] = interest
-          default:
-            fatalError("There are no pickers in row: \(tableRow) of section: \(tableSection).")
-          }
-        case 5:
-          switch (tableRow)
-          {
-            case 3: //Alert Tone
-              dynamicEditValues["Tip"] = AlertTone(rawValue: row)!
-            case 4: //Nag Rate
-              dynamicEditValues["AlertNagRate"] = AlertNagRate(rawValue: row)!
-            case 6:
-              let repeateType = dynamicEditValues["AlertRepeatCellType"] as! AlertRepeatCellType
-          
-              switch repeateType
-              {
-                case AlertRepeatCellType.Simple:
-                  switch component
-                  {
-                    case 0:
-                      dynamicEditValues["AlertRepeatSimpleRate"] = row
-                    case 1:
-                      dynamicEditValues["AlertRepeatSimpleInterval"] = TimeInterval(rawValue: row)!
-                    default:
-                      fatalError("There is no component \(component) in AlertRepeatSimple.")
-                 }
-                case AlertRepeatCellType.MonthPattern:
-                  switch component
-                  {
-                    case 0:
-                      dynamicEditValues["AlertRepeatMonthRate"] = row
-                    case 1:
-                      dynamicEditValues["AlertRepeatMonthInterval"] = Days(rawValue: row)!
-                      let newMaximum = pickerCell(rowCountForComponent: component)
-                
-                      if (dynamicEditValues["AlertRepeatMonthRate"] as! Int > newMaximum)
-                      {
-                        dynamicEditValues["AlertRepeatMonthRate"] = newMaximum
-                        let pickerCell = cell as! EditPickerCell
-                        let picker = pickerCell.picker
-                        picker.selectRow(newMaximum, inComponent: 0, animated: true)
-                      }
-                    default:
-                      fatalError("There is no component \(component) in AlertRepeatMonthPattern.")
-                  }
-                
-                  refreshNewContractCells([NSIndexPath(forRow: 6, inSection: 5)])
-                case AlertRepeatCellType.MonthRate:
-                  dynamicEditValues["AlertRepeatMonthRate"] = row
-                case AlertRepeatCellType.DaysRate:
-                  dynamicEditValues["AlertRepeatDaysRate"] = row
-                default:
-                  fatalError("There are no pickers in \(repeateType.toString()).")
-              }
-            default:
-              fatalError("There are no pickers in row: \(tableRow) of section: \(tableSection).")
-          }
-        default:
-          fatalError("There are no pickers in section: \(tableSection).")
-      }
-    }
-  }
-  
-  
-  
   //MARK: Percentage Picker Functions
-  class func initializePercentagePicker(pickerCell: PercentagePicker, percentage: Int)
+  class func initializePercentagePicker(var picker: PercentagePicker, percentage: Int)
   {
-    var pickerCell = pickerCell
+    picker.current.hundredsDigit = percentage[2]
+    picker.current.tensDigit = percentage[1]
+    picker.current.onesDigit = percentage[0]
     
-    pickerCell.current.hundredsDigit = percentage[2]
-    pickerCell.current.tensDigit = percentage[1]
-    pickerCell.current.onesDigit = percentage[0]
+    picker.saved.hundredsDigit = picker.current.hundredsDigit
+    picker.saved.tensDigit = picker.current.tensDigit
+    picker.saved.onesDigit = picker.current.onesDigit
     
-    pickerCell.saved.hundredsDigit = percentage[2]
-    pickerCell.saved.tensDigit = percentage[1]
-    pickerCell.saved.onesDigit = percentage[0]
+    let hundredsRow = picker.current.hundredsDigit + data.digits[0].count * data.loopRadius
+    let tensRow = picker.current.tensDigit + data.digits[1].count * data.loopRadius
+    let onesRow = picker.current.onesDigit + data.digits[2].count * data.loopRadius
     
-    let hundreds = percentage[2] + 10 * data.loopRadius
-    let tens = percentage[1] + 10 * data.loopRadius
-    let ones = percentage[0] + 10 * data.loopRadius
-    
-    pickerCell.picker.selectRow(hundreds, inComponent: 0, animated: false)
-    pickerCell.picker.selectRow(tens, inComponent: 1, animated: false)
-    pickerCell.picker.selectRow(ones, inComponent: 2, animated: false)
-  }
-  
-  class func initializePercentagePicker(pickerCell: PercentagePicker, percentage: Double)
-  {
-    var pickerCell = pickerCell
-    let integer = Int(percentage)
-    initializePercentagePicker(pickerCell, percentage: integer)
-    
-    let tenths = percentage[3] + 10 * data.loopRadius
-    let hundredths = percentage[4] + 10 * data.loopRadius
-    
-    pickerCell.picker.selectRow(tenths, inComponent: 4, animated: false)
-    pickerCell.picker.selectRow(hundredths, inComponent: 5, animated: false)
-
-  }
-  
-  class func percentagePicker(rowSelected row: Int, forComponent component: Int, forPercentagePicker pickerCell: EditPercentagesCell)
-  {
-    let cap = dynamicContractorPercentageCap()
-    let monetaryPercentage = percentagePicker(didSelectRow: row, forComponent: component, forPercentagePicker: pickerCell, withCap: cap)
-    
-    let monetaryTotal = contractTempData.contract.monetaryValue
-    let monetaryFraction = (Double(monetaryPercentage) / 100.0) * monetaryTotal
-    
-    pickerCell.pickerPreLabel.text = String(format: "%.2f", monetaryFraction)
-    dynamicEditValues["ContractorPercentValue"] = monetaryPercentage
+    picker.percentage.selectRow(hundredsRow, inComponent: 0, animated: false)
+    picker.percentage.selectRow(tensRow, inComponent: 1, animated: false)
+    picker.percentage.selectRow(onesRow, inComponent: 2, animated: false)
   }
   
   class func dynamicContractorPercentageCap() -> (Int)
   {
     var contractorPercentageUnused: Int
     
-    if (contractTempData.dynamicEditTable == "Lender")
+    if (contractTempData.dynamicEditID == "Lender")
     {
       contractorPercentageUnused = 100 - Int(data.totalLenderPercentageUsed())
     }
@@ -3286,12 +2804,29 @@ class EditContractLogic
     return contractorPercentageUnused
   }
   
-  class func percentagePicker(didSelectRow row: Int, forComponent component: Int, forPercentagePicker pickerCell: PercentagePicker, withCap cap: Int) -> (Int)
+  class func percentagePicker(titleForRow row: Int, forComponent component: Int) -> (String!)
   {
-    var pickerCell = pickerCell
-    
+    let rowCount = data.digits[component].count
+    let rowTitle = row % rowCount
+    return data.digits[component][rowTitle]
+  }
+  
+  class func percentagePicker(rowSelected row: Int, forComponent component: Int, forPercentagePicker picker: EditPercentagesCell)
+  {
+    let cap = dynamicContractorPercentageCap()
+    let monetaryPercentage = percentagePicker(didSelectRow: row, forComponent: component, forPercentagePicker: picker, withCap: cap)
+    contractTempData.dynamicEditContractor.value.percent = monetaryPercentage
+    let monetaryTotal = contractTempData.contract.monetaryValue
+    let monetaryFraction = (Double(monetaryPercentage) / 100.0) * monetaryTotal
+    picker.monetaryValue.text = String(format: "%.2f", monetaryFraction)
+    contractTempData.dynamicEditContractor.value.percent = monetaryPercentage
+  }
+
+  
+  class func percentagePicker(didSelectRow row: Int, forComponent component: Int, var forPercentagePicker picker: PercentagePicker, var withCap cap: Int) -> (Int)
+  {
     //Define the padding and the uppper and lower limits for the range to keep the picker within whenever a value is selected.
-    let padding = 10 //The size of the range of values.
+    let padding = 10 //The size of a the range of values.
     let lowerBound = padding * data.loopRadius
     let upperBound = padding * (data.loopRadius + 1)
     
@@ -3300,18 +2835,18 @@ class EditContractLogic
     {
       let toZero = row % padding  //Find the position with the same value as the current selection within the first range.
       let shiftTo = toZero + padding * data.loopRadius //Add suffecint padding to move the value to within the middle range.
-      pickerCell.picker.selectRow(shiftTo, inComponent: component, animated: false)
+      picker.percentage.selectRow(shiftTo, inComponent: component, animated: false)
     }
     
     //Once at the correct location, calculate the percentage.
     var percent: Int
     
-    //If cap is greater than or equal to zero, then do not allow any value over the cap.  If the user goes over the cap, shift down to the cap, but save the digit values.  If the user adjusts back below the cap, return to the previous value before they moved above the cap the first time.  If they adust over th cap, set the higher digit(s) to zero and accept the new digit values. If the cap is -1, ignore it.
+    //If cap is greater than zero, then do not allow any value over the cap.  If the user goes over the cap, shift down to the cap, but save the digit values.  If the user adjusts back below the cap, return to the previous value before they moved above the cap the first time.  If they adust over th cap, set the higher digit(s) to zero and accept the new digit values. If the cap is -1, ignore it.
     
     //Then, find the hundreds, tens, and ones digits.
-    var hundredsDigit = pickerCell.picker.selectedRowInComponent(0)
-    var tensDigit = pickerCell.picker.selectedRowInComponent(1)
-    var onesDigit = pickerCell.picker.selectedRowInComponent(2)
+    var hundredsDigit = picker.percentage.selectedRowInComponent(0)
+    var tensDigit = picker.percentage.selectedRowInComponent(1)
+    var onesDigit = picker.percentage.selectedRowInComponent(2)
     
     //Convert from picker row number to digit.
     hundredsDigit %= padding
@@ -3323,22 +2858,22 @@ class EditContractLogic
       let hundredsCap = (cap / 100)
       let tensCap = (cap / 10) - (hundredsCap * 10)
       let onesCap = cap - (hundredsCap * 100) - (tensCap * 10)
-      let currentValue = pickerCell.current.hundredsDigit * 100 + pickerCell.current.tensDigit * 10 + pickerCell.current.onesDigit
+      let currentValue = picker.current.hundredsDigit * 100 + picker.current.tensDigit * 10 + picker.current.onesDigit
       
       if (hundredsCap < hundredsDigit)
       {
         if (component == 0 && cap == currentValue)
         {
-          hundredsDigit = pickerCell.saved.hundredsDigit
-          tensDigit = pickerCell.saved.tensDigit
-          onesDigit = pickerCell.saved.onesDigit
+          hundredsDigit = picker.saved.hundredsDigit
+          tensDigit = picker.saved.tensDigit
+          onesDigit = picker.saved.onesDigit
         }
         else
         {
           //Save and cap the digits
-          pickerCell.saved.hundredsDigit = pickerCell.current.hundredsDigit
-          pickerCell.saved.tensDigit = pickerCell.current.tensDigit
-          pickerCell.saved.onesDigit = pickerCell.current.onesDigit
+          picker.saved.hundredsDigit = picker.current.hundredsDigit
+          picker.saved.tensDigit = picker.current.tensDigit
+          picker.saved.onesDigit = picker.current.onesDigit
           
           hundredsDigit = hundredsCap
           tensDigit = tensCap
@@ -3349,9 +2884,9 @@ class EditContractLogic
         let tensRow = tensDigit + padding * data.loopRadius //Add suffecint padding to move the value to within the middle range.
         let onesRow = onesDigit + padding * data.loopRadius //Add suffecint padding to move the value to within the middle range.
         
-        pickerCell.picker.selectRow(hundredsRow, inComponent: 0, animated: true)
-        pickerCell.picker.selectRow(tensRow, inComponent: 1, animated: true)
-        pickerCell.picker.selectRow(onesRow, inComponent: 2, animated: true)
+        picker.percentage.selectRow(hundredsRow, inComponent: 0, animated: true)
+        picker.percentage.selectRow(tensRow, inComponent: 1, animated: true)
+        picker.percentage.selectRow(onesRow, inComponent: 2, animated: true)
       }
       else if (hundredsCap == hundredsDigit)
       {
@@ -3360,28 +2895,28 @@ class EditContractLogic
           if (component == 1)
           {
             hundredsDigit = 0
-            pickerCell.picker.selectRow(lowerBound, inComponent: 0, animated: true)
+            picker.percentage.selectRow(lowerBound, inComponent: 0, animated: true)
             
             if (cap == currentValue)
             {
               if (hundredsCap == 0)
               {
-                tensDigit = pickerCell.saved.tensDigit
-                onesDigit = pickerCell.saved.onesDigit
+                tensDigit = picker.saved.tensDigit
+                onesDigit = picker.saved.onesDigit
               }
               else
               {
-                pickerCell.saved.hundredsDigit = hundredsDigit
-                pickerCell.saved.tensDigit = tensDigit
-                pickerCell.saved.onesDigit = onesDigit
+                picker.saved.hundredsDigit = hundredsDigit
+                picker.saved.tensDigit = tensDigit
+                picker.saved.onesDigit = onesDigit
               }
             }
             else
             {
               //Save the tens and ones digits
-              pickerCell.saved.hundredsDigit = pickerCell.current.hundredsDigit
-              pickerCell.saved.tensDigit = pickerCell.current.tensDigit
-              pickerCell.saved.onesDigit = pickerCell.current.onesDigit
+              picker.saved.hundredsDigit = picker.current.hundredsDigit
+              picker.saved.tensDigit = picker.current.tensDigit
+              picker.saved.onesDigit = picker.current.onesDigit
               
               tensDigit = tensCap
               onesDigit = onesCap
@@ -3390,9 +2925,9 @@ class EditContractLogic
           else
           {
             //Save the tens and ones digits
-            pickerCell.saved.hundredsDigit = pickerCell.current.hundredsDigit
-            pickerCell.saved.tensDigit = pickerCell.current.tensDigit
-            pickerCell.saved.onesDigit = pickerCell.current.onesDigit
+            picker.saved.hundredsDigit = picker.current.hundredsDigit
+            picker.saved.tensDigit = picker.current.tensDigit
+            picker.saved.onesDigit = picker.current.onesDigit
             
             tensDigit = tensCap
             onesDigit = onesCap
@@ -3401,8 +2936,8 @@ class EditContractLogic
           let tensRow = tensDigit + padding * data.loopRadius //Add suffecint padding to move the value to within the middle range.
           let onesRow = onesDigit + padding * data.loopRadius //Add suffecint padding to move the value to within the middle range.
           
-          pickerCell.picker.selectRow(tensRow, inComponent: 1, animated: true)
-          pickerCell.picker.selectRow(onesRow, inComponent: 2, animated: true)
+          picker.percentage.selectRow(tensRow, inComponent: 1, animated: true)
+          picker.percentage.selectRow(onesRow, inComponent: 2, animated: true)
         }
         else if (tensCap == tensDigit)
         {
@@ -3413,28 +2948,28 @@ class EditContractLogic
               hundredsDigit = 0
               tensDigit = 0
               
-              pickerCell.picker.selectRow(lowerBound, inComponent: 0, animated: true)
-              pickerCell.picker.selectRow(lowerBound, inComponent: 1, animated: true)
+              picker.percentage.selectRow(lowerBound, inComponent: 0, animated: true)
+              picker.percentage.selectRow(lowerBound, inComponent: 1, animated: true)
               
               if (cap == currentValue)
               {
                 if (hundredsCap == 0 && tensCap == 0)
                 {
-                  onesDigit = pickerCell.saved.onesDigit
+                  onesDigit = picker.saved.onesDigit
                 }
                 else
                 {
-                  pickerCell.saved.hundredsDigit = hundredsDigit
-                  pickerCell.saved.tensDigit = tensDigit
-                  pickerCell.saved.onesDigit = onesDigit
+                  picker.saved.hundredsDigit = hundredsDigit
+                  picker.saved.tensDigit = tensDigit
+                  picker.saved.onesDigit = onesDigit
                 }
               }
               else
               {
                 //Save the ones digits
-                pickerCell.saved.hundredsDigit = pickerCell.current.hundredsDigit
-                pickerCell.saved.tensDigit = pickerCell.current.tensDigit
-                pickerCell.saved.onesDigit = pickerCell.current.onesDigit
+                picker.saved.hundredsDigit = picker.current.hundredsDigit
+                picker.saved.tensDigit = picker.current.tensDigit
+                picker.saved.onesDigit = picker.current.onesDigit
                 
                 onesDigit = onesCap
               }
@@ -3442,67 +2977,221 @@ class EditContractLogic
             else
             {
               //Save the tens and ones digits
-              pickerCell.saved.hundredsDigit = pickerCell.current.hundredsDigit
-              pickerCell.saved.tensDigit = pickerCell.current.tensDigit
-              pickerCell.saved.onesDigit = pickerCell.current.onesDigit
+              picker.saved.hundredsDigit = picker.current.hundredsDigit
+              picker.saved.tensDigit = picker.current.tensDigit
+              picker.saved.onesDigit = picker.current.onesDigit
               
               onesDigit = onesCap
             }
             
             let onesRow = onesDigit + padding * data.loopRadius //Add suffecint padding to move the value to within the middle range.
-            pickerCell.picker.selectRow(onesRow, inComponent: 2, animated: true)
+            picker.percentage.selectRow(onesRow, inComponent: 2, animated: true)
           }
           else
           {
-            pickerCell.saved.hundredsDigit = hundredsDigit
-            pickerCell.saved.tensDigit = tensDigit
-            pickerCell.saved.onesDigit = onesDigit
+            picker.saved.hundredsDigit = hundredsDigit
+            picker.saved.tensDigit = tensDigit
+            picker.saved.onesDigit = onesDigit
           }
         }
         else
         {
-          pickerCell.saved.hundredsDigit = hundredsDigit
-          pickerCell.saved.tensDigit = tensDigit
-          pickerCell.saved.onesDigit = onesDigit
+          picker.saved.hundredsDigit = hundredsDigit
+          picker.saved.tensDigit = tensDigit
+          picker.saved.onesDigit = onesDigit
         }
       }
       else
       {
-        pickerCell.saved.hundredsDigit = hundredsDigit
-        pickerCell.saved.tensDigit = tensDigit
-        pickerCell.saved.onesDigit = onesDigit
+        picker.saved.hundredsDigit = hundredsDigit
+        picker.saved.tensDigit = tensDigit
+        picker.saved.onesDigit = onesDigit
       }
       
-      pickerCell.current.hundredsDigit = hundredsDigit
-      pickerCell.current.tensDigit = tensDigit
-      pickerCell.current.onesDigit = onesDigit
+      picker.current.hundredsDigit = hundredsDigit
+      picker.current.tensDigit = tensDigit
+      picker.current.onesDigit = onesDigit
+      percent = hundredsDigit * 100 + tensDigit * 10 + onesDigit
     }
     else
     {
       //If the percentage cap was not activated, find the hundreds, tens, and ones digits.
-      var hundredsDigit = pickerCell.picker.selectedRowInComponent(0)
-      var tensDigit = pickerCell.picker.selectedRowInComponent(1)
-      var onesDigit = pickerCell.picker.selectedRowInComponent(2)
+      var hundredsDigit = picker.percentage.selectedRowInComponent(0)
+      var tensDigit = picker.percentage.selectedRowInComponent(1)
+      var onesDigit = picker.percentage.selectedRowInComponent(2)
       
       //(Don't forget to remove the row location padding!)
       hundredsDigit %= padding
       tensDigit %= padding
       onesDigit %= padding
+      
+      //Calculate the percentage.
+      percent = hundredsDigit * 100 + tensDigit * 10 + onesDigit
     }
     
-    //Calculate the percentage.
-    percent = hundredsDigit * 100 + tensDigit * 10 + onesDigit
     return percent
   }
   
   
   
-  //MARK: New Contract Cell Functions
-  class func updateDynamicDate(sender: EditDateCell)
+  //MARK: Picker Cell Functions
+  class func pickerCell(componentCountForPickerID pickerID: String) -> (Int)
   {
-    let key = sender.dateLabel.text!
-    dynamicEditValues[key] = sender.datePicker.date
-    //TODO: Get Calender Working!!! (Of course, then you will need to add CVCalender functionality to this method as well...)
+    switch (pickerID)
+    {
+      case "AlertNagRate", "AlertRepeatMonthRate", "AlertRepeatDaysRate":
+        return 1
+      case "AlertRepeatSimple", "AlertRepeatMonthPattern":
+        return 2
+      default:
+        fatalError(pickerID + " is not a recognized PickerID.")
+    }
+  }
+  
+  class func pickerCell(rowCountForComponent component: Int, withID pickerID: String) -> (Int)
+  {
+    switch (pickerID)
+    {
+      case "AlertNagRate":
+        return 5
+      case "AlertRepeatSimple":
+        switch component
+        {
+          case 0:
+            return 100
+          case 1:
+            return 4
+          default:
+            fatalError("There is no component \(component) in \(pickerID).")
+        }
+      case "AlertRepeatMonthPattern":
+        if (component == 0)
+        {
+          switch contractTempData.alertRepeatMonthInterval
+          {
+            case Days.Monday, Days.Tuesday, Days.Wednesday, Days.Thursday, Days.Friday, Days.Saturday, Days.Sunday:
+              return 6
+            case Days.AnyDay:
+              return 32
+            case Days.Weekday:
+              return 22
+            case Days.WeekendDay:
+              return 11
+          }
+        }
+        else
+        {
+          return 10
+        }
+      case "AlertRepeatMonthRate", "AlertRepeatDaysRate":
+        return 100
+      default:
+        fatalError(pickerID + " is not a recognized PickerID.")
+    }
+  }
+  
+  class func pickerCell(titleForRow row: Int, inComponent component: Int, withID pickerID: String) -> (String!)
+  {
+    switch (pickerID)
+    {
+      case "AlertNagRate":
+        return AlertNagRate(rawValue: row)!.toString()
+      case "AlertRepeatSimple":
+        switch component
+        {
+          case 0:
+            return String(row + 1)
+          case 1:
+            return TimeInterval(rawValue: row)!.toString()
+          default:
+            fatalError("There is no component \(component) in \(pickerID).")
+        }
+      case "AlertRepeatMonthPattern":
+        if (component == 0)
+        {
+          let lastRow = pickerCell(rowCountForComponent: component, withID: pickerID) - 1
+          
+          if (row == lastRow)
+          {
+            return "Last"
+          }
+          else
+          {
+            return String(row) + numberSuffix(row)
+          }
+        }
+        else
+        {
+          return Days(rawValue: row)!.toString()
+        }
+      case "AlertRepeatMonthRate", "AlertRepeatDaysRate":
+        return String(row + 1)
+      default:
+        fatalError(pickerID + " is not a recognized PickerID.")
+    }
+  }
+  
+  class func pickerCell(didSelectRow row: Int, inComponent component: Int, withID pickerID: String)
+  {
+    switch (pickerID)
+    {
+      case "AlertNagRate":
+        contractTempData.dynamicEditValue = AlertNagRate(rawValue: row)!
+      case "AlertRepeatSimple":
+        switch component
+        {
+          case 0:
+            contractTempData.alertRepeatSimpleRate = row
+          case 1:
+            contractTempData.alertRepeatSimpleInterval = TimeInterval(rawValue: row)!
+          default:
+            fatalError("There is no component \(component) in \(pickerID).")
+        }
+      case "AlertRepeatMonthPattern":
+        switch component
+        {
+          case 0:
+            contractTempData.alertRepeatMonthPattern = row
+          case 1:
+            contractTempData.alertRepeatMonthInterval = Days(rawValue: row)!
+            let newMaximum = pickerCell(rowCountForComponent: component, withID: pickerID)
+            
+            if (contractTempData.alertRepeatMonthPattern > newMaximum)
+            {
+              contractTempData.alertRepeatMonthPattern = newMaximum
+            }
+          default:
+            fatalError("There is no component \(component) in \(pickerID).")
+        }
+        
+        refreshNewContractCells([NSIndexPath(forRow: 6, inSection: 5)])
+      case "AlertRepeatMonthRate":
+        contractTempData.alertRepeatMonthRate = row
+      case "AlertRepeatDaysRate":
+        contractTempData.alertRepeatDaysRate = row
+      default:
+        fatalError(pickerID + " is not a recognized PickerID.")
+    }
+  }
+  
+  
+  
+  //MARK: New Contract Cell Functions
+  class func updateDynamicDate(sender: UIDatePicker)
+  {
+    contractTempData.dynamicEditValue = sender.date
+  }
+  
+//  class func updateDueDate(sender: CVCalendarView)
+//  {
+//    temporaryData.dynamicEditValue = sender.date
+//  }
+  
+  class func toggleCalender()
+  {
+    //TODO - Get Calender Working!!! (Then you can uncomment this code.)
+//    temporaryData.displayDueCalender=!
+//    refreshNewContractCells([temporaryData.dynamicEditCell])
   }
   
   
@@ -3563,18 +3252,11 @@ class EditContractLogic
     }
   }
   
-  class func dynamicallyEditingThisCell(indexPath: NSIndexPath, inTable table: String) -> (Bool)
+  class func dynamicallyEditingThisCell(indexPath: NSIndexPath, dynamicEditID id: String) -> (Bool)
   {
     if (contractTempData.dynamicallyEditing)
     {
-      if (contractTempData.dynamicEditTable =| ["Lender", "Borrower"])
-      {
-        if (contractTempData.dynamicEditTable == table)
-        {
-          return (contractTempData.dynamicEditCell == indexPath)
-        }
-      }
-      else if (table !=| ["Lender", "Borrower"])
+      if (contractTempData.dynamicEditID == id)
       {
         return (contractTempData.dynamicEditCell == indexPath)
       }
@@ -3622,29 +3304,6 @@ class EditContractLogic
     }
   }
   
-  class func setCheckboxImage(state state: Bool, button: UIButton)
-  {
-    if (state)
-    {
-      if let image = UIImage(named: "Checkbox Checked.png")
-      {
-        button.setImage(image, forState: UIControlState.Normal)
-      }
-    }
-    else
-    {
-      if let image = UIImage(named: "Checkbox Unchecked.png")
-      {
-        button.setImage(image, forState: UIControlState.Normal)
-      }
-    }
-  }
-  
-  class func toggleCalender()
-  {
-    //TODO: Finish once you get the calender working!!!
-  }
-  
   
   
   //MARK: Refresh New Contract View Functions
@@ -3657,7 +3316,7 @@ class EditContractLogic
   {
     var postedData: [NSObject : AnyObject] = [:]
     
-    for i in 0 ..< rows.count
+    for var i = 0; i < rows.count; i++
     {
       let indexPath = rows[i]
       
@@ -3671,7 +3330,7 @@ class EditContractLogic
       }
       else
       {
-        postedData[i] = indexPath
+        postedData.updateValue(indexPath, forKey: i)
       }
     }
     
@@ -3683,69 +3342,29 @@ class EditContractLogic
     }
   }
   
-  class func refreshNewContractCells(view view: EditContractController, notification: NSNotification)
+  class func refreshNewContractCells(#view: NewContractController, notification: NSNotification)
   {
     let table = view.tableView
-    var refreshRows: [NSIndexPath] = []
-    var doSecondLoad: Bool = false
-    var reloadRows: [NSIndexPath] = []
+    var refreshRows: [AnyObject] = []
     
     for datum in notification.userInfo!.values
     {
-      let index = datum as! NSIndexPath
-      if (index =| [lenderTableIndexPath, borrowerTableIndexPath])
-      {
-        doSecondLoad = true
-        reloadRows.append(index)
-      }
-      
-      refreshRows.append(index)
+      refreshRows.append(datum)
     }
     
+    //HACK!!! reloadRowsAtIndexPaths is a bit glitchy, a double call to it seems to ensure that it always updates properly. If Apple ever fixes it, this section may need adjusting...
     table.reloadRowsAtIndexPaths(refreshRows, withRowAnimation: UITableViewRowAnimation.None)
-
-    //FIXME: reloadRowsAtIndexPaths is a bit glitchy when dealing with some static table cells that change their size, a double call to it seems to ensure that it always updates properly. If Apple ever fixes it, this section may need adjusting...
-    if (doSecondLoad)
-    {
-      table.reloadRowsAtIndexPaths(reloadRows, withRowAnimation: UITableViewRowAnimation.None)
-    }
-    
-    if (debugging)
-    {
-      if (debugData.debugCellReloads)
-      {
-        let reloads = debugData.reloadedCells
-        
-        for i in 0 ..< reloads.count
-        {
-          print(reloads[i].key.toString() + " was loaded \(reloads[i].value) times.")
-        }
-        
-        debugData.reloadedCells.newDictionary()
-      }
-      
-      if (debugData.debugFunctionCalls)
-      {
-        let calls = debugData.functionCalls
-        
-        for i in 0 ..< calls.count
-        {
-          print(calls[i].key.toString() + " was loaded \(calls[i].value) times.")
-        }
-        
-        debugData.functionCalls.newDictionary()
-      }
-    }
+    table.reloadRowsAtIndexPaths(refreshRows, withRowAnimation: UITableViewRowAnimation.None)
   }
   
   class func refreshNewContractors()
   {
-    if (toggles["DisplayingLenders"]!)
+    if (contractTempData.displayingLenders)
     {
       refreshNewContractorTable("Lender")
     }
     
-    if (toggles["DisplayingBorrowers"]!)
+    if (contractTempData.displayingBorrowers)
     {
       refreshNewContractorTable("Borrower")
     }
@@ -3762,19 +3381,19 @@ class EditContractLogic
     }
   }
   
-  class func refreshNewContractorTable(sharesController shares: UISegmentedControl, table: UITableView, contractorType: String)
+  class func refreshNewContractorTable(#sharesController: UISegmentedControl, table: UITableView, contractorType: String)
   {
     table.reloadData()
     var postedData: [NSObject : AnyObject]
     
     if (contractorType == "Lender")
     {
-      shares.selectedSegmentIndex = temporaryContract.lenderShares.rawValue
+      sharesController.selectedSegmentIndex = temporaryContract.lenderShares.rawValue
       postedData = [0: lenderTableIndexPath]
     }
     else
     {
-      shares.selectedSegmentIndex = temporaryContract.borrowerShares.rawValue
+      sharesController.selectedSegmentIndex = temporaryContract.borrowerShares.rawValue
       postedData = [0: borrowerTableIndexPath]
     }
     NSNotificationCenter.defaultCenter().postNotificationName("RefreshNewContractCells", object: nil, userInfo: postedData)
@@ -3791,25 +3410,25 @@ class EditContractLogic
     sender.performSegue(segueFrom: contractTempData.warnFromID, segueTo: contractTempData.warnToID)
   }
   
-  class func keyboardWillShow(newContractor newContractor: NewContractors, notification: NSNotification)
+  class func keyboardWillShow(#newContractor: NewContractors, notification: NSNotification)
   {
-    if (toggles["AdjustForKeyboard"]!)
+    if (contractTempData.adjustForKeyboard)
     {
       let postedData = notification.userInfo!
       let keyboardNSSize: NSValue = postedData[UIKeyboardFrameEndUserInfoKey]! as! NSValue
       
       var userInfo: [NSObject : AnyObject] = [:]
-      userInfo["KeyboardNSSize"] = keyboardNSSize
-      userInfo["ContractorView"] = newContractor
-      userInfo["ContractorTable"] = newContractor.contractorsList
+      userInfo.updateValue(keyboardNSSize, forKey: "KeyboardNSSize")
+      userInfo.updateValue(newContractor, forKey: "ContractorView")
+      userInfo.updateValue(newContractor.contractorsList, forKey: "ContractorTable")
       
       NSNotificationCenter.defaultCenter().postNotificationName("NewContractKeyboardWillShow", object: nil, userInfo: userInfo)
     }
   }
   
-  class func keyboardWillShow(editContractController controller: EditContractController, notification: NSNotification)
+  class func keyboardWillShow(#newContractController: NewContractController, notification: NSNotification)
   {
-    if (toggles["AdjustForKeyboard"]!)
+    if (contractTempData.adjustForKeyboard)
     {
 //      let postedData = notification.userInfo!
 //      let keyboardNSSize: NSValue = postedData[UIKeyboardFrameEndUserInfoKey]! as NSValue
@@ -3874,98 +3493,46 @@ class EditContractLogic
 //        table.setContentOffset(scrollPoint, animated: true)
 //      }
       
-      let table = controller.tableView
+      let table = newContractController.tableView
       let postedData = notification.userInfo!
       let keyboardNSSize: NSValue = postedData["KeyboardNSSize"]! as! NSValue
       let keyboardSize = keyboardNSSize.CGRectValue().size
       
       var cellRectangle: CGRect
       
-      switch contractTempData.dynamicEditTable
+      switch contractTempData.dynamicEditID
       {
         case "Title", "MonetaryValue":
           cellRectangle = table.rectForRowAtIndexPath(contractTempData.dynamicEditCell)
         case "Lender", "Borrower":
           let contractorTable = postedData["ContractorTable"] as! UITableView
           let tableCellRectangle = contractorTable.rectForRowAtIndexPath(contractTempData.dynamicEditCell)
-          cellRectangle = controller.view.convertRect(tableCellRectangle, fromView: table.superview)
+          cellRectangle = newContractController.view.convertRect(tableCellRectangle, fromView: table.superview)
         default:
-          fatalError("Cell: \(contractTempData.dynamicEditTable) does not contain a text field.")
+          fatalError("Cell: \(contractTempData.dynamicEditID) does not contain a text field.")
       }
       
-      var visiblePortionOfTable = controller.view.frame
+      var visiblePortionOfTable = newContractController.view.frame
       visiblePortionOfTable.size.height -= keyboardSize.height
-      print("Visible Portion Of Table Height: \(visiblePortionOfTable.height)")
+      println("Visible Portion Of Table Height: \(visiblePortionOfTable.height)")
       
       if (!CGRectContainsRect(cellRectangle, visiblePortionOfTable))
       {
-        print("Cell Rectangle Height: \(cellRectangle.height)")
+        println("Cell Rectangle Height: \(cellRectangle.height)")
         let scrollPoint = CGPointMake(0.0, cellRectangle.height)
         
-        dynamicEditValues["ScrollResetPoint"] = table.contentOffset
+        contractTempData.scrollResetPoint = table.contentOffset
         table.setContentOffset(scrollPoint, animated: true)
       }
     }
   }
   
-  @objc class func keyboardWillHide(table: UITableView)
+  class func keyboardWillHide(table: UITableView)
   {
-    if (dynamicEditValues["ScrollResetPoint"] != nil)
+    if (contractTempData.scrollResetPoint != nil)
     {
-      let point = dynamicEditValues["ScrollResetPoint"] as! CGPoint
-      table.setContentOffset(point, animated: true)
-      dynamicEditValues["ScrollResetPoint"] = nil
+      table.setContentOffset(contractTempData.scrollResetPoint, animated: true)
+      contractTempData.scrollResetPoint = nil
     }
-  }
-  
-  
-  
-  //MARK: - Debug Logic
-  //Debugging tool to make sure cells only get updated once per refresh.  This just monitors total changes made to a particular row in a table.
-  class func trackRowRefreshes(table table: String, index: NSIndexPath)
-  {
-    if !(debugging && debugData.debugCellReloads)
-    {
-      return
-    }
-    
-    var reloadedCells = data.debugData.reloadedCells
-    let loadedCell = TableAndIndex(table: table, index: index)
-    
-    if (reloadedCells.hasKey(loadedCell))
-    {
-      //Increase count for loadedCell
-      reloadedCells[loadedCell]! += 1
-    }
-    else
-    {
-      reloadedCells[loadedCell] = 1
-    }
-    
-    data.debugData.reloadedCells = reloadedCells
-  }
-  
-  //Debugging tool to make sure cells only get updated once per refresh. This monitors the number of times a function is called and for which row in what table.
-  class func trackFunctionCalls(table table: String, index: NSIndexPath, function: String)
-  {
-    if !(debugging && debugData.debugFunctionCalls)
-    {
-      return
-    }
-    
-    var functionCalls = data.debugData.functionCalls
-    let currentCall = FunctionAndIndex(table: table, index: index, function: function)
-    
-    if (functionCalls.hasKey(currentCall))
-    {
-      //Increase count for currentCall
-      functionCalls[currentCall]! += 1
-    }
-    else
-    {
-      functionCalls[currentCall] = 1
-    }
-    
-    data.debugData.functionCalls = functionCalls
   }
 }

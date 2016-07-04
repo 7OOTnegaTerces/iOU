@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
@@ -11,11 +12,12 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="340"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="339.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="2" translatesAutoresizingMaskIntoConstraints="NO" id="ScM-Zp-pdN">
                         <rect key="frame" x="35" y="84" width="250" height="29"/>
+                        <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="250" id="L7x-Bv-2jp"/>
                         </constraints>
@@ -30,11 +32,12 @@
                     </segmentedControl>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rdc-AF-LU6">
                         <rect key="frame" x="35" y="8" width="250" height="30"/>
+                        <animations/>
                         <color key="backgroundColor" red="0.7843137255" green="0.7843137255" blue="0.7843137255" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="250" id="Rig-LW-wk9"/>
                         </constraints>
-                        <state key="normal" title="Weekdays">
+                        <state key="normal" title="Repeat Pattern">
                             <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <color key="titleShadowColor" red="0.78431372549019607" green="0.78431372549019607" blue="0.78431372549019607" alpha="1" colorSpace="calibratedRGB"/>
                         </state>
@@ -44,6 +47,7 @@
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iGE-7u-Zxb">
                         <rect key="frame" x="35" y="46" width="250" height="30"/>
+                        <animations/>
                         <color key="backgroundColor" red="0.7843137255" green="0.7843137255" blue="0.7843137255" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="250" id="wgl-D8-DOj"/>
@@ -56,8 +60,9 @@
                             <action selector="editRepeatRate:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Ahy-Y7-gxa"/>
                         </connections>
                     </button>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V6v-lR-xTc">
+                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V6v-lR-xTc">
                         <rect key="frame" x="45" y="120" width="71" height="30"/>
+                        <animations/>
                         <state key="normal" title="Weekdays">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
@@ -65,14 +70,16 @@
                             <action selector="toggleWeekdays:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="62m-xO-gfp"/>
                         </connections>
                     </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Monday" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G7F-t5-0Z8">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Monday" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G7F-t5-0Z8">
                         <rect key="frame" x="44" y="162" width="53" height="17"/>
+                        <animations/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XdG-rZ-3hz">
                         <rect key="frame" x="105" y="160" width="22" height="22"/>
+                        <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="22" id="O4G-Re-68K"/>
                             <constraint firstAttribute="width" constant="22" id="gmQ-5o-jRp"/>
@@ -86,12 +93,14 @@
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tuesday" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vRg-YK-y2n">
                         <rect key="frame" x="43" y="199" width="54" height="17"/>
+                        <animations/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ATf-aT-V32">
                         <rect key="frame" x="105" y="197" width="22" height="22"/>
+                        <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="22" id="7qz-lo-hO0"/>
                             <constraint firstAttribute="width" constant="22" id="FlS-7K-Add"/>
@@ -103,14 +112,16 @@
                             <action selector="toggleTuesday:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="kOF-DP-RNF"/>
                         </connections>
                     </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wednesday" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RUL-xb-Wv2">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Wednesday" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RUL-xb-Wv2">
                         <rect key="frame" x="22" y="236" width="75" height="17"/>
+                        <animations/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VaD-hX-2Tb">
                         <rect key="frame" x="105" y="234" width="22" height="22"/>
+                        <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="22" id="16r-de-bvg"/>
                             <constraint firstAttribute="height" constant="22" id="DwW-jl-dMT"/>
@@ -122,14 +133,16 @@
                             <action selector="toggleWednesday:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Lks-WF-bqZ"/>
                         </connections>
                     </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thursday" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8xD-Nk-Kit">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Thursday" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8xD-Nk-Kit">
                         <rect key="frame" x="37" y="273" width="60" height="17"/>
+                        <animations/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y8I-7g-wJY">
                         <rect key="frame" x="105" y="271" width="22" height="22"/>
+                        <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="22" id="987-59-fo0"/>
                             <constraint firstAttribute="height" constant="22" id="KJ0-TF-0cB"/>
@@ -143,12 +156,14 @@
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Friday" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Ch-fn-aQ3">
                         <rect key="frame" x="57" y="310" width="40" height="17"/>
+                        <animations/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SxU-lG-n9h">
                         <rect key="frame" x="105" y="308" width="22" height="22"/>
+                        <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="22" id="Ljy-ht-G6F"/>
                             <constraint firstAttribute="height" constant="22" id="Xob-JD-qSt"/>
@@ -160,8 +175,9 @@
                             <action selector="toggleFriday:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="6C4-fM-f25"/>
                         </connections>
                     </button>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9dU-Zl-cql">
+                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9dU-Zl-cql">
                         <rect key="frame" x="205" y="120" width="71" height="30"/>
+                        <animations/>
                         <state key="normal" title="Weekends">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
@@ -169,14 +185,16 @@
                             <action selector="toggleWeekends:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="cIi-KL-Hud"/>
                         </connections>
                     </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Saturday" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h5M-iB-Unt">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Saturday" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h5M-iB-Unt">
                         <rect key="frame" x="199" y="162" width="58" height="17"/>
+                        <animations/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xsk-L1-t3X">
                         <rect key="frame" x="265" y="160" width="22" height="22"/>
+                        <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="22" id="1yy-KR-AYs"/>
                             <constraint firstAttribute="height" constant="22" id="2VP-Ag-V1e"/>
@@ -188,14 +206,16 @@
                             <action selector="toggleSaturday:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="UbY-Va-nzD"/>
                         </connections>
                     </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sunday" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Si-9V-HVC">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Sunday" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Si-9V-HVC">
                         <rect key="frame" x="208" y="199" width="49" height="17"/>
+                        <animations/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NyX-ez-iYM">
                         <rect key="frame" x="265" y="197" width="22" height="22"/>
+                        <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="22" id="uFh-uQ-PPU"/>
                             <constraint firstAttribute="width" constant="22" id="w1m-mG-nLc"/>
@@ -208,6 +228,7 @@
                         </connections>
                     </button>
                 </subviews>
+                <animations/>
                 <constraints>
                     <constraint firstItem="XdG-rZ-3hz" firstAttribute="centerY" secondItem="G7F-t5-0Z8" secondAttribute="centerY" id="0br-ro-FPr"/>
                     <constraint firstItem="Xsk-L1-t3X" firstAttribute="trailing" secondItem="9dU-Zl-cql" secondAttribute="trailing" constant="11" id="2qV-yL-1Dn"/>
@@ -249,6 +270,7 @@
                     <constraint firstItem="ATf-aT-V32" firstAttribute="leading" secondItem="vRg-YK-y2n" secondAttribute="trailing" constant="8" id="zul-GF-7FB"/>
                 </constraints>
             </tableViewCellContentView>
+            <animations/>
             <connections>
                 <outlet property="friday" destination="SxU-lG-n9h" id="pnO-KX-rlp"/>
                 <outlet property="monday" destination="XdG-rZ-3hz" id="BWW-l1-Fgt"/>

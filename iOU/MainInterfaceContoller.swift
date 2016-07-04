@@ -18,7 +18,8 @@ class MainInterfaceController: UIViewController, Segueable
     super.viewDidLoad()
     // Do any additional setup after loading the view, typically from a nib.
     
-    NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshView:",name:"Refresh", object: nil)
+    /*TODO: Find out if this code was legit or just an artifact...
+    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(refreshView), name:"Refresh", object: nil)*/
     
     //Initialize any varibles that need it.
     listType.selectedSegmentIndex = iOUData.sharedInstance.listType.rawValue
@@ -28,10 +29,10 @@ class MainInterfaceController: UIViewController, Segueable
 //    let lightningAdd = UIBarButtonItem(image: buttonImage, style: .Plain, target: self, action:"segueToLigtningAdd:")
     
     buttonImage = UIImage(named: "Exclamation.png")
-    let fastAdd = UIBarButtonItem(image: buttonImage, style: .Plain, target: self, action:"segueToFastAdd:")
+    let fastAdd = UIBarButtonItem(image: buttonImage, style: .Plain, target: self, action:#selector(MainInterfaceController.segueToFastAdd(_:)))
     
     buttonImage = UIImage(named: "add.png")
-    let normalAdd = UIBarButtonItem(image: buttonImage, style: .Plain, target: self, action:"segueToNewContractTitle:")
+    let normalAdd = UIBarButtonItem(image: buttonImage, style: .Plain, target: self, action:#selector(MainInterfaceController.segueToNewContractTitle(_:)))
     
 //    let buttons = [normalAdd, fastAdd, lightningAdd]
     let buttons = [normalAdd, fastAdd]
@@ -54,7 +55,7 @@ class MainInterfaceController: UIViewController, Segueable
     
   }
   
-  func performSegue(#segueFrom: String, segueTo: String)
+  func performSegue(segueFrom segueFrom: String, segueTo: String)
   {
     performSegueWithIdentifier(segueFrom + "->" + segueTo, sender: self)
   }
